@@ -8,7 +8,7 @@ import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 import Select from "react-select";
 
-export const SongDisplay = ({song, children}: {song: Song, children: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, children}: {song: Song; setlistId: string; children: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -28,11 +28,11 @@ export const SongDisplay = ({song, children}: {song: Song, children: ReactNode})
   }
 
   const handleReplaceSong = (newId: string) => {
-    replaceSongId(song.id, newId)
+    replaceSongId(song.id, newId, setlistId)
   }
 
   const handleRemoveSong = () => {
-    removeSongId(song.id)
+    removeSongId(song.id, setlistId)
   }
 
   useOnClickOutside(popperRef, () => setShowPopover(false))
@@ -45,6 +45,7 @@ export const SongDisplay = ({song, children}: {song: Song, children: ReactNode})
           <p className="SongDisplay__name">{song.name}</p>
           <Popover
             position={['right']}
+            align="start"
             content={
               <div className="SongDisplay__popover" ref={popperRef}>
                 <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
@@ -92,7 +93,13 @@ const SongList = ({onSelect}: {onSelect: (id: string) => void}) => {
   const {songs} = useContext(SongsContext)
   const {setlistIds} = useContext(SetlistContext)
 
-  const unusedSongs = songs.filter(song => setlistIds.every(id => id !== song.id))
+  // reduce all songs across sets to one flat array of songs
+  const allUsedSongIds = Object.keys(setlistIds).reduce((all: string[], id) => [
+    ...all,
+    ...setlistIds[id]
+  ], [])
+  // only show songs that are not currently in use
+  const unusedSongs = songs.filter(song => allUsedSongIds.every(id => id !== song.id))
 
   return (
     <div className="SongList">
