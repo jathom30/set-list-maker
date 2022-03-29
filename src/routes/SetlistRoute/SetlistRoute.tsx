@@ -23,7 +23,7 @@ export const SetlistRoute = () => {
 
   const handleSave = (length: number, count: number) => {
     setShowCreateSetlist(false)
-    createSetlist(length)
+    createSetlist(length, count)
   }
 
   const handleDragEnd = (result: DropResult) => {

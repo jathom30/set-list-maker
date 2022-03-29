@@ -5,7 +5,7 @@ import { SongsContext } from "./SongsContext";
 type SetlistContextType = {
   setlistIds: string[]
   setSetlistIds: Dispatch<SetStateAction<string[]>>
-  createSetlist: (length: number) => void
+  createSetlist: (length: number, numberOfSetlists: number) => void
   replaceSongId: (originalId: string, replacementId: string) => void
   removeSongId: (id: string) => void
 }
@@ -13,7 +13,7 @@ type SetlistContextType = {
 const defaultValues = {
   setlistIds: [],
   setSetlistIds: (_value: SetStateAction<string[]>) => undefined,
-  createSetlist: (_length: number) => undefined,
+  createSetlist: (_length: number, _numberOfSetlists: number) => undefined,
   replaceSongId: (_originalId: string, _replacementId: string) => undefined,
   removeSongId: (_id: string) => undefined,
 }
@@ -24,8 +24,8 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const [setlistIds, setSetlistIds] = useState<string[]>([])
   const {songs} = useContext(SongsContext)
 
-  const createSetlist = (length: number) => {
-    setSetlistIds(createSetlistIds(length, songs))
+  const createSetlist = (length: number, numberOfSetlists: number) => {
+    setSetlistIds(createSetlistIds(length, numberOfSetlists, songs))
   }
 
   const replaceSongId = (originalId: string, replacementId: string) => {

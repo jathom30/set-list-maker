@@ -3,6 +3,9 @@
   border-radius: 2rem;
   box-shadow: 0 3px 6px rgba(black, 0.25);
   margin: 0.25rem 0;
+  &--is-editing {
+    outline: 2px solid lightblue;
+  }
   &__popover {
     background: white;
     border-radius: 0.5rem;

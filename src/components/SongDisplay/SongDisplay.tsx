@@ -1,12 +1,11 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
-import { Dial, FlexBox, Modal, SongForm, Button, Popover } from "components";
+import { Dial, FlexBox, Modal, SongForm, Button, Popover, Label } from "components";
 import { Song } from "types";
 import './SongDisplay.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { SongsContext } from "context";
+import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
-import { SetlistContext } from "context/SetlistContext";
 import Select from "react-select";
 
 export const SongDisplay = ({song, children}: {song: Song, children: ReactNode}) => {
@@ -39,7 +38,7 @@ export const SongDisplay = ({song, children}: {song: Song, children: ReactNode})
   useOnClickOutside(popperRef, () => setShowPopover(false))
 
   return (
-    <div className={`SongDisplay SongDisplay--${song.feel}`}>
+    <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
       <FlexBox alignItems="center" justifyContent="space-between" padding=".5rem 1rem">
         <FlexBox alignItems="center" gap=".5rem">
           {children}
@@ -89,7 +88,6 @@ export const SongDisplay = ({song, children}: {song: Song, children: ReactNode})
   )
 }
 
-// TODO replace this with a select component
 const SongList = ({onSelect}: {onSelect: (id: string) => void}) => {
   const {songs} = useContext(SongsContext)
   const {setlistIds} = useContext(SetlistContext)
@@ -98,11 +96,13 @@ const SongList = ({onSelect}: {onSelect: (id: string) => void}) => {
 
   return (
     <div className="SongList">
+      <Label>Replace song</Label>
       <Select
         getOptionLabel={(option) => option.name}
         getOptionValue={option => option.id}
         options={unusedSongs}
         onChange={(newValue) => newValue?.id && onSelect(newValue.id)}
+        autoFocus
       />
     </div>
   )

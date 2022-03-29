@@ -1,6 +1,6 @@
 import { Song } from "types";
 
-export const someSongs: Song[] = [
+export const someSongs = [
     {
         "name": "In a haze",
         "length": 3,
@@ -217,4 +217,10 @@ export const someSongs: Song[] = [
         "isCover": false,
         "id": "465d6fa6-dd3c-4d99-a8cc-4493feee5336"
     }
-]
+].sort((a, b) => {
+    if (a.name < b.name) {
+        return -1
+    } else {
+        return 1
+    }
+}) as Song[]
