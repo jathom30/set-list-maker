@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
-import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext } from "react";
+import { faGripVertical, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, FlexBox, GridBox, Modal, Setlist, SetlistForm } from "components";
+import { Button, FlexBox, Setlist, SetlistForm } from "components";
 import './SetlistRoute.scss'
 import { SetlistContext } from "context";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 
 export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -13,75 +13,115 @@ export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   return result;
 };
 
-export const SetlistRoute = () => {
-  const [showCreateSetlist, setShowCreateSetlist] = useState(false)
-  const {setlistIds, setSetlistIds, createSetlist} = useContext(SetlistContext)
+export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
+  const {setlistIds, setSetlistIds, setSetlists, createSetlist, removeSetlist} = useContext(SetlistContext)
 
-  const handleSave = (length: number, count: number) => {
-    setShowCreateSetlist(false)
-    createSetlist(length, count)
+  const handleRemoveAll = () => {
+    setlistIds.forEach(id => removeSetlist(id))
   }
 
+  // handles both SETLIST and SONG drag and drop
   const handleDragEnd = (result: DropResult) => {
-    setSetlistIds(prevSetlists => {
-      if (!result.destination) {
-        return prevSetlists
-      }
-      const destinationSetlistId = result.destination.droppableId
-      const sourceSetlistId = result.source.droppableId
-      // if dragging and dropping within the same container
-      if (result.destination.droppableId === result.source.droppableId) {
+    const {type} = result
+    if (type === 'SETLIST') {
+      setSetlistIds(prevIds => {
+        if (!(result.destination && prevIds)) {
+          return prevIds
+        }
+        return reorder(
+          prevIds,
+          result.source.index,
+          result.destination.index,
+        )
+      })
+    }
+    if (type === 'SONG') {
+      setSetlists(prevSetlists => {
+        if (!result.destination) {
+          return prevSetlists
+        }
+        const destinationSetlistId = result.destination.droppableId
+        const sourceSetlistId = result.source.droppableId
+        // if dragging and dropping within the same container
+        if (result.destination.droppableId === result.source.droppableId) {
+          return {
+            ...prevSetlists,
+            [sourceSetlistId]: reorder(
+              prevSetlists[sourceSetlistId],
+              result.source.index,
+              result.destination.index
+            )
+          }
+        }
+        // if dragging and dropping between two different containers
+        // remove id from source
+        const updatedSourceList = prevSetlists[sourceSetlistId].filter(songId => songId !== result.draggableId)
+        // add to destination
+        const updatedDestinationList = [
+          ...prevSetlists[destinationSetlistId].slice(0, result.destination.index),
+          result.draggableId,
+          ...prevSetlists[destinationSetlistId].slice(result.destination.index)
+        ]
         return {
           ...prevSetlists,
-          [sourceSetlistId]: reorder(
-            prevSetlists[sourceSetlistId],
-            result.source.index,
-            result.destination?.index
-          )
+          [sourceSetlistId]: updatedSourceList,
+          [destinationSetlistId]: updatedDestinationList,
         }
-      }
-      // if dragging and dropping between two different containers
-      // remove id from source
-      const updatedSourceList = prevSetlists[sourceSetlistId].filter(songId => songId !== result.draggableId)
-      // add to destination
-      const updatedDestinationList = [
-        ...prevSetlists[destinationSetlistId].slice(0, result.destination.index),
-        result.draggableId,
-        ...prevSetlists[destinationSetlistId].slice(result.destination.index)
-      ]
-      return {
-        ...prevSetlists,
-        [sourceSetlistId]: updatedSourceList,
-        [destinationSetlistId]: updatedDestinationList,
-      }
-    })
+      })
+    }
+  }
+
+  if (setlistIds.length === 0) {
+    return (
+      <div className="SetlistRoute">
+        <FlexBox gap="1rem" flexDirection="column">
+          <h1>Setlist</h1>
+          <SetlistForm onSave={createSetlist} />
+        </FlexBox>
+      </div>
+    )
   }
 
   return (
     <div className="SetlistRoute">
-      <FlexBox flexDirection='column' gap=".5rem" padding='1rem'>
+      <FlexBox flexDirection='column' gap="1rem">
         <FlexBox alignItems="center" justifyContent="space-between">
           <h1>Setlist</h1>
-          <Button kind="secondary" isRounded onClick={() => setShowCreateSetlist(true)}>
+          <Button kind="danger" isRounded onClick={handleRemoveAll}>
             <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
-            <FontAwesomeIcon icon={faPlusCircle}/>
-            <span>Create Setlist</span>
+            <FontAwesomeIcon icon={faRotate}/>
+            <span>Reset</span>
             </FlexBox>
           </Button>
         </FlexBox>
         <DragDropContext onDragEnd={handleDragEnd}>
-          <GridBox gap="1rem" gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))">
-            {Object.keys(setlistIds)?.map((setlistId, index) => (
-              <Setlist key={setlistId} id={setlistId} label={`${index+1}`} />
-            ))}
-          </GridBox>
+          <Droppable droppableId="setlistId" type="SETLIST" direction={isMobile ? "vertical" : "horizontal"}>
+            {(provided) => (
+              <div className="SetlistRoute__droppable" ref={provided.innerRef} {...provided.droppableProps}>
+                {setlistIds?.map((setlistId, index) => (
+                  <Draggable key={setlistId} draggableId={setlistId} index={index}>
+                    {(provided) => (
+                      <div ref={provided.innerRef} {...provided.draggableProps}>
+                        <Setlist
+                          key={setlistId}
+                          id={setlistId}
+                          label={`${index+1}`}
+                          dragHandle={
+                            <div {...provided.dragHandleProps}>
+                              <FontAwesomeIcon icon={faGripVertical} />
+                            </div>
+                          }
+                        />
+                      </div>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
         </DragDropContext>
       </FlexBox>
-      {showCreateSetlist && (
-        <Modal offClick={() => setShowCreateSetlist(false)}>
-          <SetlistForm onSave={handleSave} />
-        </Modal>
-      )}
     </div>
   )
 }

@@ -18,7 +18,7 @@ function App() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const isMobile = width < 600
+  const isMobile = width < 650
 
   return (
     <div className="App">
@@ -28,7 +28,7 @@ function App() {
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
           <Route path="/songs" element={<SongsRoute />} />
-          <Route path="/set-lists" element={<SetlistRoute />} />
+          <Route path="/set-lists" element={<SetlistRoute isMobile={isMobile} />} />
         </Routes>
       </MaxHeightContainer>
     </div>

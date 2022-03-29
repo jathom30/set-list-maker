@@ -7,7 +7,7 @@ import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@for
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 
-export const SongDisplay = ({song, setlistId, children}: {song: Song; setlistId: string; children: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, index, children}: {song: Song; setlistId: string; index: number; children: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -41,20 +41,21 @@ export const SongDisplay = ({song, setlistId, children}: {song: Song; setlistId:
       <FlexBox alignItems="center" justifyContent="space-between" padding=".5rem 1rem">
         <FlexBox alignItems="center" gap=".5rem">
           {children}
+          <p className="SongDisplay__name"><span>{index + 1}.</span></p>
           <p className="SongDisplay__name">{song.name}</p>
           <Popover
-            position={['right']}
+            position={['right', 'bottom']}
             align="start"
             content={
               <div className="SongDisplay__popover" ref={popperRef}>
                 <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
-                  <Button kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
+                  <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
                     Edit
                   </Button>
-                  <Button kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
+                  <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
                     Replace
                   </Button>
-                  <Button kind="danger" icon={faTrash} onClick={handleRemoveSong}>
+                  <Button width="100%" kind="danger" icon={faTrash} onClick={handleRemoveSong}>
                     Remove
                   </Button>
                 </FlexBox>

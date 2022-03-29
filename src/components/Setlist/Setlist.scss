@@ -1,12 +1,17 @@
 .Setlist {
+  margin: 0.5rem;
   &__droppable {
     display: flex;
     flex-direction: column;
     padding: 1rem;
     border-radius: 0.5rem;
-    background: lightgrey;
+    background: rgb(241, 241, 241);
     &--is-dragging-over {
-      background: darkgrey;
+      background: rgb(230, 230, 230);
     }
+  }
+  &__popover {
+    background: white;
+    border-radius: 0.5rem;
   }
 }

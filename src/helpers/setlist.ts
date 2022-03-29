@@ -14,7 +14,7 @@ const getRandomSong = (songs: Song[]) => {
   }
 }
 
-export const createSetlistIds = (setlistLength: number, numberOfSetlists: number, songs: Song[]) => {
+export const createSetlists = (setlistLength: number, numberOfSetlists: number, songs: Song[]) => {
   // create array of keys based on number of setlists needed
   const setlistKeys = Array.from({length: numberOfSetlists}, () => uuid())
   
@@ -67,5 +67,8 @@ export const createSetlistIds = (setlistLength: number, numberOfSetlists: number
     }
   }, {})
 
-  return setlists
+  return {
+    setlists,
+    ids: setlistKeys,
+  }
 }

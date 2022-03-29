@@ -1,5 +1,10 @@
+:root {
+  --app-height: 100%;
+}
+
 .App {
   background: rgb(243, 243, 243);
   height: 100vh;
+  height: var(--app-height);
   isolation: isolate;
 }
