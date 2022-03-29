@@ -1,12 +1,11 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
-import { Dial, FlexBox, Modal, SongForm, Button, Popover, Label } from "components";
+import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
 import { Song } from "types";
 import './SongDisplay.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
-import Select from "react-select";
 
 export const SongDisplay = ({song, setlistId, children}: {song: Song; setlistId: string; children: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
@@ -82,35 +81,9 @@ export const SongDisplay = ({song, setlistId, children}: {song: Song; setlistId:
       )}
       {showSongList && (
         <Modal offClick={() => setShowSongList(false)}>
-          <SongList onSelect={handleReplaceSong} />
+          <SongSelect label="Replace song" onChange={handleReplaceSong} />
         </Modal>
       )}
-    </div>
-  )
-}
-
-const SongList = ({onSelect}: {onSelect: (id: string) => void}) => {
-  const {songs} = useContext(SongsContext)
-  const {setlistIds} = useContext(SetlistContext)
-
-  // reduce all songs across sets to one flat array of songs
-  const allUsedSongIds = Object.keys(setlistIds).reduce((all: string[], id) => [
-    ...all,
-    ...setlistIds[id]
-  ], [])
-  // only show songs that are not currently in use
-  const unusedSongs = songs.filter(song => allUsedSongIds.every(id => id !== song.id))
-
-  return (
-    <div className="SongList">
-      <Label>Replace song</Label>
-      <Select
-        getOptionLabel={(option) => option.name}
-        getOptionValue={option => option.id}
-        options={unusedSongs}
-        onChange={(newValue) => newValue?.id && onSelect(newValue.id)}
-        autoFocus
-      />
     </div>
   )
 }

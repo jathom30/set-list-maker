@@ -2,5 +2,11 @@
   &__droppable {
     display: flex;
     flex-direction: column;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: lightgrey;
+    &--is-dragging-over {
+      background: darkgrey;
+    }
   }
 }

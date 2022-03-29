@@ -20,7 +20,7 @@ export const Button: React.FC<{
       style={{width}}
       className={`Button ${isRounded ? 'Button--rounded' : ''} ${isDisabled ? 'Button--disabled' : ''} ${buttonKindClass}`}
     >
-      <FlexBox gap="0.5rem">
+      <FlexBox gap="0.5rem" padding='0 .5rem'>
         {icon && <FontAwesomeIcon icon={icon} />}
         {children}
       </FlexBox>
