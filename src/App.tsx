@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import './App.scss';
+import { Header, MaxHeightContainer } from './components';
+import {Routes, Route} from 'react-router-dom'
+import { SetlistRoute, SongsRoute } from 'routes';
 
 function App() {
+  const [width, setWidth] = useState(0)
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth)
+      const doc = document.documentElement
+      doc.style.setProperty('--app-height', `${window.innerHeight}px`)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const isMobile = width < 600
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <MaxHeightContainer
+        header={<Header isMobile={isMobile} />}
+      >
+        <Routes>
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/songs" element={<SongsRoute />} />
+          <Route path="/set-lists" element={<SetlistRoute />} />
+        </Routes>
+      </MaxHeightContainer>
     </div>
   );
 }

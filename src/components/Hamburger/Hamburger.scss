@@ -1,0 +1,48 @@
+.Hamburger {
+  $barWidth: 4px;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  &__bar {
+    width: 100%;
+    height: $barWidth;
+    background: black;
+    border-radius: 0.25rem;
+    transition: all 0.2s ease;
+    &--is-open {
+      background: transparent;
+    }
+  }
+  &::before {
+    border-radius: 0.25rem;
+    position: absolute;
+    width: 100%;
+    height: $barWidth;
+    background: black;
+    top: 0;
+    content: "";
+    transition: all 0.2s ease;
+  }
+  &::after {
+    border-radius: 0.25rem;
+    position: absolute;
+    width: 100%;
+    height: $barWidth;
+    background: black;
+    bottom: 0;
+    content: "";
+    transition: all 0.2s ease;
+  }
+  &--is-open {
+    &::before {
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+    }
+    &::after {
+      bottom: 50%;
+      transform: translateY(50%) rotate(-45deg);
+    }
+  }
+}

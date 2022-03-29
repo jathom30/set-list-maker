@@ -1,0 +1,26 @@
+.Header {
+  background: white;
+  box-shadow: 0 3px 6px rgba(black, 0.25);
+  &__hamburger-btn {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+  &__link {
+    text-decoration: none;
+    color: grey;
+    font-size: 1.25rem;
+    text-transform: capitalize;
+    &--is-active {
+      color: black;
+    }
+    &:hover {
+      color: black;
+    }
+  }
+}

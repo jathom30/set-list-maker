@@ -1,0 +1,18 @@
+.Dial {
+  height: 1.5rem;
+  width: auto;
+  padding-bottom: 0.25rem;
+  * {
+    fill: grey;
+  }
+  &--ballad {
+    * {
+      fill: rgb(106, 181, 206);
+    }
+  }
+  &--burner {
+    * {
+      fill: red;
+    }
+  }
+}
