@@ -19,7 +19,7 @@ export const SongsRoute = () => {
       <FlexBox flexDirection='column' gap=".5rem" padding='1rem'>
         <FlexBox alignItems="center" justifyContent="space-between">
           <h1>Song List</h1>
-          <Button kind="secondary" isRounded onClick={() => setShowAddSong(true)}>
+          <Button kind="primary" isRounded onClick={() => setShowAddSong(true)}>
             <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
             <FontAwesomeIcon icon={faPlusCircle}/>
             <span>Add Song</span>
@@ -32,7 +32,7 @@ export const SongsRoute = () => {
       </FlexBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
-          <SongForm label="Create New Song" onSave={handleSave} />
+          <SongForm label="Create New Song" onSave={handleSave} onCancel={() => setShowAddSong(false)} />
         </Modal>
       )}
     </div>

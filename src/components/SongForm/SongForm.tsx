@@ -11,7 +11,11 @@ import { GridBox } from "components/Box";
 const songFeels: Feel[] = ['ballad', 'chill', 'medium', 'up', 'burner']
 const songPlacements: SongPlacement[] = ['opener', 'closer', 'other']
 
-export const SongForm = ({label, onSave, defaultSong}: {label: string; onSave: (song: Song) => void; defaultSong?: Song}) => {
+function capitalizeFirstLetter(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+export const SongForm = ({label, onSave, onCancel, defaultSong}: {label: string; onSave: (song: Song) => void; onCancel: () => void; defaultSong?: Song}) => {
   const [name, setName] = useState(defaultSong?.name || '')
   const [length, setLength] = useState(defaultSong?.length || 0)
   const [placement, setPlacement] = useState<SongPlacement | undefined>(defaultSong?.placement)
@@ -46,27 +50,27 @@ export const SongForm = ({label, onSave, defaultSong}: {label: string; onSave: (
         <Input label="Song name" value={name} onChange={(val) => setName(val)} name="song-name" />
         <Input label="Approx. song length (in minutes)" value={length} onChange={(val) => setLength(parseFloat(val))} name="song-length" />
         <FlexBox flexDirection="column" gap="0.25rem">
-          <Label>Preferred placement</Label>
+          <Label>Feel</Label>
           <Select
-            defaultValue={placement && {label: placement, value: placement}}
-            onChange={(newValue) => newValue && setPlacement(newValue.value)}
-            options={songPlacements.map(songPlacement => ({label: songPlacement, value: songPlacement}))}
+            defaultValue={feel && {label: capitalizeFirstLetter(feel), value: feel}}
+            onChange={(newValue) => newValue && setFeel(newValue.value)}
+            options={songFeels.map(songFeel => ({label: capitalizeFirstLetter(songFeel), value: songFeel}))}
             menuPortalTarget={document.body}
           />
         </FlexBox>
         <FlexBox flexDirection="column" gap="0.25rem">
-          <Label>Feel</Label>
+          <Label>Preferred placement</Label>
           <FlexBox gap="1rem" justifyContent="space-between">
-            {songFeels.map(songFeel => (
-              <label key={songFeel} htmlFor={songFeel}>
-                <input id={songFeel} type="radio" checked={feel === songFeel} onChange={() => setFeel(songFeel)} />
-                {songFeel}
+            {songPlacements.map(songPlacement => (
+              <label key={songPlacement} htmlFor={songPlacement}>
+                <input id={songPlacement} type="radio" checked={placement === songPlacement} onChange={() => setPlacement(songPlacement)} />
+                {songPlacement}
               </label>
             ))}
           </FlexBox>
         </FlexBox>
         <GridBox gap="1rem" gridTemplateColumns="1fr 1fr">
-          <Button kind="text" onClick={() => {}}>
+          <Button kind="text" onClick={onCancel}>
               Cancel
           </Button>
           <Button isDisabled={!isValid} kind="primary" onClick={handleSave}>

@@ -23,6 +23,7 @@ function App() {
   return (
     <div className="App">
       <MaxHeightContainer
+        fullHeight
         header={<Header isMobile={isMobile} />}
       >
         <Routes>

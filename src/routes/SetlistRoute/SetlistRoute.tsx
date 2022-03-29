@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { faGripVertical, faRotate } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, FlexBox, Setlist, SetlistForm } from "components";
+import { Button, FlexBox, MaxHeightContainer, Setlist, SetlistForm } from "components";
 import './SetlistRoute.scss'
 import { SetlistContext } from "context";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
@@ -84,16 +84,20 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
 
   return (
     <div className="SetlistRoute">
-      <FlexBox flexDirection='column' gap="1rem">
-        <FlexBox alignItems="center" justifyContent="space-between">
-          <h1>Setlist</h1>
-          <Button kind="danger" isRounded onClick={handleRemoveAll}>
-            <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
-            <FontAwesomeIcon icon={faRotate}/>
-            <span>Reset</span>
-            </FlexBox>
-          </Button>
-        </FlexBox>
+      <MaxHeightContainer
+        fullHeight
+        header={
+          <FlexBox padding=".5rem" alignItems="center" justifyContent="space-between">
+            <h1>Setlist</h1>
+            <Button kind="danger" isRounded onClick={handleRemoveAll}>
+              <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
+              <FontAwesomeIcon icon={faRotate}/>
+              <span>Reset</span>
+              </FlexBox>
+            </Button>
+          </FlexBox>
+        }
+      >
         <DragDropContext onDragEnd={handleDragEnd}>
           <Droppable droppableId="setlistId" type="SETLIST" direction={isMobile ? "vertical" : "horizontal"}>
             {(provided) => (
@@ -121,7 +125,7 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
             )}
           </Droppable>
         </DragDropContext>
-      </FlexBox>
+      </MaxHeightContainer>
     </div>
   )
 }

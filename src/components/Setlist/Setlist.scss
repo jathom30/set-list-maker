@@ -3,7 +3,7 @@
   &__droppable {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 0.5rem;
     background: rgb(241, 241, 241);
     &--is-dragging-over {
@@ -13,5 +13,8 @@
   &__popover {
     background: white;
     border-radius: 0.5rem;
+  }
+  &__song-handle {
+    padding: 1rem;
   }
 }

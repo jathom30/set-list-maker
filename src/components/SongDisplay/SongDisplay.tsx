@@ -38,7 +38,7 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
 
   return (
     <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
-      <FlexBox alignItems="center" justifyContent="space-between" padding=".5rem 1rem">
+      <FlexBox alignItems="center" justifyContent="space-between">
         <FlexBox alignItems="center" gap=".5rem">
           {children}
           <p className="SongDisplay__name"><span>{index + 1}.</span></p>
@@ -70,14 +70,14 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
             </div>
           </Popover>
         </FlexBox>
-        <FlexBox alignItems="center" gap="1rem">
+        <FlexBox alignItems="center" gap="1rem" paddingRight="1rem">
           {song.isCover && <p className="SongDisplay__cover">Cover</p>}
           <Dial feel={song.feel} />
         </FlexBox>
       </FlexBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
-          <SongForm label="Edit Song" defaultSong={song} onSave={handleSave} />
+          <SongForm label="Edit Song" defaultSong={song} onSave={handleSave} onCancel={() => setShowAddSong(false)} />
         </Modal>
       )}
       {showSongList && (

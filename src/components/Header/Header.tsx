@@ -27,7 +27,7 @@ export const Header = ({isMobile}: {isMobile: boolean}) => {
       </FlexBox>
       {isMobile && menuIsOpen && (
         <FlexBox flexDirection='column' gap="1rem" padding='1rem'>
-          {links.map(link => <NavLink key={link} className={(navData) => `Header__link Header__link--${navData.isActive ? 'is-active' : ''}`} to={link}>{link}</NavLink>)}
+          {links.map(link => <NavLink key={link} onClick={() => setMenuIsOpen(false)} className={(navData) => `Header__link Header__link--${navData.isActive ? 'is-active' : ''}`} to={link}>{link}</NavLink>)}
         </FlexBox>
       )}
     </div>

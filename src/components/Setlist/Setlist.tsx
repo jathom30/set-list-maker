@@ -46,7 +46,7 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
   return (
     <div className="Setlist">
       <FlexBox gap="1rem" flexDirection='column'>
-        <FlexBox alignItems="center" justifyContent="space-between">
+        <FlexBox alignItems="center" justifyContent="space-between" padding="0 .5rem">
           <FlexBox alignItems="center" gap="0.5rem">
             {dragHandle}
             <h4>{label}</h4>
@@ -91,7 +91,7 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
                       ref={provided.innerRef} {...provided.draggableProps}
                     >
                       <SongDisplay song={song} index={i} setlistId={id}>
-                        <div className='NodeContainer__btn NodeContainer__btn--handle' {...provided.dragHandleProps}>
+                        <div className='Setlist__song-handle' {...provided.dragHandleProps}>
                           <FontAwesomeIcon icon={faGrip} />
                         </div>
                       </SongDisplay>
