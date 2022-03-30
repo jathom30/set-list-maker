@@ -1,6 +1,6 @@
 .Header {
   background: white;
-  box-shadow: 0 3px 6px rgba(black, 0.25);
+  box-shadow: var(--box-shadow);
   &__hamburger-btn {
     border: none;
     padding: 0;

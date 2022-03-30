@@ -3,7 +3,7 @@
   &__droppable {
     margin: 0.5rem;
     background: white;
-    box-shadow: 0 3px 6px rgba(black, 0.25);
+    box-shadow: var(--box-shadow);
     border-radius: 0.5rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

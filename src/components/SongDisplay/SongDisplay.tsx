@@ -7,7 +7,7 @@ import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@for
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 
-export const SongDisplay = ({song, setlistId, index, children}: {song: Song; setlistId: string; index: number; children: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, index, children}: {song: Song; setlistId: string; index: number; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -39,7 +39,7 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
   return (
     <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
       <FlexBox alignItems="center" justifyContent="space-between">
-        <FlexBox alignItems="center" gap=".5rem">
+        <FlexBox alignItems="center" gap=".5rem" paddingLeft={!children ? '1rem' : ''}>
           {children}
           <p className="SongDisplay__name"><span>{index + 1}.</span></p>
           <p className="SongDisplay__name">{song.name}</p>
@@ -50,7 +50,7 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
               <div className="SongDisplay__popover" ref={popperRef}>
                 <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
                   <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
-                    Edit
+                    Details
                   </Button>
                   <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
                     Replace

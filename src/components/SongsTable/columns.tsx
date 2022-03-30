@@ -11,7 +11,13 @@ export const columns: Column<Song>[] = [
     accessor: 'name',
     Cell: ({value, row}: {value: string; row: Row<Song>}) => {
       const [showEdit, setShowEdit] = useState(false)
-      const {editSong} = useContext(SongsContext)
+      const {editSong, removeSong} = useContext(SongsContext)
+
+      const handleDelete = (id: string) => {
+        removeSong(id)
+        setShowEdit(false)
+      }
+
       return (
         <FlexBox alignItems="center" gap=".25rem">
           <Button icon={faEdit} isRounded kind="secondary" onClick={() => setShowEdit(true)} />
@@ -22,6 +28,7 @@ export const columns: Column<Song>[] = [
                 label="Edit Song"
                 onSave={(song) => {setShowEdit(false); editSong(song)}}
                 onCancel={() => setShowEdit(false)}
+                onDelete={handleDelete}
                 defaultSong={row.original}
               />
             </Modal>

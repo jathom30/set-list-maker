@@ -5,7 +5,7 @@
     flex-direction: column;
     padding: 0.5rem;
     border-radius: 0.5rem;
-    background: rgb(241, 241, 241);
+    background: var(--color-background);
     &--is-dragging-over {
       background: rgb(230, 230, 230);
     }

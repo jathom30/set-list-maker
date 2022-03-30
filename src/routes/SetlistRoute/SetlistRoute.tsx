@@ -74,7 +74,7 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   if (setlistIds.length === 0) {
     return (
       <div className="SetlistRoute">
-        <FlexBox gap="1rem" flexDirection="column">
+        <FlexBox gap="1rem" flexDirection="column" padding=".5rem">
           <h1>Setlist</h1>
           <SetlistForm onSave={createSetlist} />
         </FlexBox>
