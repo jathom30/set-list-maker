@@ -1,8 +1,8 @@
-const { table } = require('./airtable');
+const { songsTable } = require('./airtable');
 const formattedReturn = require('./formattedReturn');
 module.exports = async (event) => {
     try {
-        const songs = await table.select().firstPage();
+        const songs = await songsTable.select().firstPage();
         const formattedSongs = songs.map((song) => ({
             id: song.id,
             ...song.fields,

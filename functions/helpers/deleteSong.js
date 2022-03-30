@@ -1,9 +1,9 @@
-const { table } = require('./airtable');
+const { songsTable } = require('./airtable');
 const formattedReturn = require('./formattedReturn');
 module.exports = async (event) => {
     const { id } = JSON.parse(event.body);
     try {
-      const deletedSong = await table.destroy(id);
+      const deletedSong = await songsTable.destroy(id);
       return formattedReturn(200, deletedSong);
     } catch (err) {
         console.log(event.body)
