@@ -1,14 +1,14 @@
 import React, { useContext, useState } from "react";
-import { Button, FlexBox, Modal, SongForm } from "components";
+import { Button, FlexBox, Modal, SongForm, SongsTable } from "components";
 import { SongsContext } from "context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "types";
 
 export const SongsRoute = () => {
-  const {songs, addSong} = useContext(SongsContext)
+  const {addSong} = useContext(SongsContext)
   const [showAddSong, setShowAddSong] = useState(false)
-
+  
   const handleSave = (song: Song) => {
     setShowAddSong(false)
     addSong(song)
@@ -26,9 +26,7 @@ export const SongsRoute = () => {
             </FlexBox>
           </Button>
         </FlexBox>
-        {songs?.map(song => (
-          <p key={song.id}>{song.name}</p>
-        ))}
+        <SongsTable />
       </FlexBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>

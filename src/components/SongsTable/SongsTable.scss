@@ -1,0 +1,23 @@
+.SongsTable {
+  display: flex;
+  flex-direction: column;
+  thead {
+    .SongsTable__tr {
+      background: rgb(216, 216, 216);
+    }
+  }
+  &__th {
+    text-align: left;
+    padding: 0.25rem 0.5rem;
+  }
+  tbody {
+    .SongsTable__tr {
+      td {
+        padding: 0.25rem 0.5rem;
+      }
+      &:nth-child(even) {
+        background-color: rgb(215, 243, 252);
+      }
+    }
+  }
+}
