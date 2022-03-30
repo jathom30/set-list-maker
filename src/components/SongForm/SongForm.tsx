@@ -4,34 +4,35 @@ import './SongForm.scss'
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-import { Feel, Song, SongPlacement } from "types";
-import {v4 as uuid} from 'uuid'
+import { Tempo, Song, SongPlacement, Feel } from "types";
 import { GridBox } from "components/Box";
+import {v4 as uuid} from 'uuid'
+import { capitalizeFirstLetter } from "helpers";
 
-const songFeels: Feel[] = ['ballad', 'chill', 'medium', 'up', 'burner']
+const songTempos: Tempo[] = ['ballad', 'chill', 'medium', 'up', 'burner']
+const songFeels: Feel[] = ['blues', 'funk', 'latin', 'rock', 'swing', 'other']
 const songPlacements: SongPlacement[] = ['opener', 'closer', 'other']
-
-function capitalizeFirstLetter(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 export const SongForm = ({label, onSave, onCancel, defaultSong}: {label: string; onSave: (song: Song) => void; onCancel: () => void; defaultSong?: Song}) => {
   const [name, setName] = useState(defaultSong?.name || '')
   const [length, setLength] = useState(defaultSong?.length || 0)
   const [placement, setPlacement] = useState<SongPlacement | undefined>(defaultSong?.placement)
-  const [feel, setFeel] = useState<Feel>(defaultSong?.feel || 'medium')
+  const [tempo, setTempo] = useState<Tempo>(defaultSong?.tempo || 'medium')
+  const [feel, setFeel] = useState<Feel[]>(defaultSong?.feel || [])
   const [isCover, setIsCover] = useState(defaultSong?.isCover || false)
 
   const isValid = name !== '' && length > 0 && placement
 
   const handleSave = () => {
     onSave({
+      ...defaultSong,
       name,
       length,
       placement: placement || 'other',
+      tempo,
       feel,
       isCover,
-      id: defaultSong?.id || uuid()
+      localId: defaultSong?.localId || uuid()
     })
   }
 
@@ -50,10 +51,22 @@ export const SongForm = ({label, onSave, onCancel, defaultSong}: {label: string;
         <Input label="Song name" value={name} onChange={(val) => setName(val)} name="song-name" />
         <Input label="Approx. song length (in minutes)" value={length} onChange={(val) => setLength(parseFloat(val))} name="song-length" />
         <FlexBox flexDirection="column" gap="0.25rem">
+          <Label>Tempo</Label>
+          <Select
+            defaultValue={tempo && {label: capitalizeFirstLetter(tempo), value: tempo}}
+            onChange={(newValue) => newValue && setTempo(newValue.value)}
+            options={songTempos.map(songTempo => ({label: capitalizeFirstLetter(songTempo), value: songTempo}))}
+            menuPortalTarget={document.body}
+          />
+        </FlexBox>
+        <FlexBox flexDirection="column" gap="0.25rem">
           <Label>Feel</Label>
           <Select
-            defaultValue={feel && {label: capitalizeFirstLetter(feel), value: feel}}
-            onChange={(newValue) => newValue && setFeel(newValue.value)}
+            isMulti
+            defaultValue={feel && feel.map(f => ({label: capitalizeFirstLetter(f), value: f}))}
+            onChange={(newValue) => {
+              setFeel(newValue.map(v => v.value))
+            }}
             options={songFeels.map(songFeel => ({label: capitalizeFirstLetter(songFeel), value: songFeel}))}
             menuPortalTarget={document.body}
           />

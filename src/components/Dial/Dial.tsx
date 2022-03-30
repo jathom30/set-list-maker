@@ -1,10 +1,10 @@
 import React from "react";
-import { Feel } from "types";
+import { Tempo } from "types";
 import './Dial.scss'
 
-export const Dial = ({feel}: {feel: Feel}) => {
+export const Dial = ({tempo}: {tempo: Tempo}) => {
   const knob = () => {
-    switch (feel) {
+    switch (tempo) {
       case 'ballad':
         return (
           <path d="M31.853 106.59c-7.388-22.074 1.501-47.055 22.434-59.14 23.899-13.798 54.503-5.598 68.301 18.301 13.798 23.9 5.598 54.504-18.301 68.302-20.933 12.085-47.01 7.293-62.434-10.143l42.434-24.499c4.78-2.759 6.42-8.88 3.66-13.66-2.76-4.78-8.88-6.42-13.66-3.66L31.853 106.59Z"/>
@@ -28,7 +28,7 @@ export const Dial = ({feel}: {feel: Feel}) => {
     }
   }
   return (
-    <svg className={`Dial Dial--${feel}`} viewBox="0 0 159 141" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" fillRule="evenodd" clipRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2">
+    <svg className={`Dial Dial--${tempo}`} viewBox="0 0 159 141" xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" fillRule="evenodd" clipRule="evenodd" strokeLinejoin="round" strokeMiterlimit="2">
       <circle cx="258.946" cy="225.943" r="85.068" transform="rotate(29.998 -103.544 299.515) scale(.11755)"/>
       <circle cx="258.946" cy="225.943" r="85.068" transform="rotate(29.998 -23.3 .079) scale(.11755)"/>
       <circle cx="258.946" cy="225.943" r="85.068" transform="rotate(-29.998 133.217 -182.965) scale(.11755)"/>

@@ -1,6 +1,7 @@
 export * from './Button'
 export * from './Box'
 export * from './Dial'
+export * from './FeelTag'
 export * from './Hamburger'
 export * from './Header'
 export * from './Input'

@@ -12,9 +12,9 @@ export const SongSelect = ({label, onChange}: {label: string; onChange: (id: str
       <Label>{label}</Label>
       <Select
         getOptionLabel={(option) => option.name}
-        getOptionValue={option => option.id}
+        getOptionValue={option => option.localId}
         options={availableSongs}
-        onChange={(newValue) => newValue?.id && onChange(newValue.id)}
+        onChange={(newValue) => newValue && onChange(newValue.localId)}
         autoFocus
       />
     </div>

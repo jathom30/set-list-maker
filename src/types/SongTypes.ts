@@ -1,11 +1,14 @@
-export type Feel = 'ballad' | 'chill' | 'medium' | 'up' | 'burner'
+export type Tempo = 'ballad' | 'chill' | 'medium' | 'up' | 'burner'
+export type Feel = 'latin' | 'swing' | 'blues' | 'rock' | 'funk' | 'other'
 export type SongPlacement = 'opener' | 'closer' | 'other'
 
 export type Song = {
+  id?: string
   name: string
-  feel: Feel
+  tempo: Tempo
+  feel: Feel[]
   placement: SongPlacement
   length: number
   isCover?: boolean
-  id: string
+  localId: string
 }

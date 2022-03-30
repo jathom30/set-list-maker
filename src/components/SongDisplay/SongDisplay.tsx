@@ -13,11 +13,11 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
   const popperRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
   const [showAddSong, setShowAddSong] = useState(false)
-  const {updateSong} = useContext(SongsContext)
+  const {editSong} = useContext(SongsContext)
   const {replaceSongId, removeSongId} = useContext(SetlistContext)
 
   const handleSave = (song: Song) => {
-    updateSong(song)
+    editSong(song)
     setShowAddSong(false)
   }
 
@@ -27,11 +27,11 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
   }
 
   const handleReplaceSong = (newId: string) => {
-    replaceSongId(song.id, newId, setlistId)
+    replaceSongId(song.localId, newId, setlistId)
   }
 
   const handleRemoveSong = () => {
-    removeSongId(song.id, setlistId)
+    removeSongId(song.localId, setlistId)
   }
 
   useOnClickOutside(popperRef, () => setShowPopover(false))
@@ -72,7 +72,7 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
         </FlexBox>
         <FlexBox alignItems="center" gap="1rem" paddingRight="1rem">
           {song.isCover && <p className="SongDisplay__cover">Cover</p>}
-          <Dial feel={song.feel} />
+          <Dial tempo={song.tempo} />
         </FlexBox>
       </FlexBox>
       {showAddSong && (

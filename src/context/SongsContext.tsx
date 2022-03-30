@@ -1,40 +1,56 @@
-import { someSongs } from "mocks";
-import React, { createContext, useState } from "react";
+import { createSong, deleteSong, getSongs, updateSong } from "api";
+// import { someSongs } from "mocks";
+import React, { createContext, useEffect, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { Song } from "types";
 
 type SongsContextType = {
   songs: Song[]
   addSong: (song: Song) => void
   removeSong: (songName: string) => void
-  updateSong: (song: Song) => void
+  editSong: (song: Song) => void
 }
 
 const defaultValues = {
   songs: [],
   addSong: (_song: Song) => undefined,
   removeSong: (_songName: string) => undefined,
-  updateSong: (_song: Song) => undefined,
+  editSong: (_song: Song) => undefined,
 }
 
 export const SongsContext = createContext<SongsContextType>(defaultValues)
 
 export const SongsContextProvider: React.FC = ({children}) => {
-  // TODO remove this when done testing
-  const [songs, setSongs] = useState<Song[]>(someSongs)
+  const [songs, setSongs] = useState<Song[]>([])
+
+  const songsQuery = useQuery('songs', getSongs)
+  const addSongMutation = useMutation(createSong)
+  const deleteSongMutation = useMutation(deleteSong)
+  const updateSongMutation = useMutation(updateSong)
+  
+  useEffect(() => {
+    if (songsQuery.isSuccess) {
+      setSongs(songsQuery.data.data)
+    }
+  }, [songsQuery])
 
   const addSong = (song: Song) => {
-    setSongs(prevSongs => [...prevSongs, song])
+    // TODO make optomistic update
+    addSongMutation.mutate(song, {
+      onSuccess: () => songsQuery.refetch()
+    })
   }
 
   const removeSong = (id: string) => {
-    setSongs(prevSongs => prevSongs.filter(prevSong => prevSong.id !== id))
+    deleteSongMutation.mutate(id, {
+      onSuccess: () => songsQuery.refetch()
+    })
   }
 
-  const updateSong = (song: Song) => {
-    setSongs(prevSongs => {
-      const index = prevSongs.findIndex(prevSong => prevSong.id === song.id)
-      const filtered = prevSongs.filter(prevSong => prevSong.id !== song.id)
-      return [...filtered.slice(0, index), song, ...filtered.slice(index)]
+  const editSong = (song: Song) => {
+    // TODO make optomistic update
+    updateSongMutation.mutate(song, {
+      onSuccess: () => songsQuery.refetch()
     })
   }
 
@@ -42,7 +58,7 @@ export const SongsContextProvider: React.FC = ({children}) => {
     songs,
     addSong,
     removeSong,
-    updateSong,
+    editSong,
   }
 
   return (

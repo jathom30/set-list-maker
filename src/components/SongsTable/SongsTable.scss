@@ -3,7 +3,7 @@
   flex-direction: column;
   thead {
     .SongsTable__tr {
-      background: rgb(216, 216, 216);
+      background: rgb(204, 204, 204);
     }
   }
   &__th {
@@ -16,7 +16,7 @@
         padding: 0.25rem 0.5rem;
       }
       &:nth-child(even) {
-        background-color: rgb(215, 243, 252);
+        background-color: rgb(230, 230, 230);
       }
     }
   }

@@ -1,0 +1,30 @@
+.FeelTag {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: bold;
+  &--latin {
+    background: lightblue;
+    color: darkblue;
+  }
+  &--swing {
+    background: lightgreen;
+    color: darkgreen;
+  }
+  &--blues {
+    background: blue;
+    color: white;
+  }
+  &--rock {
+    background: red;
+    color: white;
+  }
+  &--funk {
+    background: green;
+    color: white;
+  }
+  &--other {
+    background: darkgrey;
+    color: white;
+  }
+}

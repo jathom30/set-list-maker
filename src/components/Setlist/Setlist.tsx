@@ -84,7 +84,7 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
               {...provided.droppableProps}
             >
               {setlist?.map((song, i) => (
-                <Draggable key={song.id} draggableId={song.id} index={i}>
+                <Draggable key={song.id} draggableId={song?.id || ''} index={i}>
                   {(provided) => (
                     <div
                       className="Setlist__draggable"

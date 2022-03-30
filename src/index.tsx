@@ -6,16 +6,21 @@ import reportWebVitals from './reportWebVitals';
 import { SongsContextProvider } from 'context';
 import {BrowserRouter} from 'react-router-dom'
 import { SetlistContextProvider } from 'context/SetlistContext';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient()
 
 ReactDOM.render(
   <React.StrictMode>  
-    <SongsContextProvider>
-      <SetlistContextProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </SetlistContextProvider>
-    </SongsContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <SongsContextProvider>
+        <SetlistContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </SetlistContextProvider>
+      </SongsContextProvider>
+    </QueryClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
