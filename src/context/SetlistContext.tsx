@@ -81,7 +81,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
     ...all,
     ...setlists[id]
   ], [])
-  const availableSongs = songs?.filter(song => usedSongs.every(id => id !== song.id))
+  const availableSongs = songs?.filter(song => usedSongs.every(id => id !== song.id)) || []
 
   const value = {
     setlistIds,
