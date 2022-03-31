@@ -33,7 +33,7 @@ export const LoginForm = () => {
     }
     loginUser(email, password, true)
       .then(() => {
-        console.log('hello')
+        navigate('/setlists')
       })
       .catch((err) => {
         console.error(err)
