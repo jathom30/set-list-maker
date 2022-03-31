@@ -12,7 +12,7 @@ export const DashboardRoute = () => {
   const navigate = useNavigate()
 
   const handleCreateNewSetlists = () => {
-    navigate('set-lists')
+    navigate('/set-lists')
   }
 
   const parentListQuery = useQuery('parent-list', getParentList, {retry: false})
@@ -74,5 +74,3 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
     </div>
   )
 }
-
-// TODO make "disabled" SongDisplay
