@@ -5,7 +5,7 @@ import './DashboardRoute.scss'
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import { getParentList } from "api";
-import { ParentSetlistType, SetlistType, Song } from "types";
+import { ParentSetlistType, Song } from "types";
 import { SongsContext } from "context";
 
 export const DashboardRoute = () => {
@@ -47,6 +47,11 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const {songs} = useContext(SongsContext)
   const getSong = (id: string) => songs.find(song => song.localId === id) as Song
 
+  if (songs.length < 1) {
+    return (
+      <p>...loading...</p>
+    )
+  }
   return (
     <div className="SetlistsPreview">
       <FlexBox flexDirection="column">

@@ -1,4 +1,4 @@
-import { createParentSetlists } from "api";
+import { createParentSetlists, deleteParentSetlists } from "api";
 import { createSetlists } from "helpers";
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMutation } from "react-query";
@@ -12,6 +12,7 @@ type SetlistContextType = {
   setlists: {[key: string]: string[]}
   setSetlists: Dispatch<SetStateAction<{[key: string]: string[]}>>
   saveSetlists: (name: string) => void
+  deleteSetlists: (id: string) => void
   replaceSongId: (originalId: string, replacementId: string, setlistId: string) => void
   removeSongId: (id: string, setlistId: string) => void
   removeSetlist: (setlistId: string) => void
@@ -25,6 +26,7 @@ const defaultValues = {
   setlists: {},
   setSetlists: (_value: SetStateAction<{[key: string]: string[]}>) => undefined,
   saveSetlists: (_name: string) => undefined,
+  deleteSetlists: (_id: string) => undefined,
   replaceSongId: (_originalId: string, _replacementId: string, _setlistId: string) => undefined,
   removeSongId: (_id: string, _setlistId: string) => undefined,
   removeSetlist: (_setlistId: string) => undefined,
@@ -48,7 +50,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   }
 
   const saveSetlistsMutation = useMutation(createParentSetlists)
-
+  
   const saveSetlists = (name: string) => {
     saveSetlistsMutation.mutate({
       localId: uuid(),
@@ -57,6 +59,13 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       setlistIds
     })
   }
+
+  const deleteSetlistsMutation = useMutation(deleteParentSetlists)
+
+  const deleteSetlists = (id: string) => {
+    deleteSetlistsMutation.mutate(id)
+  }
+
 
   const replaceSongId = (originalId: string, replacementId: string, setlistId: string) => {
     setSetlists(prevSetlists => {
@@ -105,6 +114,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
     setlists,
     setSetlists,
     saveSetlists,
+    deleteSetlists,
     replaceSongId,
     removeSongId,
     removeSetlist,

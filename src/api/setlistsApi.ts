@@ -12,4 +12,4 @@ export const createParentSetlists = (parent: ParentSetlistType) => {
   return base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').create([{fields}])
 }
 
-// export const getSetlist = (id: string) => base(process.env.REACT_APP_AIRTABLE_SETLISTS_TABLE || '').find(id)
+export const deleteParentSetlists = (id: string) => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').destroy(id)
