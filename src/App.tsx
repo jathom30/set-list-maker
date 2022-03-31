@@ -7,7 +7,7 @@ import { useIdentityContext } from 'react-netlify-identity';
 
 const ProtectedRoute = ({children}: {children: JSX.Element}) => {
   const { isLoggedIn } = useIdentityContext()
-  return isLoggedIn ? children : <Navigate to="/signin" replace />
+  return isLoggedIn ? children : <LoginForm />
 }
 
 
@@ -60,7 +60,6 @@ function App() {
               <SetlistRoute isMobile={isMobile} />
             </ProtectedRoute>
           } />
-          <Route path="/signin" element={<LoginForm />} />
         </Routes>
       </MaxHeightContainer>
     </div>
