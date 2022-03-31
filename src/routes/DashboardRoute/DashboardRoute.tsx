@@ -63,9 +63,9 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
         </FlexBox>
         <div className="SetlistsPreview__preview">
           <FlexBox gap=".5rem" flexDirection="column">
-            {setlistIds.map(id => (
+            {setlistIds.map((id, index) => (
               <FlexBox key={id} gap=".25rem" flexDirection="column">
-                <span>Set 1</span>
+                <span>Set {index + 1}</span>
                 <div>
                   {setlists[id].map((songId, i) => (
                     <SongDisplay key={songId} song={getSong(songId)} setlistId={id} index={i} isDisabled />
@@ -79,3 +79,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
     </div>
   )
 }
+
+// TODO better loading
+// TODO delete setlists
+// TODO select setlist to view full page
