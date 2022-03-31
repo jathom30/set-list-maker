@@ -15,7 +15,6 @@ exports.handler = async (event) => {
         console.log(JSON.parse(event.body))
         return await deleteSong(event);
     } else {
-        console.log(event)
         return formattedReturn(405, {});
     }
 };

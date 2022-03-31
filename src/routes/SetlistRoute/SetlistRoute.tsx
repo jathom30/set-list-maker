@@ -1,10 +1,13 @@
-import React, { useContext } from "react";
-import { faGripVertical, faRotate } from "@fortawesome/free-solid-svg-icons";
+import React, { useContext, useState } from "react";
+import { faGripVertical, faRotate, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, FlexBox, MaxHeightContainer, Setlist, SetlistForm } from "components";
+import { Button, FlexBox, Input, MaxHeightContainer, Modal, Setlist, SetlistForm } from "components";
 import './SetlistRoute.scss'
 import { SetlistContext } from "context";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { useMutation } from "react-query";
+import { createParentList } from "api";
+import { v4 as uuid } from "uuid";
 
 export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -15,9 +18,22 @@ export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 
 export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const {setlistIds, setSetlistIds, setSetlists, createSetlist, removeSetlist} = useContext(SetlistContext)
+  const [showSaveSetlist, setShowSaveSetlist] = useState(false)
+  const [setlistName, setSetlistName] = useState('')
 
   const handleRemoveAll = () => {
     setlistIds.forEach(id => removeSetlist(id))
+  }
+
+  const createSetlistMutation = useMutation(createParentList)
+
+  const handleSave = () => {
+    createSetlistMutation.mutate({
+      localId: uuid(),
+      name: setlistName,
+      childIds: setlistIds,
+    })
+    setShowSaveSetlist(false)
   }
 
   // handles both SETLIST and SONG drag and drop
@@ -96,6 +112,22 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
               </FlexBox>
             </Button>
           </FlexBox>
+        }
+        footer={
+          <div className="SetlistRoute__footer">
+            <Button onClick={() => setShowSaveSetlist(true)} icon={faSave} kind="primary">Save</Button>
+            {showSaveSetlist && (
+              <Modal>
+                <div className="SetlistRoute__save-list-modal">
+                  <Input value={setlistName} onChange={(val) => setSetlistName(val)} name="setlist-name" label="Name" />
+                  <FlexBox justifyContent="flex-end" gap="1rem">
+                    <Button onClick={() => setShowSaveSetlist(false)} kind="text">Cancel</Button>
+                    <Button isDisabled={setlistName === ''} onClick={handleSave} icon={faSave} kind="primary">Save</Button>
+                  </FlexBox>
+                </div>
+              </Modal>
+            )}
+          </div>
         }
       >
         <DragDropContext onDragEnd={handleDragEnd}>

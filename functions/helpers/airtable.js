@@ -5,5 +5,6 @@ var base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(
 );
 const songsTable = base(process.env.AIRTABLE_SONGS_TABLE);
 const setlistsTable = base(process.env.AIRTABLE_SETLISTS_TABLE);
+const parentsTable = base(process.env.AIRTABLE_PARENT_TABLE);
 
-module.exports = { songsTable, setlistsTable };
+module.exports = { songsTable, setlistsTable, parentsTable };

@@ -4,6 +4,7 @@ import { SongsContext } from "context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { Song } from "types";
+import './SongsRoute.scss'
 
 export const SongsRoute = () => {
   const {addSong} = useContext(SongsContext)
@@ -16,18 +17,16 @@ export const SongsRoute = () => {
 
   return (
     <div className="SongsRoute">
-      <FlexBox flexDirection='column' gap=".5rem" padding='1rem'>
-        <FlexBox alignItems="center" justifyContent="space-between">
-          <h1>Song List</h1>
-          <Button kind="primary" isRounded onClick={() => setShowAddSong(true)}>
-            <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
-            <FontAwesomeIcon icon={faPlusCircle}/>
-            <span>Add Song</span>
-            </FlexBox>
-          </Button>
-        </FlexBox>
-        <SongsTable />
+      <FlexBox alignItems="center" justifyContent="space-between">
+        <h1>Song List</h1>
+        <Button kind="primary" isRounded onClick={() => setShowAddSong(true)}>
+          <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
+          <FontAwesomeIcon icon={faPlusCircle}/>
+          <span>Add Song</span>
+          </FlexBox>
+        </Button>
       </FlexBox>
+      <SongsTable />
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
           <SongForm label="Create New Song" onSave={handleSave} onCancel={() => setShowAddSong(false)} />
