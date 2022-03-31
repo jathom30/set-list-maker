@@ -11,7 +11,7 @@ import { IdentityContextProvider } from "react-netlify-identity"
 
 const queryClient = new QueryClient()
 
-const url = 'https://fascinating-stardust-420d3e.netlify.app/'
+const url = 'https://stn-setlists.netlify.app'
 
 ReactDOM.render(
   <React.StrictMode>  
