@@ -54,7 +54,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const queryClient = useQueryClient()
 
   const createSetlist = (length: number, numberOfSetlists: number) => {
-    const {setlists, ids} = createSetlists(length, numberOfSetlists, songs)
+    const {setlists, ids} = createSetlists(length, numberOfSetlists, songs || [])
     setSetlists(setlists)
     setSetlistIds(ids)
   }

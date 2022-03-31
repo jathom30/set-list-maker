@@ -61,9 +61,9 @@ export const DashboardRoute = () => {
 const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const {setlistIds, setlists, name} = list
   const navigate = useNavigate()
-  const {songs} = useContext(SongsContext)
+  const {songs, isSuccess} = useContext(SongsContext)
   const {setSetlistIds, setSetlists, setParentId, deleteSetlists} = useContext(SetlistContext)
-  const getSong = (id: string) => songs.find(song => song.localId === id)
+  const getSong = (id: string) => songs?.find(song => song.id === id)
 
   const handleSelect = () => {
     setSetlistIds(setlistIds)
@@ -78,7 +78,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
 
   const readableDate = new Date(list.dateModified).toLocaleDateString()
 
-  if (songs.length < 1) {
+  if (!isSuccess) {
     return (
       <p>loading...</p>
     )
@@ -100,7 +100,6 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
                 <span>Set {index + 1}</span>
                 <div>
                   {setlists[id].map((songId, i) => {
-                    console.log(getSong(songId), songId, i)
                     const song = getSong(songId)
                     if (song) {
                       return (

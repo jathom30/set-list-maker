@@ -18,7 +18,7 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
   const {setlists, setSetlists, removeSetlist} = useContext(SetlistContext)
   const {songs} = useContext(SongsContext)
 
-  const setlist: Song[] = setlists[id]?.map(songId => songs.find(song => song.id === songId) as Song)
+  const setlist: Song[] = setlists[id]?.map(songId => songs?.find(song => song.id === songId) as Song)
   const setlistLength = setlist.reduce((total, song) => total += song.length, 0)
 
   const handleSongSelect = (newSongId: string) => {

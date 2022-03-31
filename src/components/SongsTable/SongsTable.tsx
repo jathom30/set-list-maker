@@ -16,13 +16,13 @@ export const SongsTable = () => {
   } = useTable({ 
     columns, 
     // sort by title
-    data: songs.sort((a, b) => {
+    data: songs?.sort((a, b) => {
       if (a.name.toLowerCase() < b.name.toLowerCase()) {
           return -1
       } else {
           return 1
       }
-    })
+    }) || []
   })
 
   return (

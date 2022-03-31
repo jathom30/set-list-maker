@@ -7,7 +7,7 @@ import { useIdentityContext } from 'react-netlify-identity';
 
 const ProtectedRoute = ({children}: {children: JSX.Element}) => {
   const { isLoggedIn } = useIdentityContext()
-  return isLoggedIn ? children : <LoginForm />
+  return (isLoggedIn || !!process.env.REACT_APP_IS_DEV) ? children : <LoginForm />
 }
 
 
@@ -32,7 +32,7 @@ function App() {
     <div className="App">
       <MaxHeightContainer
         fullHeight
-        header={isLoggedIn && <Header isMobile={isMobile} />}
+        header={(isLoggedIn || !!process.env.REACT_APP_IS_DEV) && <Header isMobile={isMobile} />}
       >
         <Routes>
           <Route path="/" element={

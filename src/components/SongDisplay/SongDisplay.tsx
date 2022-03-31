@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
+import { GridBox } from "components/Box";
 
 export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: Song; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
@@ -38,7 +39,7 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
 
   return (
     <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
-      <FlexBox alignItems="center" justifyContent="space-between">
+      <GridBox alignItems="center" gridTemplateColumns="1fr min-content">
         <FlexBox alignItems="center" gap=".5rem" paddingLeft={!children ? '1rem' : ''}>
           {children}
           <p className="SongDisplay__name"><span>{index + 1}.</span></p>
@@ -76,7 +77,7 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
           {song.isCover && <p className="SongDisplay__cover">Cover</p>}
           <Dial tempo={song.tempo} />
         </FlexBox>
-      </FlexBox>
+      </GridBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
           <SongForm label="Edit Song" defaultSong={song} onSave={handleSave} onCancel={() => setShowAddSong(false)} />
