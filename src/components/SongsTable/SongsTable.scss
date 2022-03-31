@@ -1,8 +1,12 @@
 .SongsTable {
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow: auto;
   thead {
     .SongsTable__tr {
+      position: sticky;
+      top: 0;
       background: rgb(204, 204, 204);
     }
   }

@@ -23,17 +23,13 @@ export const SongsContext = createContext<SongsContextType>(defaultValues)
 export const SongsContextProvider: React.FC = ({children}) => {
   const [songs, setSongs] = useState<Song[]>([])
 
-  const songsQuery = useQuery('songs', getSongs)
+  const songsQuery = useQuery('songs', getSongs, {
+    onSuccess: (data) => setSongs(data?.map(d => d.fields) as Song[])
+  })
   const addSongMutation = useMutation(createSong)
   const deleteSongMutation = useMutation(deleteSong)
   const updateSongMutation = useMutation(updateSong)
   
-  useEffect(() => {
-    if (songsQuery.isSuccess) {
-      setSongs(songsQuery.data.data)
-    }
-  }, [songsQuery])
-
   const addSong = (song: Song) => {
     // TODO make optomistic update
     addSongMutation.mutate(song, {

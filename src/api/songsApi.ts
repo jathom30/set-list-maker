@@ -1,26 +1,14 @@
-import axios, {AxiosResponse} from 'axios'
+import { FieldSet } from 'airtable'
 import { Song } from 'types'
+import { base } from './setup'
 
-const songsUrl = '/.netlify/functions/songs'
+export const getSongs = () => base(process.env.REACT_APP_AIRTABLE_SONGS_TABLE || '').select().firstPage()
 
-export const getSongs = (): Promise<AxiosResponse<Song[], any>> => axios.get(songsUrl)
+export const createSong = (song: Song) => base(process.env.REACT_APP_AIRTABLE_SONGS_TABLE || '').create([{fields: song}])
 
-export const createSong = (song: Song): Promise<AxiosResponse<Song, any>> =>
-  axios.post(songsUrl, song)
-  
-export const updateSong = (song: Song): Promise<AxiosResponse<Song, any>> =>
-  axios.put(songsUrl, song)
-
-// export const deleteSong = (id: string): Promise<AxiosResponse<Song, any>> =>
-//   axios.delete(songsUrl, {data: id})
-
-export const deleteSong = async (id: string) => {
-  try {
-      await fetch(songsUrl, {
-          method: 'DELETE',
-          body: JSON.stringify({ id }),
-      });
-  } catch (err) {
-      console.error(err);
-  }
+export const updateSong = (song: Song) => {
+  const {id, ...fields} = song
+  return base(process.env.REACT_APP_AIRTABLE_SONGS_TABLE || '').update([{id: id || '', fields: fields as unknown as FieldSet}])
 }
+
+export const deleteSong = (id: string) => base(process.env.REACT_APP_AIRTABLE_SONGS_TABLE || '').destroy(id)

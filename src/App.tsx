@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Header, MaxHeightContainer } from './components';
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, Navigate} from 'react-router-dom'
 import { DashboardRoute, SetlistRoute, SongsRoute } from 'routes';
 
 function App() {
@@ -27,6 +27,7 @@ function App() {
         header={<Header isMobile={isMobile} />}
       >
         <Routes>
+          <Route path="/" element={<Navigate replace to="/dashboard" />} />
           <Route path="/dashboard" element={<DashboardRoute />} />
           <Route path="/songs" element={<SongsRoute />} />
           <Route path="/set-lists" element={<SetlistRoute isMobile={isMobile} />} />

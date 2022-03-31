@@ -1,13 +1,17 @@
+import { createParentSetlists } from "api";
 import { createSetlists } from "helpers";
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
+import { useMutation } from "react-query";
 import { Song } from "types";
 import { SongsContext } from "./SongsContext";
+import {v4 as uuid} from 'uuid'
 
 type SetlistContextType = {
   setlistIds: string[]
   setSetlistIds: Dispatch<SetStateAction<string[]>>
   setlists: {[key: string]: string[]}
   setSetlists: Dispatch<SetStateAction<{[key: string]: string[]}>>
+  saveSetlists: (name: string) => void
   replaceSongId: (originalId: string, replacementId: string, setlistId: string) => void
   removeSongId: (id: string, setlistId: string) => void
   removeSetlist: (setlistId: string) => void
@@ -20,6 +24,7 @@ const defaultValues = {
   setSetlistIds: (_value: SetStateAction<string[]>) => undefined,
   setlists: {},
   setSetlists: (_value: SetStateAction<{[key: string]: string[]}>) => undefined,
+  saveSetlists: (_name: string) => undefined,
   replaceSongId: (_originalId: string, _replacementId: string, _setlistId: string) => undefined,
   removeSongId: (_id: string, _setlistId: string) => undefined,
   removeSetlist: (_setlistId: string) => undefined,
@@ -40,6 +45,17 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
     const {setlists, ids} = createSetlists(length, numberOfSetlists, songs)
     setSetlists(setlists)
     setSetlistIds(ids)
+  }
+
+  const saveSetlistsMutation = useMutation(createParentSetlists)
+
+  const saveSetlists = (name: string) => {
+    saveSetlistsMutation.mutate({
+      localId: uuid(),
+      name,
+      setlists,
+      setlistIds
+    })
   }
 
   const replaceSongId = (originalId: string, replacementId: string, setlistId: string) => {
@@ -88,6 +104,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
     setSetlistIds,
     setlists,
     setSetlists,
+    saveSetlists,
     replaceSongId,
     removeSongId,
     removeSetlist,
