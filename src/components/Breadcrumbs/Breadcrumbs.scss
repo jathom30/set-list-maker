@@ -1,0 +1,17 @@
+.Breadcrumbs {
+  &__crumb {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: black;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    white-space: nowrap;
+    &--not-active {
+      font-weight: normal;
+      &:hover {
+        background: lightgrey;
+      }
+    }
+  }
+}

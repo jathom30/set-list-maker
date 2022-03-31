@@ -1,18 +1,23 @@
-import { Button, FlexBox, GridBox, MaxHeightContainer, SongDisplay } from "components";
+import { Breadcrumbs, Button, FlexBox, GridBox, MaxHeightContainer, Modal, SetlistForm, SongDisplay } from "components";
 import { useNavigate } from 'react-router-dom'
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import './DashboardRoute.scss'
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
 import { getParentList } from "api";
 import { ParentSetlistType, Song } from "types";
-import { SongsContext } from "context";
+import { SetlistContext, SongsContext } from "context";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const DashboardRoute = () => {
+  const [showSetlistForm, setShowSetlistForm] = useState(false)
   const navigate = useNavigate()
 
-  const handleCreateNewSetlists = () => {
-    navigate('/set-lists')
+  const {createSetlist, setParentId} = useContext(SetlistContext)
+
+  const handleCreateNewSetlists = (length: number, count: number) => {
+    createSetlist(length, count)
+    setParentId(undefined)
+    navigate('new-setlist')
   }
 
   const parentListQuery = useQuery('parent-list', getParentList, {retry: false})
@@ -25,41 +30,67 @@ export const DashboardRoute = () => {
         fullHeight
         header={
           <FlexBox justifyContent="space-between" alignItems="center" gap="1rem" padding="1rem">
-            <h1>Welcome back</h1>
-            <Button kind="primary" onClick={handleCreateNewSetlists}>Create New Setlist(s)</Button>
+            <Breadcrumbs />
+            <Button kind="primary" onClick={() => setShowSetlistForm(true)}>Create New Setlist(s)</Button>
           </FlexBox>
         }
       >
+        {(parentListQuery.isSuccess && parentLists.length < 1) && (
+          <FlexBox gap=".25rem" flexDirection="column" alignItems="center" paddingTop="3rem">
+            <h2>You have no known setlists</h2>
+            <p>Click "Create New Setlist(s)" above to get started.</p>
+          </FlexBox>
+        )} 
         <GridBox padding="1rem" gap="1rem" gridTemplateColumns="repeat(auto-fill, minmax(300px, 1fr))">
           {parentListQuery.isLoading
-            ? '...loading...'
+            ? 'loading...'
             : parentListQuery.isSuccess
             ? parentLists.map(list => <SetlistsPreview key={list.id} list={list} />)
             : null}
         </GridBox>
       </MaxHeightContainer>
+      {showSetlistForm && (
+        <Modal offClick={() => setShowSetlistForm(false)}>
+            <SetlistForm onSave={handleCreateNewSetlists} />
+        </Modal>
+      )}
     </div>
   )
 }
 
 const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const {setlistIds, setlists, name} = list
+  const navigate = useNavigate()
   const {songs} = useContext(SongsContext)
+  const {setSetlistIds, setSetlists, setParentId, deleteSetlists} = useContext(SetlistContext)
   const getSong = (id: string) => songs.find(song => song.localId === id) as Song
+
+  const handleSelect = () => {
+    setSetlistIds(setlistIds)
+    setSetlists(setlists)
+    if (list?.id) {
+      setParentId(list.id)
+    }
+    navigate(list.name)
+  }
+
+  const handleDelete = () => list?.id && deleteSetlists(list.id)
+
+  const readableDate = new Date(list.dateModified).toLocaleDateString()
 
   if (songs.length < 1) {
     return (
-      <p>...loading...</p>
+      <p>loading...</p>
     )
   }
   return (
     <div className="SetlistsPreview">
       <FlexBox flexDirection="column">
         <FlexBox padding="1rem" paddingBottom="0.5rem" alignItems="center" justifyContent="space-between">
-          <Button onClick={() => []} kind="secondary" icon={faCheckCircle}>
+          <Button onClick={handleSelect} kind="secondary">
             <h3>{name}</h3>
           </Button>
-          <p>{setlistIds.length} set(s)</p>
+          <Button isRounded kind="danger" icon={faTrash} onClick={handleDelete} />
         </FlexBox>
         <div className="SetlistsPreview__preview">
           <FlexBox gap=".5rem" flexDirection="column">
@@ -75,6 +106,10 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
             ))}
           </FlexBox>
         </div>
+        <FlexBox padding="1rem" paddingTop="0" justifyContent="space-between">
+          <p className="SetlistsPreview__date">{setlistIds.length} set(s)</p>
+          <p className="SetlistsPreview__date">Last updated: {readableDate}</p>
+        </FlexBox>
       </FlexBox>
     </div>
   )

@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import './Header.scss'
 
-const links = ['dashboard', 'songs', 'set-lists']
+const links = ['setlists', 'songs']
 
 export const Header = ({isMobile}: {isMobile: boolean}) => {
   const [menuIsOpen, setMenuIsOpen] = useState(false)

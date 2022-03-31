@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import { faGripVertical, faRotate, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, FlexBox, Input, MaxHeightContainer, Modal, Setlist, SetlistForm } from "components";
+import { Breadcrumbs, Button, FlexBox, Input, MaxHeightContainer, Modal, Setlist, SetlistForm } from "components";
 import './SetlistRoute.scss'
 import { SetlistContext } from "context";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { useNavigate } from "react-router-dom";
 
 export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -14,18 +15,22 @@ export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 };
 
 export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
-  const {setlistIds, setSetlistIds, setSetlists, createSetlist, removeSetlist} = useContext(SetlistContext)
+  const {setlistIds, setSetlistIds, setSetlists, createSetlist, parentId, setParentId, saveSetlists} = useContext(SetlistContext)
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
   const [setlistName, setSetlistName] = useState('')
-  const {saveSetlists} = useContext(SetlistContext)
+  const navigate = useNavigate()
 
-  const handleRemoveAll = () => {
-    setlistIds.forEach(id => removeSetlist(id))
+  // TODO make refresh
+  const handleRefreshAll = () => {
+    setSetlistIds([])
+    setParentId(undefined)
+    navigate('/setlists')
   }
 
   const handleSave = () => {
     saveSetlists(setlistName)
     setShowSaveSetlist(false)
+    navigate('/setlists')
   }
 
   // handles both SETLIST and SONG drag and drop
@@ -95,17 +100,20 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
       <MaxHeightContainer
         fullHeight
         header={
-          <FlexBox padding=".5rem" alignItems="center" justifyContent="space-between">
-            <h1>Setlist</h1>
-            <Button kind="danger" isRounded onClick={handleRemoveAll}>
-              <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
-              <FontAwesomeIcon icon={faRotate}/>
-              <span>Reset</span>
-              </FlexBox>
-            </Button>
+          <FlexBox padding="1rem" alignItems="center" justifyContent="space-between">
+            <Breadcrumbs />
+            {/* <h1>Your Setlist {'>'} {params.name}</h1> */}
+            {!parentId && (
+              <Button kind="secondary" isRounded onClick={handleRefreshAll}>
+                <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
+                <FontAwesomeIcon icon={faRotate}/>
+                <span>Refresh</span>
+                </FlexBox>
+              </Button>
+            )}
           </FlexBox>
         }
-        footer={
+        footer={!parentId &&
           <div className="SetlistRoute__footer">
             <Button onClick={() => setShowSaveSetlist(true)} icon={faSave} kind="primary">Save</Button>
             {showSaveSetlist && (

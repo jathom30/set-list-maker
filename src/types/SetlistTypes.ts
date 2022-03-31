@@ -4,10 +4,11 @@ export type SetlistType = {
 
 export type ParentSetlistType = {
   id?: string;
-  localId: string;
+  localId?: string;
   name: string;
   setlists: {
     [key: string]: string[]
   };
-  setlistIds: string[]
+  setlistIds: string[];
+  dateModified: string;
 }

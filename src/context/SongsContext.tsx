@@ -1,6 +1,5 @@
 import { createSong, deleteSong, getSongs, updateSong } from "api";
-// import { someSongs } from "mocks";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
 import { Song } from "types";
 

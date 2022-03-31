@@ -27,10 +27,11 @@ function App() {
         header={<Header isMobile={isMobile} />}
       >
         <Routes>
-          <Route path="/" element={<Navigate replace to="/dashboard" />} />
-          <Route path="/dashboard" element={<DashboardRoute />} />
+          <Route path="/" element={<Navigate replace to="/setlists" />} />
+          <Route path="/setlists" element={<DashboardRoute />} />
           <Route path="/songs" element={<SongsRoute />} />
-          <Route path="/set-lists" element={<SetlistRoute isMobile={isMobile} />} />
+          <Route path="/setlists/new-setlist" element={<SetlistRoute isMobile={isMobile} />} />
+          <Route path="/setlists/:name" element={<SetlistRoute isMobile={isMobile} />} />
         </Routes>
       </MaxHeightContainer>
     </div>
