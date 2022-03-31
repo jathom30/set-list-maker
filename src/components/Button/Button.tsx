@@ -5,19 +5,21 @@ import * as React from 'react';
 import './Button.scss'
 
 export const Button: React.FC<{
-  onClick: () => void,
+  onClick?: () => void,
   isRounded?: boolean,
   isDisabled?: boolean
+  type?: 'button' | 'submit' | 'reset'
   kind?: 'default' | 'primary' | 'danger' | 'text' | 'secondary'
   width?: string
   icon?: IconDefinition
-}> = ({children, onClick, isRounded = false, kind = 'default', isDisabled = false, width, icon}) => {
+}> = ({children, onClick, isRounded = false, kind = 'default', type = 'button', isDisabled = false, width, icon}) => {
   const buttonKindClass = `Button__${kind}`
   return (
     <button
       onClick={onClick}
       disabled={isDisabled}
       style={{width}}
+      type={type}
       className={`Button ${isRounded ? 'Button--rounded' : ''} ${isDisabled ? 'Button--disabled' : ''} ${buttonKindClass}`}
     >
       <FlexBox gap="0.5rem" padding='0 .5rem'>
