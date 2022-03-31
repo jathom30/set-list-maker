@@ -5,9 +5,6 @@ import { Button, FlexBox, Input, MaxHeightContainer, Modal, Setlist, SetlistForm
 import './SetlistRoute.scss'
 import { SetlistContext } from "context";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useMutation } from "react-query";
-import { createParentList } from "api";
-import { v4 as uuid } from "uuid";
 
 export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
   const result = Array.from(list);
@@ -20,19 +17,14 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const {setlistIds, setSetlistIds, setSetlists, createSetlist, removeSetlist} = useContext(SetlistContext)
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
   const [setlistName, setSetlistName] = useState('')
+  const {saveSetlists} = useContext(SetlistContext)
 
   const handleRemoveAll = () => {
     setlistIds.forEach(id => removeSetlist(id))
   }
 
-  const createSetlistMutation = useMutation(createParentList)
-
   const handleSave = () => {
-    createSetlistMutation.mutate({
-      localId: uuid(),
-      name: setlistName,
-      childIds: setlistIds,
-    })
+    saveSetlists(setlistName)
     setShowSaveSetlist(false)
   }
 

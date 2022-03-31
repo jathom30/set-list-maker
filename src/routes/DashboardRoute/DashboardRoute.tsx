@@ -1,10 +1,10 @@
 import { Button, FlexBox, GridBox, MaxHeightContainer, SongDisplay } from "components";
 import { useNavigate } from 'react-router-dom'
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import './DashboardRoute.scss'
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { useQuery } from "react-query";
-import { getParentList, getSetlist } from "api";
+import { getParentList } from "api";
 import { ParentSetlistType, SetlistType, Song } from "types";
 import { SongsContext } from "context";
 
@@ -17,7 +17,7 @@ export const DashboardRoute = () => {
 
   const parentListQuery = useQuery('parent-list', getParentList, {retry: false})
 
-  const parentList = parentListQuery.data?.map(record => ({...record.fields, childIds: JSON.parse(record.fields.childIds as string)})) as ParentSetlistType[]
+  const parentLists = parentListQuery.data?.map(record => ({...record.fields, setlists: JSON.parse(record.fields.setlists as string), setlistIds: JSON.parse(record.fields.setlistIds as string)})) as ParentSetlistType[]
 
   return (
     <div className="DashboardRoute">
@@ -34,7 +34,7 @@ export const DashboardRoute = () => {
           {parentListQuery.isLoading
             ? '...loading...'
             : parentListQuery.isSuccess
-            ? parentList.map(list => <SetlistsPreview key={list.id} childIds={list.childIds} />)
+            ? parentLists.map(list => <SetlistsPreview key={list.id} list={list} />)
             : null}
         </GridBox>
       </MaxHeightContainer>
@@ -42,45 +42,32 @@ export const DashboardRoute = () => {
   )
 }
 
-const SetlistsPreview = ({childIds}: {childIds: string[]}) => {
-  console.log(childIds)
-  const setlistQuery = useQuery(['setlist', childIds], async () => {
-    return await getSetlist(childIds[0])
-  })
+const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
+  const {setlistIds, setlists, name} = list
   const {songs} = useContext(SongsContext)
   const getSong = (id: string) => songs.find(song => song.localId === id) as Song
-
-  const setlist = setlistQuery.data?.fields as SetlistType | undefined
 
   return (
     <div className="SetlistsPreview">
       <FlexBox flexDirection="column">
         <FlexBox padding="1rem" paddingBottom="0.5rem" alignItems="center" justifyContent="space-between">
           <Button onClick={() => []} kind="secondary" icon={faCheckCircle}>
-            <h3>Setlists' name</h3>
+            <h3>{name}</h3>
           </Button>
-          <p>2 sets</p>
+          <p>{setlistIds.length} set(s)</p>
         </FlexBox>
         <div className="SetlistsPreview__preview">
           <FlexBox gap=".5rem" flexDirection="column">
-            <FlexBox gap=".25rem" flexDirection="column">
-              <span>Set 1</span>
-              <div>
-                {setlist?.songIds?.map(songId => 
-                  <SongDisplay key={songId} song={getSong(songId)} setlistId={childIds[0]} index={setlist.index} />
-                )}
-              </div>
-            </FlexBox>
-            {/* <FlexBox gap=".25rem" flexDirection="column">
-              <span>Set 2</span>
-              <div>
-                <SongDisplay song={songs[0]} setlistId={id} index={0} />
-                <SongDisplay song={songs[1]} setlistId={id} index={1} />
-                <SongDisplay song={songs[2]} setlistId={id} index={2} />
-                <SongDisplay song={songs[3]} setlistId={id} index={3} />
-                <SongDisplay song={songs[4]} setlistId={id} index={4} />
-              </div>
-            </FlexBox> */}
+            {setlistIds.map(id => (
+              <FlexBox key={id} gap=".25rem" flexDirection="column">
+                <span>Set 1</span>
+                <div>
+                  {setlists[id].map((songId, i) => (
+                    <SongDisplay key={songId} song={getSong(songId)} setlistId={id} index={i} />
+                  ))}
+                </div>
+              </FlexBox>
+            ))}
           </FlexBox>
         </div>
       </FlexBox>

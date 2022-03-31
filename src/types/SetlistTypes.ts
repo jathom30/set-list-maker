@@ -1,14 +1,13 @@
 export type SetlistType = {
-  id?: string;
-  localId: string;
-  parentId: string;
-  songIds: string[];
-  index: number;
+  [key: string]: string[]
 }
 
 export type ParentSetlistType = {
   id?: string;
   localId: string;
   name: string;
-  childIds: string[];
+  setlists: {
+    [key: string]: string[]
+  };
+  setlistIds: string[]
 }
