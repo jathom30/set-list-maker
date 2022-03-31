@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: Song; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
@@ -38,7 +37,7 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
   useOnClickOutside(popperRef, () => setShowPopover(false))
 
   return (
-    <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
+    <div className={`SongDisplay SongDisplay--${song?.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
       <FlexBox alignItems="center" justifyContent="space-between">
         <FlexBox alignItems="center" gap=".5rem" paddingLeft={!children ? '1rem' : ''}>
           {children}
