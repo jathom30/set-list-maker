@@ -10,7 +10,7 @@ import {v4 as uuid} from 'uuid'
 import { capitalizeFirstLetter } from "helpers";
 
 const songTempos: Tempo[] = ['ballad', 'chill', 'medium', 'up', 'burner']
-const songFeels: Feel[] = ['blues', 'funk', 'latin', 'rock', 'swing', 'other']
+const songFeels: Feel[] = ['blues', 'country', 'funk', 'latin', 'rock', 'swing', 'other']
 const songPlacements: SongPlacement[] = ['opener', 'closer', 'other']
 
 export const SongForm = ({label, onSave, onCancel, onDelete, defaultSong}: {label: string; onSave: (song: Song) => void; onCancel: () => void; onDelete?: (id: string) => void; defaultSong?: Song}) => {

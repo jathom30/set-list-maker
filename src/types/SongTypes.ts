@@ -1,5 +1,5 @@
 export type Tempo = 'ballad' | 'chill' | 'medium' | 'up' | 'burner'
-export type Feel = 'latin' | 'swing' | 'blues' | 'rock' | 'funk' | 'other'
+export type Feel = 'country' | 'latin' | 'swing' | 'blues' | 'rock' | 'funk' | 'other'
 export type SongPlacement = 'opener' | 'closer' | 'other'
 
 export type Song = {
