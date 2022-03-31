@@ -63,7 +63,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const navigate = useNavigate()
   const {songs} = useContext(SongsContext)
   const {setSetlistIds, setSetlists, setParentId, deleteSetlists} = useContext(SetlistContext)
-  const getSong = (id: string) => songs.find(song => song.localId === id) as Song
+  const getSong = (id: string) => songs.find(song => song.localId === id)
 
   const handleSelect = () => {
     setSetlistIds(setlistIds)
@@ -83,6 +83,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
       <p>loading...</p>
     )
   }
+
   return (
     <div className="SetlistsPreview">
       <FlexBox flexDirection="column">
@@ -98,9 +99,16 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
               <FlexBox key={id} gap=".25rem" flexDirection="column">
                 <span>Set {index + 1}</span>
                 <div>
-                  {setlists[id].map((songId, i) => (
-                    <SongDisplay key={songId} song={getSong(songId)} setlistId={id} index={i} isDisabled />
-                  ))}
+                  {setlists[id].map((songId, i) => {
+                    console.log(getSong(songId), songId, i)
+                    const song = getSong(songId)
+                    if (song) {
+                      return (
+                        <SongDisplay key={songId} song={song} setlistId={id} index={i} isDisabled />
+                      )
+                    }
+                    return <span key={songId}>{songId}</span>
+                  })}
                 </div>
               </FlexBox>
             ))}

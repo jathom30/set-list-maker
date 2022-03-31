@@ -37,7 +37,7 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
   useOnClickOutside(popperRef, () => setShowPopover(false))
 
   return (
-    <div className={`SongDisplay SongDisplay--${song?.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
+    <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
       <FlexBox alignItems="center" justifyContent="space-between">
         <FlexBox alignItems="center" gap=".5rem" paddingLeft={!children ? '1rem' : ''}>
           {children}
