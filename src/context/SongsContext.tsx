@@ -10,6 +10,7 @@ type SongsContextType = {
   removeSong: (songName: string) => void
   editSong: (song: Song) => void
   isSuccess: boolean
+  isLoading: boolean
 }
 
 const defaultValues = {
@@ -18,6 +19,7 @@ const defaultValues = {
   removeSong: (_songName: string) => undefined,
   editSong: (_song: Song) => undefined,
   isSuccess: false,
+  isLoading: true,
 }
 
 export const SongsContext = createContext<SongsContextType>(defaultValues)
@@ -35,7 +37,7 @@ export const SongsContextProvider: React.FC = ({children}) => {
   const updateSongMutation = useMutation(updateSong)
   
   const addSong = (song: Song) => {
-    // TODO make optomistic update
+    // TODO make optimistic update
     addSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()
     })
@@ -48,7 +50,7 @@ export const SongsContextProvider: React.FC = ({children}) => {
   }
 
   const editSong = (song: Song) => {
-    // TODO make optomistic update
+    // TODO make optimistic update
     updateSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()
     })
@@ -60,6 +62,7 @@ export const SongsContextProvider: React.FC = ({children}) => {
     removeSong,
     editSong,
     isSuccess: songsQuery.isSuccess,
+    isLoading: songsQuery.isLoading,
   }
 
   return (
