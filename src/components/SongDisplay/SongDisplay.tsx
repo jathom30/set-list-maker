@@ -6,8 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
-export const SongDisplay = ({song, setlistId, index, children}: {song: Song; setlistId: string; index: number; children?: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: Song; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -43,32 +44,34 @@ export const SongDisplay = ({song, setlistId, index, children}: {song: Song; set
           {children}
           <p className="SongDisplay__name"><span>{index + 1}.</span></p>
           <p className="SongDisplay__name">{song.name}</p>
-          <Popover
-            position={['right', 'bottom']}
-            align="start"
-            content={
-              <div className="SongDisplay__popover" ref={popperRef}>
-                <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
-                  <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
-                    Details
-                  </Button>
-                  <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
-                    Replace
-                  </Button>
-                  <Button width="100%" kind="danger" icon={faTrash} onClick={handleRemoveSong}>
-                    Remove
-                  </Button>
-                </FlexBox>
+          {!isDisabled && (
+            <Popover
+              position={['right', 'bottom']}
+              align="start"
+              content={
+                <div className="SongDisplay__popover" ref={popperRef}>
+                  <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
+                    <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
+                      Details
+                    </Button>
+                    <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
+                      Replace
+                    </Button>
+                    <Button width="100%" kind="danger" icon={faTrash} onClick={handleRemoveSong}>
+                      Remove
+                    </Button>
+                  </FlexBox>
+                </div>
+              }
+              isOpen={showPopover}
+            >
+              <div ref={buttonRef}>
+                <Button kind="secondary" isRounded onClick={() => setShowPopover(true)}>
+                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                </Button>
               </div>
-            }
-            isOpen={showPopover}
-          >
-            <div ref={buttonRef}>
-              <Button kind="secondary" isRounded onClick={() => setShowPopover(true)}>
-                <FontAwesomeIcon icon={faEllipsisVertical} />
-              </Button>
-            </div>
-          </Popover>
+            </Popover>
+          )}
         </FlexBox>
         <FlexBox alignItems="center" gap="1rem" paddingRight="1rem">
           {song.isCover && <p className="SongDisplay__cover">Cover</p>}

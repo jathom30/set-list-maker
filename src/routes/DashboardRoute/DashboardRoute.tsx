@@ -63,7 +63,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
                 <span>Set 1</span>
                 <div>
                   {setlists[id].map((songId, i) => (
-                    <SongDisplay key={songId} song={getSong(songId)} setlistId={id} index={i} />
+                    <SongDisplay key={songId} song={getSong(songId)} setlistId={id} index={i} isDisabled />
                   ))}
                 </div>
               </FlexBox>
