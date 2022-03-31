@@ -1,5 +1,6 @@
 import { createSong, deleteSong, getSongs, updateSong } from "api";
 import React, { createContext, useState } from "react";
+import { useIdentityContext } from "react-netlify-identity";
 import { useMutation, useQuery } from "react-query";
 import { Song } from "types";
 
@@ -22,7 +23,10 @@ export const SongsContext = createContext<SongsContextType>(defaultValues)
 export const SongsContextProvider: React.FC = ({children}) => {
   const [songs, setSongs] = useState<Song[]>([])
 
+  const {isLoggedIn} = useIdentityContext()
+
   const songsQuery = useQuery('songs', getSongs, {
+    enabled: isLoggedIn,
     onSuccess: (data) => setSongs(data?.map(d => d.fields) as Song[])
   })
   const addSongMutation = useMutation(createSong)
