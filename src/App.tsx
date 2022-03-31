@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import './App.scss';
-import { Header, MaxHeightContainer } from './components';
+import { Header, LoginForm, MaxHeightContainer } from 'components';
 import {Routes, Route, Navigate} from 'react-router-dom'
 import { DashboardRoute, SetlistRoute, SongsRoute } from 'routes';
+import { useIdentityContext } from 'react-netlify-identity';
+
+const ProtectedRoute = ({children}: {children: JSX.Element}) => {
+  const { isLoggedIn } = useIdentityContext()
+  return isLoggedIn ? children : <Navigate to="/signin" replace />
+}
+
 
 function App() {
   const [width, setWidth] = useState(0)
+  const { isLoggedIn } = useIdentityContext()
 
   useEffect(() => {
     const handleResize = () => {
@@ -24,14 +32,35 @@ function App() {
     <div className="App">
       <MaxHeightContainer
         fullHeight
-        header={<Header isMobile={isMobile} />}
+        header={isLoggedIn && <Header isMobile={isMobile} />}
       >
         <Routes>
-          <Route path="/" element={<Navigate replace to="/setlists" />} />
-          <Route path="/setlists" element={<DashboardRoute />} />
-          <Route path="/songs" element={<SongsRoute />} />
-          <Route path="/setlists/new-setlist" element={<SetlistRoute isMobile={isMobile} />} />
-          <Route path="/setlists/:name" element={<SetlistRoute isMobile={isMobile} />} />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Navigate replace to="/setlists" />
+            </ProtectedRoute>
+          } />
+          <Route path="/setlists" element={
+            <ProtectedRoute>
+              <DashboardRoute />
+            </ProtectedRoute>
+          } />
+          <Route path="/songs" element={
+            <ProtectedRoute>
+              <SongsRoute />
+            </ProtectedRoute>
+          } />
+          <Route path="/setlists/new-setlist" element={
+            <ProtectedRoute>
+              <SetlistRoute isMobile={isMobile} />
+            </ProtectedRoute>
+          } />
+          <Route path="/setlists/:name" element={
+            <ProtectedRoute>
+              <SetlistRoute isMobile={isMobile} />
+            </ProtectedRoute>
+          } />
+          <Route path="/signin" element={<LoginForm />} />
         </Routes>
       </MaxHeightContainer>
     </div>

@@ -7,20 +7,25 @@ import { SongsContextProvider } from 'context';
 import {BrowserRouter} from 'react-router-dom'
 import { SetlistContextProvider } from 'context/SetlistContext';
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { IdentityContextProvider } from "react-netlify-identity"
 
 const queryClient = new QueryClient()
 
+const url = 'https://fascinating-stardust-420d3e.netlify.app/'
+
 ReactDOM.render(
   <React.StrictMode>  
-    <QueryClientProvider client={queryClient}>
-      <SongsContextProvider>
-        <SetlistContextProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </SetlistContextProvider>
-      </SongsContextProvider>
-    </QueryClientProvider>
+    <IdentityContextProvider url={url}>
+      <QueryClientProvider client={queryClient}>
+        <SongsContextProvider>
+          <SetlistContextProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </SetlistContextProvider>
+        </SongsContextProvider>
+      </QueryClientProvider>
+    </IdentityContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
