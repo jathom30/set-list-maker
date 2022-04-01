@@ -19,6 +19,7 @@ export type BasicSong = {
   placement: SongPlacement
   length: number
   isCover?: boolean
+  exclude?: boolean
 }
 
 export type SongWithId = BasicSong & {id: string}

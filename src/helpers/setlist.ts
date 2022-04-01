@@ -15,13 +15,15 @@ const getRandomSong = (songs: SongWithId[]) => {
 }
 
 export const createSetlists = (setlistLength: number, numberOfSetlists: number, songs: SongWithId[]) => {
+  // exclude songs marked as excluded
+  const includedSongs = songs.filter(song => !song.exclude)
   // create array of keys based on number of setlists needed
   const setlistKeys = Array.from({length: numberOfSetlists}, () => uuid())
   
   // organize songs by placement, when a song is selected, it is removed from the list so it can't get used again
-  let openers = songs.filter(song => song.placement === 'opener')
-  let closers = songs.filter(song => song.placement === 'closer')
-  let others = songs.filter(song => song.placement === 'other')
+  let openers = includedSongs.filter(song => song.placement === 'opener')
+  let closers = includedSongs.filter(song => song.placement === 'closer')
+  let others = includedSongs.filter(song => song.placement === 'other')
 
   // Preference is to fill sets with openers and closers, but there should be enough for each set
   const preferredOpenerCount = Math.floor(openers.length / numberOfSetlists)

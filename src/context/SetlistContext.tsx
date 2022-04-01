@@ -22,7 +22,7 @@ type SetlistContextType = {
   replaceSongId: (originalId: string, replacementId: string, setlistId: string) => void
   removeSongId: (id: string, setlistId: string) => void
   removeSetlist: (setlistId: string) => void
-  createSetlist: (length: number, count: number) => void
+  createSetlist: (length: number, count: number, includeCovers: boolean) => void
   availableSongs: SongWithId[]
 }
 
@@ -42,7 +42,7 @@ const defaultValues = {
   replaceSongId: (_originalId: string, _replacementId: string, _setlistId: string) => undefined,
   removeSongId: (_id: string, _setlistId: string) => undefined,
   removeSetlist: (_setlistId: string) => undefined,
-  createSetlist: (_length: number, _count: number) => undefined,
+  createSetlist: (_length: number, _count: number, _includeCovers: boolean) => undefined,
   availableSongs: [],
 }
 
@@ -61,8 +61,9 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
 
   const queryClient = useQueryClient()
 
-  const createSetlist = (length: number, numberOfSetlists: number) => {
-    const {setlists, ids} = createSetlists(length, numberOfSetlists, songs || [])
+  const createSetlist = (length: number, numberOfSetlists: number, includeCovers: boolean) => {
+    const filteredSongs = includeCovers ? songs : songs?.filter(song => !song.isCover)
+    const {setlists, ids} = createSetlists(length, numberOfSetlists, filteredSongs || [])
     setSetlists(setlists)
     setSetlistIds(ids)
   }

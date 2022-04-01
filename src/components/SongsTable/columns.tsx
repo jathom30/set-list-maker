@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react"
 import { BasicSong, Feel, SongPlacement, SongWithId, Tempo } from "types"
 import { Column, Row } from 'react-table'
 import { Dial, Button, FlexBox, Modal, SongForm, FeelTag } from "components"
-import { faBackwardStep, faEdit, faForwardStep } from "@fortawesome/free-solid-svg-icons"
+import { faBackwardStep, faCheck, faEdit, faForwardStep } from "@fortawesome/free-solid-svg-icons"
 import { SongsContext } from "context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
@@ -45,6 +45,15 @@ export const columns: Column<SongWithId>[] = [
         </FlexBox>
       )
     }
+  },
+  {
+    Header:'Exclude',
+    accessor: 'exclude',
+    Cell: ({value}: {value: boolean}) => (
+      <FlexBox justifyContent="center">
+        {value ? <FontAwesomeIcon color="red" icon={faCheck} /> : null}
+      </FlexBox>
+    )
   },
   {
     Header: 'Time',

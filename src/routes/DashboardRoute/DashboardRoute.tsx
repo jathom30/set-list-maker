@@ -14,8 +14,8 @@ export const DashboardRoute = () => {
 
   const {createSetlist, setName} = useContext(SetlistContext)
 
-  const handleCreateNewSetlists = (length: number, count: number) => {
-    createSetlist(length, count)
+  const handleCreateNewSetlists = (length: number, count: number, covers: boolean) => {
+    createSetlist(length, count, covers)
     setName('New setlist')
     navigate('new-setlist')
   }
