@@ -18,11 +18,11 @@ ReactDOM.render(
     <IdentityContextProvider url={url}>
       <QueryClientProvider client={queryClient}>
         <SongsContextProvider>
-          <SetlistContextProvider>
-            <BrowserRouter>
+          <BrowserRouter>
+            <SetlistContextProvider>
               <App />
-            </BrowserRouter>
-          </SetlistContextProvider>
+            </SetlistContextProvider>
+          </BrowserRouter>
         </SongsContextProvider>
       </QueryClientProvider>
     </IdentityContextProvider>

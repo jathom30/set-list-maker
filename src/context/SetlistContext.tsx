@@ -1,5 +1,6 @@
 import { createParentSetlists, deleteParentSetlists, updateParentSetlists } from "api";
 import { createSetlists } from "helpers";
+import { useNavigate } from "react-router-dom";
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
 import { SetlistType, SongWithId } from "types";
@@ -41,12 +42,14 @@ export const SetlistContext = createContext<SetlistContextType>(defaultValues)
 
 export const SetlistContextProvider: React.FC = ({ children }) => {
   // ? Good idea
-  const [name, setName] = useState('')
+  // TODO SongDisplay remove and swap save to db
+  // const [name, setName] = useState('')
   // ids are used to track drag and drop of whole setlists
   const [setlistIds, setSetlistIds] = useState<string[]>([])
   // setlists are the object of ids and lists of songs
   const [setlists, setSetlists] = useState<SetlistType>({})
   const {songs} = useContext(SongsContext)
+  const navigate = useNavigate()
 
   const queryClient = useQueryClient()
 
@@ -65,7 +68,11 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       setlistIds,
       dateModified: new Date().toISOString(),
     }, {
-      onSuccess: () => queryClient.invalidateQueries('parent-list')
+      onSuccess: (data) => {
+        queryClient.invalidateQueries('parent-list');
+        const record = data.map(record => record.fields)[0]
+        navigate(`/setlists/${record.id}`)
+      }
     })
   }
 

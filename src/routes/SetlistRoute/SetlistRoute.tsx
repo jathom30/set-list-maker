@@ -215,5 +215,3 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   }
   return <div />
 }
-
-// TODO ondragend compare against original setlist and ask if user wants to "save" or "save as new"

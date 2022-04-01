@@ -4,7 +4,6 @@ import { Breadcrumbs, Button, FlexBox, Input, LabelInput, MaxHeightContainer, Mo
 import { SetlistContext } from "context";
 import React, { useContext, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useNavigate } from "react-router-dom";
 import { reorder } from "routes/SetlistRoute";
 import './NewSetlistRoute.scss'
 
@@ -12,12 +11,10 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
   const [setlistName, setSetlistName] = useState('New setlist')
   const {setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist} = useContext(SetlistContext)
-  const navigate = useNavigate()
 
   const handleSave = () => {
     saveSetlists(setlistName)
     setShowSaveSetlist(false)
-    navigate('/setlists')
   }
 
   const handleRemoveSetlist = (setlistId: string) => {
