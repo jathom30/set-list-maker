@@ -12,10 +12,11 @@ export const DashboardRoute = () => {
   const [showSetlistForm, setShowSetlistForm] = useState(false)
   const navigate = useNavigate()
 
-  const {createSetlist} = useContext(SetlistContext)
+  const {createSetlist, setName} = useContext(SetlistContext)
 
   const handleCreateNewSetlists = (length: number, count: number) => {
     createSetlist(length, count)
+    setName('New setlist')
     navigate('new-setlist')
   }
 

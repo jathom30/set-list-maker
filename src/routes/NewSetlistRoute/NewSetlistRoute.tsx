@@ -9,11 +9,10 @@ import './NewSetlistRoute.scss'
 
 export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
-  const [setlistName, setSetlistName] = useState('New setlist')
-  const {setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist} = useContext(SetlistContext)
+  const {name, setName, setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist} = useContext(SetlistContext)
 
   const handleSave = () => {
-    saveSetlists(setlistName)
+    saveSetlists(name)
     setShowSaveSetlist(false)
   }
 
@@ -88,8 +87,8 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
         header={
           <FlexBox padding="1rem" alignItems="center" justifyContent="space-between">
             <Breadcrumbs currentRoute={
-              <LabelInput value={setlistName} onSubmit={val => setSetlistName(val.toString())}>
-                <span className="Breadcrumbs__crumb">{setlistName}</span>
+              <LabelInput value={name} onSubmit={val => setName(val.toString())}>
+                <span className="Breadcrumbs__crumb">{name}</span>
               </LabelInput>
             } />
             {
@@ -108,7 +107,7 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
             {showSaveSetlist && (
               <Modal>
                 <div className="SetlistRoute__save-list-modal">
-                  <Input label="Setlist Name" value={setlistName} onChange={val => setSetlistName(val)} name="setlist-name" />
+                  <Input label="Setlist Name" value={name} onChange={val => setName(val)} name="setlist-name" />
                   <FlexBox justifyContent="flex-end" gap="1rem">
                     <Button onClick={() => setShowSaveSetlist(false)} kind="text">Cancel</Button>
                     <Button onClick={handleSave} icon={faSave} kind="primary">Save</Button>

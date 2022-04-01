@@ -20,10 +20,8 @@ export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
 export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const {id} = useParams()
   const {isSuccess} = useContext(SongsContext)
-  const {setlistIds, setSetlistIds, setSetlists, saveSetlists, updateSetlists, removeSetlist} = useContext(SetlistContext)
+  const {name, setName, detectChange, setDetectChange, setlistIds, setSetlistIds, setSetlists, saveSetlists, updateSetlists, removeSetlist} = useContext(SetlistContext)
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
-  const [setlistName, setSetlistName] = useState('')
-  const [detectChange, setDetectChange] = useState(false)
     
   const parentListQuery = useQuery(['parent-list', id], () => getParentList(id || ''), {
     enabled: isSuccess,
@@ -33,14 +31,13 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
       setSetlists(setlists)
       const ids: string[] = JSON.parse((parentList?.setlistIds || '') as string)
       setSetlistIds(ids)
-      const name = parentList?.name as string | undefined
-      setSetlistName(name || '')
+      const setlistName = parentList?.name as string | undefined
+      setName(setlistName || '')
     }
   })
   
   const handleRemoveSetlist = (setlistId: string) => {
     removeSetlist(setlistId)
-    setDetectChange(true)
   }
 
   const handleAddSong = (setlistId: string, songId: string) => {
@@ -60,18 +57,18 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   }
 
   const handleSave = () => {
-    saveSetlists(setlistName)
+    saveSetlists(name)
     setDetectChange(false)
   }
 
   const handleReplace = () => {
     if (!id) return
-    updateSetlists(id, setlistName)
+    updateSetlists(id, name)
     setDetectChange(false)
   }
 
   const handleEditName = (val: string | number) => {
-    setSetlistName(val.toString())
+    setName(val.toString())
     if (!id) return
     updateSetlists(id, val.toString())
   }
@@ -153,8 +150,8 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
           header={
             <FlexBox padding="1rem" alignItems="center" justifyContent="space-between">
               <Breadcrumbs currentRoute={
-                <LabelInput value={setlistName} onSubmit={handleEditName}>
-                  <span className="Breadcrumbs__crumb">{setlistName}</span>
+                <LabelInput value={name} onSubmit={handleEditName}>
+                  <span className="Breadcrumbs__crumb">{name}</span>
                 </LabelInput>
               } />
             </FlexBox>
@@ -169,10 +166,10 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
               {showSaveSetlist && (
                 <Modal>
                   <div className="SetlistRoute__save-list-modal">
-                    <Input value={setlistName} onChange={(val) => setSetlistName(val)} name="setlist-name" label="Name" />
+                    <Input value={name} onChange={(val) => setName(val)} name="setlist-name" label="Name" />
                     <FlexBox justifyContent="flex-end" gap="1rem">
                       <Button onClick={() => setShowSaveSetlist(false)} kind="text">Cancel</Button>
-                      <Button isDisabled={setlistName === ''} onClick={handleSave} icon={faSave} kind="primary">Save</Button>
+                      <Button isDisabled={name === ''} onClick={handleSave} icon={faSave} kind="primary">Save</Button>
                     </FlexBox>
                   </div>
                 </Modal>

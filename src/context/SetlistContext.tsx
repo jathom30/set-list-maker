@@ -7,6 +7,10 @@ import { SetlistType, SongWithId } from "types";
 import { SongsContext } from "./SongsContext";
 
 type SetlistContextType = {
+  detectChange: boolean
+  setDetectChange: (change: boolean) => void
+  name: string;
+  setName: (n: string) => void
   parentId?: string
   setlistIds: string[]
   setSetlistIds: Dispatch<SetStateAction<string[]>>
@@ -23,6 +27,10 @@ type SetlistContextType = {
 }
 
 const defaultValues = {
+  detectChange: false,
+  setDetectChange: (_change: boolean) => undefined,
+  name: '',
+  setName: (_n: string) => undefined,
   parentId: undefined,
   setlistIds: [],
   setSetlistIds: (_value: SetStateAction<string[]>) => undefined,
@@ -41,9 +49,9 @@ const defaultValues = {
 export const SetlistContext = createContext<SetlistContextType>(defaultValues)
 
 export const SetlistContextProvider: React.FC = ({ children }) => {
-  // ? Good idea
-  // TODO SongDisplay remove and swap save to db
-  // const [name, setName] = useState('')
+  const [name, setName] = useState('')
+  const [detectChange, setDetectChange] = useState(false)
+
   // ids are used to track drag and drop of whole setlists
   const [setlistIds, setSetlistIds] = useState<string[]>([])
   // setlists are the object of ids and lists of songs
@@ -105,6 +113,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
         [setlistId]: [...filtered.slice(0, index), replacementId, ...filtered.slice(index)],
       }
     })
+    setDetectChange(true)
   }
 
   const removeSongId = (id: string, setlistId: string) => {
@@ -114,6 +123,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
         [setlistId]: prevSetlists[setlistId].filter(songId => songId !== id)
       }
     })
+    setDetectChange(true)
   }
 
   const removeSetlist = (setlistId: string) => {
@@ -129,6 +139,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
         return newSetlists
       }, {})
     })
+    setDetectChange(true)
   }
 
   const usedSongs = Object.keys(setlists).reduce((all: string[], id) => [
@@ -138,6 +149,10 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const availableSongs = songs?.filter(song => usedSongs.every(id => id !== song.id)) || []
 
   const value = {
+    name,
+    setName,
+    detectChange,
+    setDetectChange,
     setlistIds,
     setSetlistIds,
     setlists,
