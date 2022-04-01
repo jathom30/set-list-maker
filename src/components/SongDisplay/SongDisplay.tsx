@@ -1,14 +1,13 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
 import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
-import './SongDisplay.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
-import { GridBox } from "components/Box";
 import { BasicSong, SongWithId } from "types";
+import './SongDisplay.scss'
 
-export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: SongWithId; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, index, isPreview = false, children}: {song: SongWithId; setlistId: string; index: number; isPreview?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -42,46 +41,46 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
   useOnClickOutside(popperRef, () => setShowPopover(false))
 
   return (
-    <div className={`SongDisplay SongDisplay--${song.feel} ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
-      <GridBox alignItems="center" gridTemplateColumns="1fr min-content">
-        <FlexBox alignItems="center" gap=".5rem" paddingLeft={!children ? '1rem' : ''}>
+    <div className={`SongDisplay ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
+      <FlexBox alignItems="center" justifyContent="space-between" gap="0.5rem">
+        <div className={`SongDisplay__left ${!children ? 'SongDisplay__left--no-child' : ''}`}>
           {children}
-          <p className="SongDisplay__name"><span>{index + 1}.</span></p>
+          <p className="SongDisplay__index">{index + 1}.</p>
           <p className="SongDisplay__name">{song.name}</p>
-          {!isDisabled && (
-            <Popover
-              position={['right', 'bottom']}
-              align="start"
-              content={
-                <div className="SongDisplay__popover" ref={popperRef}>
-                  <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
-                    <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
-                      Details
-                    </Button>
-                    <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
-                      Replace
-                    </Button>
-                    <Button width="100%" kind="danger" icon={faTrash} onClick={handleRemoveSong}>
-                      Remove
-                    </Button>
-                  </FlexBox>
+        </div>
+        {!isPreview && (
+          <FlexBox alignItems="center" gap=".5rem" paddingRight="1rem">
+            {song.isCover && <p className="SongDisplay__cover">Cover</p>}
+              <Popover
+                position={['left', 'bottom']}
+                align="start"
+                content={
+                  <div className="SongDisplay__popover" ref={popperRef}>
+                    <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
+                      <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
+                        Details
+                      </Button>
+                      <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
+                        Replace
+                      </Button>
+                      <Button width="100%" kind="danger" icon={faTrash} onClick={handleRemoveSong}>
+                        Remove
+                      </Button>
+                    </FlexBox>
+                  </div>
+                }
+                isOpen={showPopover}
+              >
+                <div ref={buttonRef}>
+                  <Button kind="secondary" isRounded onClick={() => setShowPopover(true)}>
+                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                  </Button>
                 </div>
-              }
-              isOpen={showPopover}
-            >
-              <div ref={buttonRef}>
-                <Button kind="secondary" isRounded onClick={() => setShowPopover(true)}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </Button>
-              </div>
-            </Popover>
-          )}
-        </FlexBox>
-        <FlexBox alignItems="center" gap="1rem" paddingRight="1rem">
-          {song.isCover && <p className="SongDisplay__cover">Cover</p>}
-          <Dial tempo={song.tempo} />
-        </FlexBox>
-      </GridBox>
+              </Popover>
+            <Dial tempo={song.tempo} />
+          </FlexBox>
+        )}
+      </FlexBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
           <SongForm label="Edit Song" defaultSong={song} onSave={handeEdit} onCancel={() => setShowAddSong(false)} />

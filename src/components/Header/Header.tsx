@@ -14,13 +14,13 @@ export const Header = ({isMobile}: {isMobile: boolean}) => {
 
   return (
     <div className="Header" ref={headerRef}>
-      <FlexBox padding='.5rem' gap="1rem" alignItems="center" justifyContent="space-between">
+      <FlexBox padding='1rem' gap="1rem" alignItems="center" justifyContent="space-between">
         {isMobile ? (
           <button className='Header__hamburger-btn' onClick={() => setMenuIsOpen(!menuIsOpen)}>
             <Hamburger isOpen={menuIsOpen} />
           </button>
         ) : (
-          <FlexBox flexDirection='row' gap="1rem" padding='1rem'>
+          <FlexBox flexDirection='row' gap="1rem">
             {links.map(link => <NavLink key={link} className={(navData) => `Header__link Header__link--${navData.isActive ? 'is-active' : ''}`} to={link}>{link}</NavLink>)}
           </FlexBox>
         )}

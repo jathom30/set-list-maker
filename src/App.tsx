@@ -67,3 +67,7 @@ function App() {
 }
 
 export default App;
+
+// TODO optimistic updates across the app
+// TODO Song Display long name overflow
+// TODO Song display preview for dashboard page

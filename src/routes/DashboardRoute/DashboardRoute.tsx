@@ -106,7 +106,7 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
                       const song = getSong(songId)
                       if (song) {
                         return (
-                          <SongDisplay key={songId} song={song} setlistId={id} index={i} isDisabled />
+                          <SongDisplay key={songId} song={song} setlistId={id} index={i} isPreview />
                         )
                       }
                       return <span key={songId}>{songId}</span>

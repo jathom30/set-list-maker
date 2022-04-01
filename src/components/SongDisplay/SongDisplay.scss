@@ -6,15 +6,29 @@
   &--is-editing {
     outline: 2px solid lightblue;
   }
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    overflow: hidden;
+    &--no-child {
+      padding-left: 1rem;
+    }
+  }
   &__popover {
     background: white;
     border-radius: 0.5rem;
   }
+  &__index {
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
   &__name {
     font-weight: bold;
-    span {
-      font-size: 0.8rem;
-    }
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: .25rem 0;
   }
   &__cover {
     font-weight: bold;
