@@ -4,16 +4,25 @@ import { Breadcrumbs, Button, FlexBox, Input, LabelInput, MaxHeightContainer, Mo
 import { SetlistContext } from "context";
 import React, { useContext, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { useParams } from "react-router-dom";
 import { reorder } from "routes/SetlistRoute";
 import './NewSetlistRoute.scss'
 
 export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
-  const {name, setName, setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist} = useContext(SetlistContext)
+  const {name, setName, setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist, createSetlist} = useContext(SetlistContext)
+  const params = useParams()
 
   const handleSave = () => {
     saveSetlists(name)
     setShowSaveSetlist(false)
+  }
+
+  const handleRefresh = () => {
+    const {length, count, covers} = params
+    const includeCovers = covers === 'true'
+    setName('New setlist')
+    createSetlist(parseInt(length || ''), parseInt(count || ''), includeCovers)
   }
 
   const handleRemoveSetlist = (setlistId: string) => {
@@ -91,14 +100,12 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
                 <span className="Breadcrumbs__crumb">{name}</span>
               </LabelInput>
             } />
-            {
-              <Button kind="secondary" isRounded onClick={() => {}}>
-                <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
-                <FontAwesomeIcon icon={faRotate}/>
-                <span>Refresh</span>
-                </FlexBox>
-              </Button>
-            }
+            <Button kind="secondary" isRounded onClick={handleRefresh}>
+              <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
+              <FontAwesomeIcon icon={faRotate}/>
+              <span>Refresh</span>
+              </FlexBox>
+            </Button>
           </FlexBox>
         }
         footer={

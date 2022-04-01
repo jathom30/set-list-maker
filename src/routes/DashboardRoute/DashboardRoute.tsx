@@ -17,7 +17,7 @@ export const DashboardRoute = () => {
   const handleCreateNewSetlists = (length: number, count: number, covers: boolean) => {
     createSetlist(length, count, covers)
     setName('New setlist')
-    navigate('new-setlist')
+    navigate(`new-setlist/${length}/${count}/${covers}`)
   }
 
   const parentListQuery = useQuery('parent-list', getParentLists)

@@ -50,7 +50,7 @@ function App() {
               <SongsRoute />
             </ProtectedRoute>
           } />
-          <Route path="/setlists/new-setlist" element={
+          <Route path="/setlists/new-setlist/:length/:count/:covers" element={
             <ProtectedRoute>
               <NewSetlistRoute isMobile={isMobile} />
             </ProtectedRoute>
