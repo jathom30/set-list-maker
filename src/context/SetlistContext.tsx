@@ -2,9 +2,8 @@ import { createParentSetlists, deleteParentSetlists, updateParentSetlists } from
 import { createSetlists } from "helpers";
 import React, { createContext, Dispatch, SetStateAction, useContext, useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { Song } from "types";
+import { SetlistType, SongWithId } from "types";
 import { SongsContext } from "./SongsContext";
-import {v4 as uuid} from 'uuid'
 
 type SetlistContextType = {
   parentId?: string
@@ -20,7 +19,7 @@ type SetlistContextType = {
   removeSongId: (id: string, setlistId: string) => void
   removeSetlist: (setlistId: string) => void
   createSetlist: (length: number, count: number) => void
-  availableSongs: Song[]
+  availableSongs: SongWithId[]
 }
 
 const defaultValues = {
@@ -48,7 +47,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   // ids are used to track drag and drop of whole setlists
   const [setlistIds, setSetlistIds] = useState<string[]>([])
   // setlists are the object of ids and lists of songs
-  const [setlists, setSetlists] = useState<{[key: string]: string[]}>({})
+  const [setlists, setSetlists] = useState<SetlistType>({})
   const {songs} = useContext(SongsContext)
 
   const queryClient = useQueryClient()
@@ -67,7 +66,6 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       return
     }
     saveSetlistsMutation.mutate({
-      localId: uuid(), // ! may not be needed 
       name,
       setlists,
       setlistIds,

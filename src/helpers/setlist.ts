@@ -1,11 +1,11 @@
-import { Song } from "types";
+import { SongWithId } from 'types'
 import {v4 as uuid} from 'uuid'
 
 function randomIntFromMax(max: number) {
   return Math.floor(Math.random() * max)
 }
 
-const getRandomSong = (songs: Song[]) => {
+const getRandomSong = (songs: SongWithId[]) => {
   const randomSong = songs[randomIntFromMax(songs.length)]
   const remainingSongs = songs.filter(song => song.id !== randomSong.id)
   return {
@@ -14,7 +14,7 @@ const getRandomSong = (songs: Song[]) => {
   }
 }
 
-export const createSetlists = (setlistLength: number, numberOfSetlists: number, songs: Song[]) => {
+export const createSetlists = (setlistLength: number, numberOfSetlists: number, songs: SongWithId[]) => {
   // create array of keys based on number of setlists needed
   const setlistKeys = Array.from({length: numberOfSetlists}, () => uuid())
   
@@ -33,7 +33,7 @@ export const createSetlists = (setlistLength: number, numberOfSetlists: number, 
     let length = 0
     let openersInSet = 0
     let closersInSet = 0
-    let setlist: Song[] = []
+    let setlist: SongWithId[] = []
     
     // add closets first to back fill
     while (closers.length > 0 && closersInSet <= preferredCloserCount && length < setlistLength) {

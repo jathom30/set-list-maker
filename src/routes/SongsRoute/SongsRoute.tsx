@@ -3,16 +3,20 @@ import { Button, FlexBox, Modal, SongForm, SongsTable } from "components";
 import { SongsContext } from "context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
-import { Song } from "types";
 import './SongsRoute.scss'
+import { BasicSong, SongWithId } from "types";
 
 export const SongsRoute = () => {
   const {addSong} = useContext(SongsContext)
   const [showAddSong, setShowAddSong] = useState(false)
   
-  const handleSave = (song: Song) => {
+  const handleSave = (song: BasicSong | SongWithId) => {
+    const basicSong = song as BasicSong
+    const songWithId = song as SongWithId
+    // double check there is no id before being added to db
+    if (songWithId?.id) return
+    addSong(basicSong)
     setShowAddSong(false)
-    addSong(song)
   }
 
   return (

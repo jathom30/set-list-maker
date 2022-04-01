@@ -6,7 +6,6 @@ import { SetlistContext, SongsContext } from 'context';
 import { useOnClickOutside } from 'hooks';
 import React, { ReactNode, useContext, useRef, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { Song } from 'types';
 import './Setlist.scss'
 
 export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dragHandle: ReactNode}) => {
@@ -16,10 +15,10 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
 
   const [showSongSelect, setShowSongSelect] = useState(false)
   const {setlists, setSetlists, removeSetlist} = useContext(SetlistContext)
-  const {songs} = useContext(SongsContext)
+  const {songs, isSuccess} = useContext(SongsContext)
 
-  const setlist: Song[] = setlists[id]?.map(songId => songs?.find(song => song.id === songId) as Song)
-  const setlistLength = setlist.reduce((total, song) => total += song.length, 0)
+  const setlist = setlists[id]?.map(songId => songs?.find(song => song.id === songId))
+  const setlistLength = setlist?.reduce((total, song) => total += (song?.length || 0), 0)
 
   const handleSongSelect = (newSongId: string) => {
     setSetlists(prevSetlists => {
@@ -83,18 +82,18 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {setlist?.map((song, i) => (
-                <Draggable key={song.id} draggableId={song?.id || ''} index={i}>
+              {isSuccess && setlist?.map((song, i) => (
+                <Draggable key={song?.id} draggableId={song?.id || ''} index={i}>
                   {(provided) => (
                     <div
                       className="Setlist__draggable"
                       ref={provided.innerRef} {...provided.draggableProps}
                     >
-                      <SongDisplay song={song} index={i} setlistId={id}>
+                      {song && <SongDisplay song={song} index={i} setlistId={id}>
                         <div className='Setlist__song-handle' {...provided.dragHandleProps}>
                           <FontAwesomeIcon icon={faGrip} />
                         </div>
-                      </SongDisplay>
+                      </SongDisplay>}
                     </div>
                   )}
                 </Draggable>

@@ -2,22 +2,22 @@ import { createSong, deleteSong, getSongs, updateSong } from "api";
 import React, { createContext } from "react";
 import { useIdentityContext } from "react-netlify-identity";
 import { useMutation, useQuery } from "react-query";
-import { Song } from "types";
+import { BasicSong, SongWithId } from "types";
 
 type SongsContextType = {
-  songs?: Song[]
-  addSong: (song: Song) => void
+  songs?: SongWithId[]
+  addSong: (song: BasicSong) => void
   removeSong: (songName: string) => void
-  editSong: (song: Song) => void
+  editSong: (song: SongWithId) => void
   isSuccess: boolean
   isLoading: boolean
 }
 
 const defaultValues = {
   songs: [],
-  addSong: (_song: Song) => undefined,
+  addSong: (_song: BasicSong) => undefined,
   removeSong: (_songName: string) => undefined,
-  editSong: (_song: Song) => undefined,
+  editSong: (_song: SongWithId) => undefined,
   isSuccess: false,
   isLoading: true,
 }
@@ -30,13 +30,13 @@ export const SongsContextProvider: React.FC = ({children}) => {
   const songsQuery = useQuery('songs', getSongs, {
     enabled: isLoggedIn || !!process.env.REACT_APP_IS_DEV,
   })
-  const songs = songsQuery.data?.map(d => d.fields) as Song[] | undefined
+  const songs = songsQuery.data?.map(d => d.fields) as SongWithId[] | undefined
 
   const addSongMutation = useMutation(createSong)
   const deleteSongMutation = useMutation(deleteSong)
   const updateSongMutation = useMutation(updateSong)
   
-  const addSong = (song: Song) => {
+  const addSong = (song: BasicSong) => {
     // TODO make optimistic update
     addSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()
@@ -49,7 +49,7 @@ export const SongsContextProvider: React.FC = ({children}) => {
     })
   }
 
-  const editSong = (song: Song) => {
+  const editSong = (song: SongWithId) => {
     // TODO make optimistic update
     updateSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()

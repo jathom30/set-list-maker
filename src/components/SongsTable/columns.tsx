@@ -1,20 +1,28 @@
 import React, { useContext, useState } from "react"
-import { Feel, Song, SongPlacement, Tempo } from "types"
+import { BasicSong, Feel, SongPlacement, SongWithId, Tempo } from "types"
 import { Column, Row } from 'react-table'
 import { Dial, Button, FlexBox, Modal, SongForm, FeelTag } from "components"
 import { faEdit } from "@fortawesome/free-solid-svg-icons"
 import { SongsContext } from "context"
 
-export const columns: Column<Song>[] = [
+export const columns: Column<SongWithId>[] = [
   {
     Header: 'Name',
     accessor: 'name',
-    Cell: ({value, row}: {value: string; row: Row<Song>}) => {
+    Cell: ({value, row}: {value: string; row: Row<SongWithId>}) => {
       const [showEdit, setShowEdit] = useState(false)
       const {editSong, removeSong} = useContext(SongsContext)
 
       const handleDelete = (id: string) => {
         removeSong(id)
+        setShowEdit(false)
+      }
+
+      const handleEdit = (song: BasicSong | SongWithId) => {
+        const songWithId = song as SongWithId
+        if (songWithId?.id) {
+          editSong(songWithId)
+        }
         setShowEdit(false)
       }
 
@@ -26,7 +34,7 @@ export const columns: Column<Song>[] = [
             <Modal offClick={() => setShowEdit(false)}>
               <SongForm
                 label="Edit Song"
-                onSave={(song) => {setShowEdit(false); editSong(song)}}
+                onSave={handleEdit}
                 onCancel={() => setShowEdit(false)}
                 onDelete={handleDelete}
                 defaultSong={row.original}

@@ -7,14 +7,15 @@ import './SongSelect.scss'
 export const SongSelect = ({label, onChange}: {label: string; onChange: (id: string) => void}) => {
   const {availableSongs} = useContext(SetlistContext)
 
+  
   return (
     <div className="SongSelect">
       <Label>{label}</Label>
       <Select
         getOptionLabel={(option) => option.name}
-        getOptionValue={option => option.localId}
+        getOptionValue={option => option.id}
         options={availableSongs}
-        onChange={(newValue) => newValue && onChange(newValue.localId)}
+        onChange={(newValue) => newValue && onChange(newValue.id)}
         autoFocus
       />
     </div>

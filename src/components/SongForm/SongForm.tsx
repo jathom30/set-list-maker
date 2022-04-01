@@ -4,16 +4,24 @@ import './SongForm.scss'
 import Select from "react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Tempo, Song, SongPlacement, Feel } from "types";
+import { Tempo, SongPlacement, Feel, BasicSong, SongWithId } from "types";
 import { GridBox } from "components/Box";
-import {v4 as uuid} from 'uuid'
 import { capitalizeFirstLetter } from "helpers";
 
 const songTempos: Tempo[] = ['ballad', 'chill', 'medium', 'up', 'burner']
 const songFeels: Feel[] = ['blues', 'country', 'funk', 'latin', 'rock', 'swing', 'other']
 const songPlacements: SongPlacement[] = ['opener', 'closer', 'other']
 
-export const SongForm = ({label, onSave, onCancel, onDelete, defaultSong}: {label: string; onSave: (song: Song) => void; onCancel: () => void; onDelete?: (id: string) => void; defaultSong?: Song}) => {
+export const SongForm = (
+  {label, onSave, onCancel, onDelete, defaultSong}:
+  {
+    label: string;
+    onSave: (song: BasicSong | SongWithId) => void;
+    onCancel: () => void;
+    onDelete?: (id: string) => void;
+    defaultSong?: SongWithId;
+  }
+) => {
   const [name, setName] = useState(defaultSong?.name || '')
   const [length, setLength] = useState(defaultSong?.length || 0)
   const [placement, setPlacement] = useState<SongPlacement | undefined>(defaultSong?.placement)
@@ -34,7 +42,6 @@ export const SongForm = ({label, onSave, onCancel, onDelete, defaultSong}: {labe
       tempo,
       feel,
       isCover,
-      localId: defaultSong?.localId || uuid()
     })
   }
 

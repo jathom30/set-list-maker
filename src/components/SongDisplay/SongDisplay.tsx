@@ -1,14 +1,14 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
 import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
-import { Song } from "types";
 import './SongDisplay.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 import { GridBox } from "components/Box";
+import { BasicSong, SongWithId } from "types";
 
-export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: Song; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
+export const SongDisplay = ({song, setlistId, index, isDisabled = false, children}: {song: SongWithId; setlistId: string; index: number; isDisabled?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
@@ -17,8 +17,12 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
   const {editSong} = useContext(SongsContext)
   const {replaceSongId, removeSongId} = useContext(SetlistContext)
 
-  const handleSave = (song: Song) => {
-    editSong(song)
+  const handeEdit = (song: SongWithId | BasicSong) => {
+    // double check that id is present when editing
+    const songWithId = song as SongWithId
+    if (songWithId?.id) {
+      editSong(songWithId)
+    }
     setShowAddSong(false)
   }
 
@@ -28,11 +32,11 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
   }
 
   const handleReplaceSong = (newId: string) => {
-    replaceSongId(song.localId, newId, setlistId)
+    replaceSongId(song.id, newId, setlistId)
   }
 
   const handleRemoveSong = () => {
-    removeSongId(song.localId, setlistId)
+    removeSongId(song.id, setlistId)
   }
 
   useOnClickOutside(popperRef, () => setShowPopover(false))
@@ -80,7 +84,7 @@ export const SongDisplay = ({song, setlistId, index, isDisabled = false, childre
       </GridBox>
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
-          <SongForm label="Edit Song" defaultSong={song} onSave={handleSave} onCancel={() => setShowAddSong(false)} />
+          <SongForm label="Edit Song" defaultSong={song} onSave={handeEdit} onCancel={() => setShowAddSong(false)} />
         </Modal>
       )}
       {showSongList && (

@@ -1,6 +1,6 @@
-import { Song } from "types";
+import { SongWithId } from "types";
 
-export const someSongs: Song[] = [
+export const someSongs: SongWithId[] = [
     {
         "name": "In a haze",
         "length": 3,
@@ -8,7 +8,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "4aff5804-8e50-4b90-b354-190b4804e12f",
+        "id": "4aff5804-8e50-4b90-b354-190b4804e12f",
     },
     {
         "name": "Telephone call to Istanbul",
@@ -17,7 +17,7 @@ export const someSongs: Song[] = [
         "tempo": "burner",
         "feel": ['other'],
         "isCover": true,
-        "localId": "776c8aab-7ba2-4159-8357-8b6bda486a56",
+        "id": "776c8aab-7ba2-4159-8357-8b6bda486a56",
     },
     {
         "name": "Airship",
@@ -26,7 +26,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "b20b150a-4e62-4598-a1d3-53a158730678",
+        "id": "b20b150a-4e62-4598-a1d3-53a158730678",
     },
     {
         "name": "Tower Song",
@@ -35,7 +35,7 @@ export const someSongs: Song[] = [
         "tempo": "up",
         "feel": ['other'],
         "isCover": false,
-        "localId": "8b919222-083c-475c-89c8-4d97895387fb",
+        "id": "8b919222-083c-475c-89c8-4d97895387fb",
     },
     {
         "name": "Sex and Trainwrecks",
@@ -44,7 +44,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "a38d641f-65e0-4716-b235-6abfe6b63927",
+        "id": "a38d641f-65e0-4716-b235-6abfe6b63927",
     },
     {
         "name": "Dead Cats",
@@ -53,7 +53,7 @@ export const someSongs: Song[] = [
         "tempo": "burner",
         "feel": ['other'],
         "isCover": false,
-        "localId": "7b74e9b4-77b3-466e-8fec-bb2feee511a7",
+        "id": "7b74e9b4-77b3-466e-8fec-bb2feee511a7",
     },
     {
         "name": "Sidewinder",
@@ -62,7 +62,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "543ea948-61e1-476f-b7d9-4969c1a7c81b",
+        "id": "543ea948-61e1-476f-b7d9-4969c1a7c81b",
     },
     {
         "name": "A Certain Shuffle",
@@ -71,7 +71,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "9bb6f513-1386-4f6e-87af-1db80ccc4b06",
+        "id": "9bb6f513-1386-4f6e-87af-1db80ccc4b06",
     },
     {
         "name": "Anita",
@@ -80,7 +80,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "ba13324c-db30-429e-b639-6959453345c9",
+        "id": "ba13324c-db30-429e-b639-6959453345c9",
     },
     {
         "name": "Boring Little Play",
@@ -89,7 +89,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "e2964950-a0db-4060-be07-0d6d6976ac32",
+        "id": "e2964950-a0db-4060-be07-0d6d6976ac32",
     },
     {
         "name": "Cake and Circus",
@@ -98,7 +98,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "5b95b593-a989-4e1f-b3c8-5816c1167c2e",
+        "id": "5b95b593-a989-4e1f-b3c8-5816c1167c2e",
     },
     {
         "name": "Code and Cohost",
@@ -107,7 +107,7 @@ export const someSongs: Song[] = [
         "tempo": "up",
         "feel": ['other'],
         "isCover": false,
-        "localId": "29c618a2-c7d4-4a27-92e9-01ef78fd29b4",
+        "id": "29c618a2-c7d4-4a27-92e9-01ef78fd29b4",
     },
     {
         "name": "Confidence Man",
@@ -116,7 +116,7 @@ export const someSongs: Song[] = [
         "tempo": "ballad",
         "feel": ['other'],
         "isCover": false,
-        "localId": "abac490a-75e0-40d7-9e6f-e15c0e16f5b9",
+        "id": "abac490a-75e0-40d7-9e6f-e15c0e16f5b9",
     },
     {
         "name": "Dear L",
@@ -125,7 +125,7 @@ export const someSongs: Song[] = [
         "tempo": "burner",
         "feel": ['other'],
         "isCover": false,
-        "localId": "717f2566-2d28-49f3-97ad-2b05001808f5",
+        "id": "717f2566-2d28-49f3-97ad-2b05001808f5",
     },
     {
         "name": "Golden Noise",
@@ -134,7 +134,7 @@ export const someSongs: Song[] = [
         "tempo": "ballad",
         "feel": ['other'],
         "isCover": false,
-        "localId": "5e370e69-9688-48ea-9f73-f7e62618a83e",
+        "id": "5e370e69-9688-48ea-9f73-f7e62618a83e",
     },
     {
         "name": "Hardest Decision",
@@ -143,7 +143,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "d810f897-9b6c-475f-8317-a8a348f91c40",
+        "id": "d810f897-9b6c-475f-8317-a8a348f91c40",
     },
     {
         "name": "High Wire",
@@ -152,7 +152,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "8a15df22-078a-4636-a554-5dabd0d32d12",
+        "id": "8a15df22-078a-4636-a554-5dabd0d32d12",
     },
     {
         "name": "House Rules",
@@ -161,7 +161,7 @@ export const someSongs: Song[] = [
         "tempo": "ballad",
         "feel": ['other'],
         "isCover": false,
-        "localId": "3e9baee2-b5a3-483c-93a0-ae61b74ea45e",
+        "id": "3e9baee2-b5a3-483c-93a0-ae61b74ea45e",
     },
     {
         "name": "Maybe",
@@ -170,7 +170,7 @@ export const someSongs: Song[] = [
         "tempo": "up",
         "feel": ['other'],
         "isCover": false,
-        "localId": "6fbc885c-93d5-41cf-a28c-7333067ca86f",
+        "id": "6fbc885c-93d5-41cf-a28c-7333067ca86f",
     },
     {
         "name": "Me and Mary Magdalene",
@@ -179,7 +179,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "32ab512a-64d4-4194-b111-b71c4b0c2bd0",
+        "id": "32ab512a-64d4-4194-b111-b71c4b0c2bd0",
     },
     {
         "name": "Packed",
@@ -188,7 +188,7 @@ export const someSongs: Song[] = [
         "tempo": "up",
         "feel": ['other'],
         "isCover": false,
-        "localId": "1da9aa2a-6f3f-4200-895f-a68f87810763",
+        "id": "1da9aa2a-6f3f-4200-895f-a68f87810763",
     },
     {
         "name": "Rorschach Test",
@@ -197,7 +197,7 @@ export const someSongs: Song[] = [
         "tempo": "up",
         "feel": ['other'],
         "isCover": false,
-        "localId": "bb380b89-6f16-446a-bce7-729649cb0d48",
+        "id": "bb380b89-6f16-446a-bce7-729649cb0d48",
     },
     {
         "name": "Sewn to the Wall",
@@ -206,7 +206,7 @@ export const someSongs: Song[] = [
         "tempo": "medium",
         "feel": ['other'],
         "isCover": false,
-        "localId": "676f2364-09d5-45a7-a844-e83c1aaccf49",
+        "id": "676f2364-09d5-45a7-a844-e83c1aaccf49",
     },
     {
         "name": "Simple Security",
@@ -215,7 +215,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "96df18a5-5583-41d8-b1a6-631eb1772653",
+        "id": "96df18a5-5583-41d8-b1a6-631eb1772653",
     },
     {
         "name": "Sound in your Head",
@@ -224,7 +224,7 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "559744c1-0f63-4430-898a-69730890af60",
+        "id": "559744c1-0f63-4430-898a-69730890af60",
     },
     {
         "name": "Sucker for a tomboy",
@@ -233,7 +233,7 @@ export const someSongs: Song[] = [
         "tempo": "burner",
         "feel": ['other'],
         "isCover": false,
-        "localId": "aeb5bf92-2fc6-472b-840a-54665c5774c5",
+        "id": "aeb5bf92-2fc6-472b-840a-54665c5774c5",
     },
     {
         "name": "Trinkets and Steam",
@@ -242,6 +242,6 @@ export const someSongs: Song[] = [
         "tempo": "chill",
         "feel": ['other'],
         "isCover": false,
-        "localId": "465d6fa6-dd3c-4d99-a8cc-4493feee5336",
+        "id": "465d6fa6-dd3c-4d99-a8cc-4493feee5336",
     }
 ]
