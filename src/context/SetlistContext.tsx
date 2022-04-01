@@ -7,13 +7,12 @@ import { SongsContext } from "./SongsContext";
 
 type SetlistContextType = {
   parentId?: string
-  setParentId: (id?: string) => void
   setlistIds: string[]
   setSetlistIds: Dispatch<SetStateAction<string[]>>
   setlists: {[key: string]: string[]}
   setSetlists: Dispatch<SetStateAction<{[key: string]: string[]}>>
   saveSetlists: (name: string) => void
-  updateSetlists: (name: string) => void
+  updateSetlists: (id: string, name: string) => void
   deleteSetlists: (id: string) => void
   replaceSongId: (originalId: string, replacementId: string, setlistId: string) => void
   removeSongId: (id: string, setlistId: string) => void
@@ -24,13 +23,12 @@ type SetlistContextType = {
 
 const defaultValues = {
   parentId: undefined,
-  setParentId: (_id?: string) => undefined,
   setlistIds: [],
   setSetlistIds: (_value: SetStateAction<string[]>) => undefined,
   setlists: {},
   setSetlists: (_value: SetStateAction<{[key: string]: string[]}>) => undefined,
   saveSetlists: (_name: string) => undefined,
-  updateSetlists: (_name: string) => undefined,
+  updateSetlists: (_id: string, _name: string) => undefined,
   deleteSetlists: (_id: string) => undefined,
   replaceSongId: (_originalId: string, _replacementId: string, _setlistId: string) => undefined,
   removeSongId: (_id: string, _setlistId: string) => undefined,
@@ -42,8 +40,8 @@ const defaultValues = {
 export const SetlistContext = createContext<SetlistContextType>(defaultValues)
 
 export const SetlistContextProvider: React.FC = ({ children }) => {
-  // can be undefined if working with a new setlist not in the database
-  const [parentId, setParentId] = useState<string>()
+  // ? Good idea
+  const [name, setName] = useState('')
   // ids are used to track drag and drop of whole setlists
   const [setlistIds, setSetlistIds] = useState<string[]>([])
   // setlists are the object of ids and lists of songs
@@ -61,10 +59,6 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const saveSetlistsMutation = useMutation(createParentSetlists)
   
   const saveSetlists = (name: string) => {
-    // if setlist has an id, its already in the database, so update rather than create
-    if (parentId) {
-      return
-    }
     saveSetlistsMutation.mutate({
       name,
       setlists,
@@ -76,9 +70,9 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   }
 
   const updateSetlistsMutation = useMutation(updateParentSetlists)
-  const updateSetlists = (name: string) => {
+  const updateSetlists = (id: string, name: string) => {
     updateSetlistsMutation.mutate({
-      id: parentId,
+      id,
       name,
       setlists,
       setlistIds,
@@ -137,8 +131,6 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const availableSongs = songs?.filter(song => usedSongs.every(id => id !== song.id)) || []
 
   const value = {
-    parentId,
-    setParentId,
     setlistIds,
     setSetlistIds,
     setlists,

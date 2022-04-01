@@ -2,8 +2,9 @@ import React, { useContext, useState } from "react"
 import { BasicSong, Feel, SongPlacement, SongWithId, Tempo } from "types"
 import { Column, Row } from 'react-table'
 import { Dial, Button, FlexBox, Modal, SongForm, FeelTag } from "components"
-import { faEdit } from "@fortawesome/free-solid-svg-icons"
+import { faBackwardStep, faEdit, faForwardStep } from "@fortawesome/free-solid-svg-icons"
 import { SongsContext } from "context"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export const columns: Column<SongWithId>[] = [
   {
@@ -73,9 +74,19 @@ export const columns: Column<SongWithId>[] = [
     Cell: ({value}: {value: SongPlacement}) => {
       switch (value) {
         case 'opener':
-          return <span>Opener</span>
+          return (
+            <FlexBox justifyContent="center" alignItems="center" gap="0.5rem">
+              <FontAwesomeIcon icon={faBackwardStep} />
+              <span>Opener</span>
+            </FlexBox>
+          )
         case 'closer':
-          return <span>Closer</span>
+          return (
+            <FlexBox justifyContent="center" alignItems="center" gap="0.5rem">
+              <span>Closer</span>
+              <FontAwesomeIcon icon={faForwardStep} />
+            </FlexBox>
+          )
         default: 
           return ''
       }

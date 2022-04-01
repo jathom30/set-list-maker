@@ -2,7 +2,9 @@ import { FieldSet } from 'airtable';
 import { ParentSetlistType } from 'types';
 import { base } from './setup';
 
-export const getParentList = () => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').select().firstPage()
+export const getParentLists = () => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').select().firstPage()
+
+export const getParentList = (id: string) => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').find(id)
 
 export const createParentSetlists = (parent: ParentSetlistType) => {
   const fields = {

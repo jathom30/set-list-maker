@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import React, { useContext, useState } from "react";
 import './DashboardRoute.scss'
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { deleteParentSetlists, getParentList } from "api";
+import { deleteParentSetlists, getParentLists } from "api";
 import { ParentSetlistType } from "types";
 import { SetlistContext, SongsContext } from "context";
 import { faPlusCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -12,16 +12,14 @@ export const DashboardRoute = () => {
   const [showSetlistForm, setShowSetlistForm] = useState(false)
   const navigate = useNavigate()
 
-  const {createSetlist, setParentId} = useContext(SetlistContext)
+  const {createSetlist} = useContext(SetlistContext)
 
   const handleCreateNewSetlists = (length: number, count: number) => {
     createSetlist(length, count)
-    setParentId(undefined)
     navigate('new-setlist')
   }
 
-  const parentListQuery = useQuery('parent-list', getParentList, {retry: false})
-
+  const parentListQuery = useQuery('parent-list', getParentLists)
   const parentLists = parentListQuery.data?.map(record => ({...record.fields, setlists: JSON.parse(record.fields.setlists as string), setlistIds: JSON.parse(record.fields.setlistIds as string)})) as ParentSetlistType[]
 
   return (
@@ -62,16 +60,11 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const {setlistIds, setlists, name} = list
   const navigate = useNavigate()
   const {songs, isLoading, isSuccess} = useContext(SongsContext)
-  const {setSetlistIds, setSetlists, setParentId} = useContext(SetlistContext)
   const getSong = (id: string) => songs?.find(song => song.id === id)
 
   const handleSelect = () => {
-    setSetlistIds(setlistIds)
-    setSetlists(setlists)
-    if (list?.id) {
-      setParentId(list.id)
-    }
-    navigate(list.name)
+    if (!list?.id) return
+    navigate(list.id)
   }
 
   const queryClient = useQueryClient()

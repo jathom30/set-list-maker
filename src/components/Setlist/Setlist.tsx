@@ -8,25 +8,26 @@ import React, { ReactNode, useContext, useRef, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
 import './Setlist.scss'
 
-export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dragHandle: ReactNode}) => {
+export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
+  id: string;
+  label: string;
+  dragHandle: ReactNode;
+  onRemoveSetlist: (setlistId: string) => void;
+  onAddSong: (setlistId: string, songId: string) => void;
+}) => {
   const [showPopover, setShowPopover] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
 
   const [showSongSelect, setShowSongSelect] = useState(false)
-  const {setlists, setSetlists, removeSetlist} = useContext(SetlistContext)
+  const {setlists} = useContext(SetlistContext)
   const {songs, isSuccess} = useContext(SongsContext)
 
   const setlist = setlists[id]?.map(songId => songs?.find(song => song.id === songId))
   const setlistLength = setlist?.reduce((total, song) => total += (song?.length || 0), 0)
 
   const handleSongSelect = (newSongId: string) => {
-    setSetlists(prevSetlists => {
-      return {
-        ...prevSetlists,
-        [id]: [...prevSetlists[id], newSongId]
-      }
-    })
+    onAddSong(id, newSongId)
     setShowSongSelect(false)
   }
 
@@ -36,9 +37,11 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
   }
 
   const handleRemoveSetlist = () => {
-    removeSetlist(id)
+    onRemoveSetlist(id)
     setShowPopover(false)
   }
+
+  const setlistCount = Object.keys(setlists).length
 
   useOnClickOutside(popperRef, () => setShowPopover(false))
 
@@ -60,9 +63,11 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
                   <Button width='100%' kind="secondary" icon={faPlus} onClick={handleShowAddSong}>
                     Add Song
                   </Button>
-                  <Button width='100%' kind="danger" icon={faTrash} onClick={handleRemoveSetlist}>
-                    Remove set
-                  </Button>
+                  {setlistCount > 1 && (
+                    <Button width='100%' kind="danger" icon={faTrash} onClick={handleRemoveSetlist}>
+                      Remove set
+                    </Button>
+                  )}
                 </FlexBox>
               </div>
             }
@@ -89,11 +94,13 @@ export const Setlist = ({id, label, dragHandle}: {id: string; label: string; dra
                       className="Setlist__draggable"
                       ref={provided.innerRef} {...provided.draggableProps}
                     >
-                      {song && <SongDisplay song={song} index={i} setlistId={id}>
-                        <div className='Setlist__song-handle' {...provided.dragHandleProps}>
-                          <FontAwesomeIcon icon={faGrip} />
-                        </div>
-                      </SongDisplay>}
+                      {song && (
+                        <SongDisplay song={song} index={i} setlistId={id}>
+                          <div className='Setlist__song-handle' {...provided.dragHandleProps}>
+                            <FontAwesomeIcon icon={faGrip} />
+                          </div>
+                        </SongDisplay>
+                      )}
                     </div>
                   )}
                 </Draggable>

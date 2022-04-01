@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { Header, LoginForm, MaxHeightContainer } from 'components';
 import {Routes, Route, Navigate} from 'react-router-dom'
-import { DashboardRoute, SetlistRoute, SongsRoute } from 'routes';
+import { DashboardRoute, NewSetlistRoute, SetlistRoute, SongsRoute } from 'routes';
 import { useIdentityContext } from 'react-netlify-identity';
 
 const ProtectedRoute = ({children}: {children: JSX.Element}) => {
@@ -52,10 +52,10 @@ function App() {
           } />
           <Route path="/setlists/new-setlist" element={
             <ProtectedRoute>
-              <SetlistRoute isMobile={isMobile} />
+              <NewSetlistRoute isMobile={isMobile} />
             </ProtectedRoute>
           } />
-          <Route path="/setlists/:name" element={
+          <Route path="/setlists/:id" element={
             <ProtectedRoute>
               <SetlistRoute isMobile={isMobile} />
             </ProtectedRoute>
