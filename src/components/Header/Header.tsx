@@ -12,7 +12,7 @@ export const Header = ({isMobile}: {isMobile: boolean}) => {
   const {logoutUser} = useIdentityContext()
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const headerRef = useRef<HTMLDivElement>(null)
-
+  
   useOnClickOutside(headerRef, () => setMenuIsOpen(false))
 
   return (

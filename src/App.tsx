@@ -13,9 +13,7 @@ const ProtectedRoute = ({children}: {children: JSX.Element}) => {
 
 function App() {
   const [width, setWidth] = useState(0)
-  const { isLoggedIn, user } = useIdentityContext()
-
-  console.log(user)
+  const { isLoggedIn } = useIdentityContext()
 
   useEffect(() => {
     const handleResize = () => {
@@ -69,7 +67,3 @@ function App() {
 }
 
 export default App;
-
-// TODO optimistic updates across the app
-// TODO Song Display long name overflow
-// TODO Song display preview for dashboard page

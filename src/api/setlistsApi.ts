@@ -2,9 +2,11 @@ import { FieldSet } from 'airtable';
 import { ParentSetlistType } from 'types';
 import { base } from './setup';
 
-export const getParentLists = () => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').select().firstPage()
+const parentBase = base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '')
 
-export const getParentList = (id: string) => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').find(id)
+export const getParentLists = () => parentBase.select().firstPage()
+
+export const getParentList = (id: string) => parentBase.find(id)
 
 export const createParentSetlists = (parent: ParentSetlistType) => {
   const fields = {
@@ -12,10 +14,10 @@ export const createParentSetlists = (parent: ParentSetlistType) => {
     setlists: JSON.stringify(parent.setlists),
     setlistIds: JSON.stringify(parent.setlistIds),
   }
-  return base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').create([{fields}])
+  return parentBase.create([{fields}])
 }
 
-export const deleteParentSetlists = (id: string) => base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').destroy(id)
+export const deleteParentSetlists = (id: string) => parentBase.destroy(id)
 
 export const updateParentSetlists = (parent: ParentSetlistType) => {
   const {id, ...fields} = parent
@@ -24,5 +26,5 @@ export const updateParentSetlists = (parent: ParentSetlistType) => {
     setlists: JSON.stringify(parent.setlists),
     setlistIds: JSON.stringify(parent.setlistIds),
   }
-  return base(process.env.REACT_APP_AIRTABLE_PARENT_TABLE || '').update([{id: id || '', fields: updatedFields}])
+  return parentBase.update([{id: id || '', fields: updatedFields}])
 }

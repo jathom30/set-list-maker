@@ -118,7 +118,10 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
           </div>
           <FlexBox padding="1rem" paddingTop="0" justifyContent="space-between">
             <p className="SetlistsPreview__date">{setlistIds.length} set(s)</p>
-            <p className="SetlistsPreview__date">Last updated: {readableDate}</p>
+            <FlexBox flexDirection="column" gap=".25rem" alignItems="flex-end">
+              <p className="SetlistsPreview__date">Last updated: {readableDate}</p>
+              <p className="SetlistsPreview__date">Updated by: {list.modifiedBy}</p>
+            </FlexBox>
           </FlexBox>
         </FlexBox>
         {deleteSetlistsMutation.isLoading && (
@@ -133,6 +136,3 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
     <div />
   )
 }
-
-// TODO better loading
-// TODO optimistic learning for setlists

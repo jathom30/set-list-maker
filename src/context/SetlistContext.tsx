@@ -5,6 +5,7 @@ import React, { createContext, Dispatch, SetStateAction, useContext, useState } 
 import { useMutation, useQueryClient } from "react-query";
 import { SetlistType, SongWithId } from "types";
 import { SongsContext } from "./SongsContext";
+import { useIdentityContext } from "react-netlify-identity";
 
 type SetlistContextType = {
   detectChange: boolean
@@ -58,6 +59,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
   const [setlists, setSetlists] = useState<SetlistType>({})
   const {songs} = useContext(SongsContext)
   const navigate = useNavigate()
+  const {user} = useIdentityContext()
 
   const queryClient = useQueryClient()
 
@@ -76,6 +78,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       setlists,
       setlistIds,
       dateModified: new Date().toISOString(),
+      modifiedBy: user?.email || '',
     }, {
       onSuccess: (data) => {
         queryClient.invalidateQueries('parent-list');
@@ -93,6 +96,7 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       setlists,
       setlistIds,
       dateModified: new Date().toISOString(),
+      modifiedBy: user?.email || '',
     })
   }
 

@@ -37,7 +37,6 @@ export const SongsContextProvider: React.FC = ({children}) => {
   const updateSongMutation = useMutation(updateSong)
   
   const addSong = (song: BasicSong) => {
-    // TODO make optimistic update
     addSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()
     })
@@ -50,7 +49,6 @@ export const SongsContextProvider: React.FC = ({children}) => {
   }
 
   const editSong = (song: SongWithId) => {
-    // TODO make optimistic update
     updateSongMutation.mutate(song, {
       onSuccess: () => songsQuery.refetch()
     })
