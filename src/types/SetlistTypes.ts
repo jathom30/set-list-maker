@@ -9,6 +9,6 @@ export type ParentSetlistType = {
     [key: string]: string[]
   };
   setlistIds: string[];
-  dateModified: string;
+  dateModified?: string;
   modifiedBy: string;
 }

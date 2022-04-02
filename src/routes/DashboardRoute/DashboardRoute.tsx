@@ -79,7 +79,8 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
 
   const handleDelete = () => list?.id && deleteSetlists(list.id)
 
-  const readableDate = new Date(list.dateModified).toLocaleDateString()
+  const readableDate = new Date(list?.dateModified || '').toLocaleDateString()
+  const readableTime = new Date(list?.dateModified || '').toLocaleTimeString()
 
   if (isLoading) {
     return (
@@ -119,8 +120,9 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
           <FlexBox padding="1rem" paddingTop="0" justifyContent="space-between">
             <p className="SetlistsPreview__date">{setlistIds.length} set(s)</p>
             <FlexBox flexDirection="column" gap=".25rem" alignItems="flex-end">
-              <p className="SetlistsPreview__date">Last updated: {readableDate}</p>
-              <p className="SetlistsPreview__date">Updated by: {list.modifiedBy}</p>
+              <p className="SetlistsPreview__date"><span>Last Updated:</span> {readableDate}</p>
+              <p className="SetlistsPreview__date">{readableTime}</p>
+              <p className="SetlistsPreview__date">{list.modifiedBy}</p>
             </FlexBox>
           </FlexBox>
         </FlexBox>

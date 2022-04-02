@@ -23,6 +23,9 @@
     font-size: 0.75rem;
     font-weight: bold;
     color: grey;
+    span {
+      font-weight: normal;
+    }
   }
   &__loading {
     position: absolute;

@@ -77,7 +77,6 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       name,
       setlists,
       setlistIds,
-      dateModified: new Date().toISOString(),
       modifiedBy: user?.email || '',
     }, {
       onSuccess: (data) => {
@@ -95,7 +94,6 @@ export const SetlistContextProvider: React.FC = ({ children }) => {
       name,
       setlists,
       setlistIds,
-      dateModified: new Date().toISOString(),
       modifiedBy: user?.email || '',
     })
   }
