@@ -1,6 +1,6 @@
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { Button, FlexBox, Label } from "components";
-import React, { ChangeEvent, KeyboardEvent, KeyboardEventHandler, useEffect, useState } from "react";
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import './UpDownInput.scss'
 
 export const UpDownInput = ({label, name, initialValue, onChange}: {label: string; name: string; initialValue: number; onChange: (val: number) => void}) => {

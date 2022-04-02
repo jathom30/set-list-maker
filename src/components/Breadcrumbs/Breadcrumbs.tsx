@@ -3,7 +3,7 @@ import { FlexBox } from "components";
 import { Link } from "react-router-dom";
 import './Breadcrumbs.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faFolder, faHome } from "@fortawesome/free-solid-svg-icons";
+import { faFolder } from "@fortawesome/free-solid-svg-icons";
 
 export const Breadcrumbs = ({currentRoute}: {currentRoute?: ReactNode}) => {
   return (
@@ -11,7 +11,7 @@ export const Breadcrumbs = ({currentRoute}: {currentRoute?: ReactNode}) => {
       <FlexBox gap=".5rem" alignItems="center">
         <Link to="/setlists" className={`Breadcrumbs__crumb ${currentRoute ? 'Breadcrumbs__crumb--not-active': ''}`}>
           <span className="Breadcrumbs__back--mobile">
-            <FontAwesomeIcon icon={faFolder} />
+            <FontAwesomeIcon color="grey" icon={faFolder} />
           </span>
           <span className="Breadcrumbs__back--desktop">
             Your setlists

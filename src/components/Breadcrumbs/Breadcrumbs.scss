@@ -9,6 +9,7 @@
     white-space: nowrap;
     &--not-active {
       font-weight: normal;
+      color: grey;
       &:hover {
         background: lightgrey;
       }
