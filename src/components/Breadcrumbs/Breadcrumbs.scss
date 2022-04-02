@@ -14,4 +14,18 @@
       }
     }
   }
+  &__back--mobile {
+    display: none;
+  }
+  &__back--desktop {
+    display: inline-block;
+  }
+  @media screen and (max-width: 450px) {
+    &__back--mobile {
+      display: inline-block;
+    }
+    &__back--desktop {
+      display: none;
+    }
+  }
 }

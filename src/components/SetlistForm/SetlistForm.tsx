@@ -1,6 +1,6 @@
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FlexBox, Input, Button, Label } from "components";
+import { FlexBox, Button, Label, UpDownInput } from "components";
 import React, { ChangeEvent, useState } from "react";
 import './SetlistForm.scss'
 
@@ -20,8 +20,8 @@ export const SetlistForm = ({onSave}: {onSave: (length: number, count: number, c
       <form onSubmit={handleSave}>
         <FlexBox flexDirection="column" padding="1rem" gap="1rem">
           <h3>Create Setlist</h3>
-          <Input label="Set length (in minutes)" value={length} onChange={(val) => setLength(parseInt(val))} name="set-length" />
-          <Input label="Number of sets" value={count} onChange={(val) => setCount(parseInt(val))} name="set-length" />
+          <UpDownInput label="Set length (in minutes)" initialValue={length} onChange={setLength} name="set-length" />
+          <UpDownInput label="Number of sets" initialValue={count} onChange={setCount} name="set-count" />
           <label htmlFor="covers">
             <FlexBox alignItems="center" gap=".5rem">
               <Label>Include Covers?</Label>

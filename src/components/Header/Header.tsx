@@ -27,7 +27,9 @@ export const Header = ({isMobile}: {isMobile: boolean}) => {
             {links.map(link => <NavLink key={link} className={(navData) => `Header__link Header__link--${navData.isActive ? 'is-active' : ''}`} to={link}>{link}</NavLink>)}
           </FlexBox>
         )}
-        <Button isRounded onClick={logoutUser} icon={faSignOut}>Log out</Button>
+        <Button isRounded onClick={logoutUser} icon={faSignOut}>
+          <span className="Breadcrumbs__back--desktop">Log out</span>
+        </Button>
       </FlexBox>
       {isMobile && menuIsOpen && (
         <FlexBox flexDirection='column' gap="1rem" padding='1rem'>

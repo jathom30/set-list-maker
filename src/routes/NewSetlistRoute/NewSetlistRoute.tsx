@@ -103,14 +103,16 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
             <Button kind="secondary" isRounded onClick={handleRefresh}>
               <FlexBox paddingLeft="0.25rem" paddingRight="0.25rem" gap=".5rem">
               <FontAwesomeIcon icon={faRotate}/>
-              <span>Refresh</span>
+              <span className="Breadcrumbs__back--desktop">Refresh</span>
               </FlexBox>
             </Button>
           </FlexBox>
         }
         footer={
           <div className="SetlistRoute__footer">
-            <Button onClick={() => setShowSaveSetlist(true)} icon={faSave} kind="primary">Save</Button>
+            <Button onClick={() => setShowSaveSetlist(true)} icon={faSave} kind="primary">
+              <span className="Breadcrumbs__back--desktop">Save</span>
+            </Button>
             {showSaveSetlist && (
               <Modal>
                 <div className="SetlistRoute__save-list-modal">

@@ -7,6 +7,7 @@ import { faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Tempo, SongPlacement, Feel, BasicSong, SongWithId } from "types";
 import { GridBox } from "components/Box";
 import { capitalizeFirstLetter } from "helpers";
+import { UpDownInput } from "components/UpDownInput";
 
 const songTempos: Tempo[] = ['ballad', 'chill', 'medium', 'up', 'burner']
 const songFeels: Feel[] = ['blues', 'country', 'funk', 'latin', 'rock', 'swing', 'other']
@@ -89,7 +90,7 @@ export const SongForm = (
                   </FlexBox>
                 </label>
               </FlexBox>
-              <Input label="Approx. song length (in minutes)" value={length} onChange={(val) => setLength(parseFloat(val))} name="song-length" />
+              <UpDownInput label="Approx. song length (in minutes)" initialValue={length} onChange={setLength} name="song-length" />
               <FlexBox flexDirection="column" gap="0.25rem">
                 <Label>Tempo</Label>
                 <Select
