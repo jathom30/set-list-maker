@@ -13,7 +13,9 @@ const ProtectedRoute = ({children}: {children: JSX.Element}) => {
 
 function App() {
   const [width, setWidth] = useState(0)
-  const { isLoggedIn } = useIdentityContext()
+  const { isLoggedIn, user } = useIdentityContext()
+
+  console.log(user)
 
   useEffect(() => {
     const handleResize = () => {
