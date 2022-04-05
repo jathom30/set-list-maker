@@ -3,16 +3,16 @@
   width: auto;
   padding-bottom: 0.25rem;
   * {
-    fill: grey;
+    fill: var(--color-text-subdued);
   }
   &--ballad {
     * {
-      fill: rgb(29, 118, 148);
+      fill: var(--color-secondary);
     }
   }
   &--burner {
     * {
-      fill: red;
+      fill: var(--color-danger);
     }
   }
 }
