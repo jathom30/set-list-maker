@@ -62,6 +62,26 @@ export const createSetlists = (setlistLength: number, numberOfSetlists: number, 
       others = remainingSongs
       length += randomSong.length
     }
+
+    // check that only one ballad exists in the set, replace any additional ballads
+    let balladCount = setlist.filter(song => song.tempo === 'ballad')?.length || 0
+    let othersSansBallads = others.filter(song => song.tempo !== 'ballad')
+    const balladsPerHour = 1
+    const recommendedBalladsPerSet = Math.round(setlistLength / 60 / balladsPerHour)
+    while (balladCount > recommendedBalladsPerSet) {
+      const {randomSong, remainingSongs} = getRandomSong(othersSansBallads)
+      // get first ballad index
+      const balladIndex = setlist.findIndex(song => song?.tempo === 'ballad')
+      // subract its length from overall set length
+      length -= setlist[balladIndex]?.length
+      setlist = [...setlist.slice(0, balladIndex), randomSong, ...setlist.slice(balladIndex + 1)]
+      othersSansBallads = remainingSongs
+      // add length back with replacement song
+      length += randomSong?.length
+      // recalc ballad count to update while loop
+      balladCount = setlist.filter(song => song.tempo === 'ballad')?.length || 0
+    }
+
     return {
       ...acc,
       // map setlist to ids so we can pull the actual song to the user instead of a copy
