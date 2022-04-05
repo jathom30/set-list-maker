@@ -7,7 +7,7 @@
     .SongsTable__tr {
       position: sticky;
       top: 0;
-      background: rgb(204, 204, 204);
+      background: var(--color-component-background-darken);
     }
   }
   &__th {
