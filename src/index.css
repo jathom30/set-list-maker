@@ -7,7 +7,14 @@
   --color-background: #f3f3f3;
   --color-component-background: #ffffff;
   --color-component-background-alt: #e6e6e6;
+  --color-component-background-darken: #cbcbcb;
   --color-text: #000000;
+  --color-text-subdued: #808080;
+
+  --color-success: #90ee90;
+  --color-success-text: #008000;
+  --color-danger: #ff4400;
+  --color-secondary: #79b6ca;
 }
 
 body {
@@ -29,15 +36,9 @@ h2,
 h3,
 h4,
 h5,
-p,
-a,
-span {
+label,
+p {
   margin: 0;
-  color: var(--color-text);
-}
-
-div {
-  color: var(--color-text);
 }
 
 * {
