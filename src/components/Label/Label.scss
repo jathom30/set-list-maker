@@ -1,4 +1,8 @@
 .Label {
   font-size: 0.75rem;
   font-weight: bold;
+  &__required {
+    font-size: .65;
+    font-weight: normal;
+  }
 }

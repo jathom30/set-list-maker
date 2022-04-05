@@ -29,7 +29,7 @@ export const Input: React.FC<{
 
   return (
     <label className='Input' htmlFor={name}>
-      <Label>{label}</Label>
+      <Label required={required}>{label}</Label>
       <div className="Input__container">
         <input
           className='Input__input'
@@ -41,7 +41,6 @@ export const Input: React.FC<{
           onBlur={handleBlur}
           step={step}
         />
-        {required && <div className="Input__dot" />}
       </div>
     </label>
   )

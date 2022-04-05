@@ -80,7 +80,7 @@ export const SongForm = (
             </FlexBox>
           ) : (
             <>
-              <Input label="Song name" value={name} onChange={(val) => setName(val)} name="song-name" />
+              <Input required label="Song name" value={name} onChange={(val) => setName(val)} name="song-name" />
               <FlexBox gap="2rem">
                 <label htmlFor="exclude">
                   <FlexBox alignItems="center" gap="0.25rem">
@@ -95,9 +95,9 @@ export const SongForm = (
                   </FlexBox>
                 </label>
               </FlexBox>
-              <UpDownInput label="Approx. song length (in minutes)" initialValue={length} onChange={setLength} name="song-length" />
+              <UpDownInput required label="Approx. song length (in minutes)" initialValue={length} onChange={setLength} name="song-length" />
               <FlexBox flexDirection="column" gap="0.25rem">
-                <Label>Tempo</Label>
+                <Label required>Tempo</Label>
                 <Select
                   defaultValue={tempo && {label: capitalizeFirstLetter(tempo), value: tempo}}
                   onChange={(newValue) => newValue && setTempo(newValue.value)}
@@ -129,7 +129,7 @@ export const SongForm = (
                 />
               </FlexBox>
               <FlexBox flexDirection="column" gap="0.25rem">
-                <Label>Preferred placement</Label>
+                <Label required>Preferred placement</Label>
                 <FlexBox gap="1rem" justifyContent="space-between">
                   {songPlacements.map(songPlacement => (
                     <label key={songPlacement} htmlFor={songPlacement}>
