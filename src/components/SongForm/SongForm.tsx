@@ -59,6 +59,9 @@ export const SongForm = (
     onDelete(defaultSong.id)
   }
 
+  const backgroundColor = document.documentElement.style.getPropertyValue('--color-component-background')
+  const color = document.documentElement.style.getPropertyValue('--color-text')
+
   return (
     <div className="SongForm">
       <form onSubmit={handleSave}>
@@ -103,6 +106,22 @@ export const SongForm = (
                   onChange={(newValue) => newValue && setTempo(newValue.value)}
                   options={songTempos.map(songTempo => ({label: capitalizeFirstLetter(songTempo), value: songTempo}))}
                   menuPortalTarget={document.body}
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color,
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                  }}
                 />
               </FlexBox>
               <FlexBox flexDirection="column" gap="0.25rem">
@@ -115,6 +134,22 @@ export const SongForm = (
                   }}
                   options={songFeels.map(songFeel => ({label: capitalizeFirstLetter(songFeel), value: songFeel}))}
                   menuPortalTarget={document.body}
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color,
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                  }}
                 />
               </FlexBox>
               <FlexBox flexDirection="column" gap="0.25rem">
@@ -126,6 +161,22 @@ export const SongForm = (
                   }}
                   options={majorAndMinorKeys.map(key => ({label: key, value: key}))}
                   menuPortalTarget={document.body}
+                  styles={{
+                    control: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                    singleValue: (provided) => ({
+                      ...provided,
+                      color,
+                    }),
+                    menu: (provided) => ({
+                      ...provided,
+                      backgroundColor,
+                      color,
+                    }),
+                  }}
                 />
               </FlexBox>
               <FlexBox flexDirection="column" gap="0.25rem">
