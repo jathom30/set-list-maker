@@ -26,7 +26,8 @@ const darkTheme: {[key: string]: string} = {
 }
 
 export const useTheme = () => {
-  const [isDarkMode, setIsDarkMode] = useLocalStorage(true, 'color-theme')
+  const userPrefersDarkmode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const [isDarkMode, setIsDarkMode] = useLocalStorage(userPrefersDarkmode, 'color-theme')
 
   useEffect(() => {
     const doc = document.documentElement

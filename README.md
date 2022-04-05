@@ -6,6 +6,10 @@ Build Status: [![Netlify Status](https://api.netlify.com/api/v1/badges/7022c8de-
 
 Changelog:
 
+April 5, 2022
+
+- Dark mode
+
 April 4, 2022
 
 - Limit ballads to one per hour per set
