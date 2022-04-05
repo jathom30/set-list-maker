@@ -3,15 +3,15 @@
     font-weight: bold;
     font-size: 1.5rem;
     text-decoration: none;
-    color: black;
+    color: var(--color-text);
     border-radius: 0.5rem;
     padding: 0.5rem;
     white-space: nowrap;
     &--not-active {
       font-weight: normal;
-      color: grey;
+      color: var(--color-text-subdued);
       &:hover {
-        background: lightgrey;
+        background: var(--color-component-background);
       }
     }
   }
@@ -20,6 +20,7 @@
   }
   &__back--desktop {
     display: inline-block;
+    color: var(--color-text-subdued);
   }
   @media screen and (max-width: 450px) {
     &__back--mobile {

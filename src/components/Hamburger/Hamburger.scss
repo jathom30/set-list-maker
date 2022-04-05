@@ -8,7 +8,7 @@
   &__bar {
     width: 100%;
     height: $barWidth;
-    background: black;
+    background: var(--color-text);
     border-radius: 0.25rem;
     transition: all 0.2s ease;
     &--is-open {
@@ -20,7 +20,7 @@
     position: absolute;
     width: 100%;
     height: $barWidth;
-    background: black;
+    background: var(--color-text);
     top: 0;
     content: "";
     transition: all 0.2s ease;
@@ -30,7 +30,7 @@
     position: absolute;
     width: 100%;
     height: $barWidth;
-    background: black;
+    background: var(--color-text);
     bottom: 0;
     content: "";
     transition: all 0.2s ease;

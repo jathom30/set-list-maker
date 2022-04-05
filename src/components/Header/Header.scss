@@ -1,5 +1,5 @@
 .Header {
-  background: white;
+  background: var(--color-component-background);
   box-shadow: var(--box-shadow);
   &__hamburger-btn {
     border: none;
@@ -17,10 +17,10 @@
     font-size: 1.25rem;
     text-transform: capitalize;
     &--is-active {
-      color: black;
+      color: var(--color-text);
     }
     &:hover {
-      color: black;
+      color: var(--color-text);
     }
   }
 }

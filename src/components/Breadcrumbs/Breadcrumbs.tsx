@@ -11,7 +11,7 @@ export const Breadcrumbs = ({currentRoute}: {currentRoute?: ReactNode}) => {
       <FlexBox gap=".5rem" alignItems="center">
         <Link to="/setlists" className={`Breadcrumbs__crumb ${currentRoute ? 'Breadcrumbs__crumb--not-active': ''}`}>
           <span className="Breadcrumbs__back--mobile">
-            <FontAwesomeIcon color="grey" icon={faFolder} />
+            <FontAwesomeIcon icon={faFolder} />
           </span>
           <span className="Breadcrumbs__back--desktop">
             Your setlists

@@ -82,17 +82,17 @@ export const createSetlists = (setlistLength: number, numberOfSetlists: number, 
       balladCount = setlist.filter(song => song.tempo === 'ballad')?.length || 0
     }
 
-    // TODO space ballads out?
-
     return {
       ...acc,
       // map setlist to ids so we can pull the actual song to the user instead of a copy
       [setlistId]: setlist.map(song => song.id),
     }
   }, {})
-
+  
   return {
     setlists,
     ids: setlistKeys,
   }
 }
+
+// TODO space ballads/covers out?
