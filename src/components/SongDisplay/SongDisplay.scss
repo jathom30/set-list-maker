@@ -19,9 +19,12 @@
     background: white;
     border-radius: 0.5rem;
   }
-  &__index {
+  &__index, &__key {
     font-weight: bold;
     font-size: 0.8rem;
+  }
+  &__key {
+    color: grey;
   }
   &__name {
     font-weight: bold;

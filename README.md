@@ -11,6 +11,7 @@ April 4, 2022
 - Limit ballads to one per hour per set
 - Song keys added to db and displayed in song table
 - Sorting added to Song table
+- Display key on SongDisplay
 
 Existing functionality
 

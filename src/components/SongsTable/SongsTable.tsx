@@ -9,17 +9,7 @@ import { FlexBox } from "components/Box";
 
 export const SongsTable = () => {
   const {songs} = useContext(SongsContext)
-
-  const memoizedData = useMemo(() => {
-    return songs
-    // ?.sort((a, b) => {
-    //   if (a.name.toLowerCase() < b.name.toLowerCase()) {
-    //       return -1
-    //   }
-    //   return 1
-    // })
-    || []
-  }, [songs])
+  const memoizedData = useMemo(() => songs || [], [songs])
 
   const {
     getTableProps,
