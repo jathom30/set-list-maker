@@ -67,7 +67,7 @@ export const createSetlists = (setlistLength: number, numberOfSetlists: number, 
     let balladCount = setlist.filter(song => song.tempo === 'ballad')?.length || 0
     let othersSansBallads = others.filter(song => song.tempo !== 'ballad')
     const balladsPerHour = 1
-    const recommendedBalladsPerSet = Math.round(setlistLength / 60 / balladsPerHour)
+    const recommendedBalladsPerSet = Math.ceil(setlistLength / 60 / balladsPerHour)
     while (balladCount > recommendedBalladsPerSet) {
       const {randomSong, remainingSongs} = getRandomSong(othersSansBallads)
       // get first ballad index
@@ -81,6 +81,8 @@ export const createSetlists = (setlistLength: number, numberOfSetlists: number, 
       // recalc ballad count to update while loop
       balladCount = setlist.filter(song => song.tempo === 'ballad')?.length || 0
     }
+
+    // TODO space ballads out?
 
     return {
       ...acc,

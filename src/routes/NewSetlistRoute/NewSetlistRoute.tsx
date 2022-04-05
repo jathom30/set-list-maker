@@ -5,7 +5,7 @@ import { SetlistContext } from "context";
 import React, { useContext, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
-import { reorder } from "routes/SetlistRoute";
+import { reorder } from "helpers";
 import './NewSetlistRoute.scss'
 
 export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {

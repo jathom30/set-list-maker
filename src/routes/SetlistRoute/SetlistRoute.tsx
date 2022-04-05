@@ -8,14 +8,7 @@ import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautif
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getParentList } from "api";
-
-export function reorder<T>(list: T[], startIndex: number, endIndex: number) {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
+import { reorder } from "helpers";
 
 export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   const {id} = useParams()

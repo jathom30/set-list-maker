@@ -1,11 +1,25 @@
 import { SongsContext } from "context";
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import {columns} from './columns'
-import { useTable } from 'react-table'
+import { useSortBy, useTable } from 'react-table'
 import './SongsTable.scss'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
+import { FlexBox } from "components/Box";
 
 export const SongsTable = () => {
   const {songs} = useContext(SongsContext)
+
+  const memoizedData = useMemo(() => {
+    return songs
+    // ?.sort((a, b) => {
+    //   if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    //       return -1
+    //   }
+    //   return 1
+    // })
+    || []
+  }, [songs])
 
   const {
     getTableProps,
@@ -13,16 +27,18 @@ export const SongsTable = () => {
     headerGroups,
     rows,
     prepareRow,
-  } = useTable({ 
-    columns, 
-    // sort by title
-    data: songs?.sort((a, b) => {
-      if (a.name.toLowerCase() < b.name.toLowerCase()) {
-          return -1
+  } = useTable(
+    { 
+      columns, 
+      data: memoizedData,
+      initialState: {
+        sortBy: [{
+          id: 'name'
+        }]
       }
-      return 1
-    }) || []
-  })
+    },
+    useSortBy,
+  )
 
   return (
     <div className="SongsTable">
@@ -31,8 +47,11 @@ export const SongsTable = () => {
             {headerGroups.map(headerGroup => (
               <tr className="SongsTable__tr" {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map(column => (
-                  <th className="SongsTable__th" {...column.getHeaderProps()}>
-                    {column.render('Header')}
+                  <th className="SongsTable__th" {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    <FlexBox alignItems="center" gap=".5rem">
+                      {column.render('Header')}
+                      {column.isSorted && <FontAwesomeIcon icon={column.isSortedDesc ? faCaretUp : faCaretDown} />}
+                    </FlexBox>
                   </th>
                 ))}
               </tr>

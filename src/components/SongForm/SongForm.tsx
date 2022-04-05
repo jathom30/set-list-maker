@@ -13,6 +13,9 @@ const songTempos: Tempo[] = ['ballad', 'chill', 'medium', 'up', 'burner']
 const songFeels: Feel[] = ['blues', 'country', 'funk', 'latin', 'rock', 'swing', 'other']
 const songPlacements: SongPlacement[] = ['opener', 'closer', 'other']
 
+const songKeys = ['C', 'C#', 'Db', 'D', 'D#', 'Eb', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'A#', 'Bb']
+export const majorAndMinorKeys = songKeys.reduce((acc: string[], key) => ([...acc, key, `${key}-`]), [])
+
 export const SongForm = (
   {label, onSave, onCancel, onDelete, defaultSong}:
   {
@@ -30,6 +33,7 @@ export const SongForm = (
   const [feel, setFeel] = useState<Feel[]>(defaultSong?.feel || [])
   const [isCover, setIsCover] = useState(defaultSong?.isCover || false)
   const [exclude, setExclude] = useState(defaultSong?.exclude || false)
+  const [key, setKey] = useState<string | undefined>(defaultSong?.key)
 
   const [showDeleteWarning, setShowDeleteWarning] = useState(false)
 
@@ -46,6 +50,7 @@ export const SongForm = (
       feel,
       isCover,
       exclude,
+      key,
     })
   }
 
@@ -79,7 +84,7 @@ export const SongForm = (
               <FlexBox gap="2rem">
                 <label htmlFor="exclude">
                   <FlexBox alignItems="center" gap="0.25rem">
-                    <Label>Exclude from Set Creation</Label>
+                    <Label>Exclude from set creation</Label>
                     <input id="exclude" type="checkbox" checked={exclude} onChange={(e) => setExclude(e.target.checked)} />
                   </FlexBox>
                 </label>
@@ -109,6 +114,17 @@ export const SongForm = (
                     setFeel(newValue.map(v => v.value))
                   }}
                   options={songFeels.map(songFeel => ({label: capitalizeFirstLetter(songFeel), value: songFeel}))}
+                  menuPortalTarget={document.body}
+                />
+              </FlexBox>
+              <FlexBox flexDirection="column" gap="0.25rem">
+                <Label>Key</Label>
+                <Select
+                  defaultValue={key && {label: key, value: key}}
+                  onChange={(newValue) => {
+                    if (newValue) setKey(newValue.value)
+                  }}
+                  options={majorAndMinorKeys.map(key => ({label: key, value: key}))}
                   menuPortalTarget={document.body}
                 />
               </FlexBox>

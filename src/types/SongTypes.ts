@@ -10,6 +10,7 @@ export type BasicSong = {
   length: number
   isCover?: boolean
   exclude?: boolean
+  key?: string
 }
 
 export type SongWithId = BasicSong & {id: string}

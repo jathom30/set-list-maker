@@ -53,11 +53,15 @@ export const columns: Column<SongWithId>[] = [
       <FlexBox justifyContent="center">
         {value ? <FontAwesomeIcon color="red" icon={faCheck} /> : null}
       </FlexBox>
-    )
+    ),
   },
   {
     Header: 'Time',
     accessor: 'length',
+  },
+  {
+    Header: 'Key',
+    accessor: 'key',
   },
   {
     Header: 'Tempo',
