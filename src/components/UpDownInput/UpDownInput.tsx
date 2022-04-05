@@ -3,7 +3,7 @@ import { Button, FlexBox, Label } from "components";
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import './UpDownInput.scss'
 
-export const UpDownInput = ({label, name, initialValue, onChange}: {label: string; name: string; initialValue: number; onChange: (val: number) => void}) => {
+export const UpDownInput = ({label, required, name, initialValue, onChange}: {label: string; required?: boolean; name: string; initialValue: number; onChange: (val: number) => void}) => {
   const [value, setValue] = useState(initialValue)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const UpDownInput = ({label, name, initialValue, onChange}: {label: strin
   return (
     <div className="UpDownInput">
       <FlexBox flexDirection="column" gap="0.5rem">
-        <Label>{label}</Label>
+        <Label required={required}>{label}</Label>
         <FlexBox gap="0.25rem">
           <Button isDisabled={value <= 0} onClick={handleDecrease} kind="secondary" isRounded icon={faAngleLeft} />
           <input
