@@ -7,11 +7,11 @@
     border-radius: 0.5rem;
     background: var(--color-background);
     &--is-dragging-over {
-      background: rgb(230, 230, 230);
+      background: var(--color-component-background-alt);
     }
   }
   &__popover {
-    background: white;
+    background: var(--color-component-background);
     border-radius: 0.5rem;
   }
   &__song-handle {

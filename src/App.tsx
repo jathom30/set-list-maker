@@ -67,3 +67,5 @@ function App() {
 }
 
 export default App;
+
+// TODO handle deleted song in setlist

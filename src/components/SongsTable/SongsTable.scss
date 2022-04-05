@@ -19,8 +19,9 @@
       td {
         padding: 0.25rem 0.5rem;
       }
+      background: var(--color-component-background);
       &:nth-child(even) {
-        background-color: rgb(230, 230, 230);
+        background: var(--color-component-background-alt);
       }
     }
   }

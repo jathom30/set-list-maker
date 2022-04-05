@@ -1,5 +1,5 @@
 .SongDisplay {
-  background: white;
+  background: var(--color-component-background);
   border-radius: 2rem;
   box-shadow: var(--box-shadow);
   margin: 0.25rem 0;
@@ -16,7 +16,7 @@
     }
   }
   &__popover {
-    background: white;
+    background: var(--color-component-background);
     border-radius: 0.5rem;
   }
   &__index, &__key {
