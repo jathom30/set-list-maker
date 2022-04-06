@@ -10,7 +10,7 @@
   &__left {
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: .25rem;
     overflow: hidden;
     &--no-child {
       padding: 0 1rem;
@@ -19,6 +19,9 @@
   &__popover {
     background: var(--color-component-background);
     border-radius: 0.5rem;
+  }
+  &__position {
+    color: var(--color-text-subdued);
   }
   &__index, &__key {
     font-weight: bold;

@@ -1,18 +1,31 @@
 .Dial {
-  height: 1.5rem;
+  height: 1.25rem;
   width: auto;
-  padding-bottom: 0.25rem;
   * {
     fill: var(--color-text-subdued);
   }
   &--ballad {
-    * {
-      fill: var(--color-secondary);
+    .Dial__knob {
+      transform-origin: center;
+      transform: rotate(-90deg);
+    }
+  }
+  &--chill {
+    .Dial__knob {
+      transform-origin: center;
+      transform: rotate(-45deg);
+    }
+  }
+  &--up {
+    .Dial__knob {
+      transform-origin: center;
+      transform: rotate(45deg);
     }
   }
   &--burner {
-    * {
-      fill: var(--color-danger);
+    .Dial__knob {
+      transform-origin: center;
+      transform: rotate(90deg);
     }
   }
 }
