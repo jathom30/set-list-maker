@@ -1,6 +1,9 @@
 .SetlistRoute {
   height: 100%;
   &--error {
+    h2 span {
+      color: var(--color-danger)
+    }
     a {
       color: var(--color-text);
       font-weight: bold;

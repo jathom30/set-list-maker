@@ -206,7 +206,7 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   return (
     <div className="SetlistRoute SetlistRoute--error">
       <FlexBox alignItems="center" gap="1rem" flexDirection="column" padding="2rem">
-        <h2>An error has Occured</h2>
+        <h2><span>ERROR:</span> Setlist not found</h2>
         <p>Return to your <Link to="/setlists">setlists</Link> and try again.</p>
       </FlexBox>
     </div>
