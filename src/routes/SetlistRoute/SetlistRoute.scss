@@ -1,5 +1,11 @@
 .SetlistRoute {
   height: 100%;
+  &--error {
+    a {
+      color: var(--color-text);
+      font-weight: bold;
+    }
+  }
   &__droppable {
     margin: 0.5rem;
     background: var(--color-component-background);

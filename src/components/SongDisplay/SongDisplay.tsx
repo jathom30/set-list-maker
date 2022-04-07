@@ -1,7 +1,7 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
 import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faStepBackward, faStepForward, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 import { BasicSong, SongWithId } from "types";

@@ -5,7 +5,7 @@ import { Breadcrumbs, Button, FlexBox, Input, LabelInput, Loader, MaxHeightConta
 import './SetlistRoute.scss'
 import { SetlistContext, SongsContext } from "context";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getParentList } from "api";
 import { reorder } from "helpers";
@@ -203,5 +203,12 @@ export const SetlistRoute = ({isMobile}: {isMobile: boolean}) => {
       </div>
     )
   }
-  return <div />
+  return (
+    <div className="SetlistRoute SetlistRoute--error">
+      <FlexBox alignItems="center" gap="1rem" flexDirection="column" padding="2rem">
+        <h2>An error has Occured</h2>
+        <p>Return to your <Link to="/setlists">setlists</Link> and try again.</p>
+      </FlexBox>
+    </div>
+  )
 }

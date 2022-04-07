@@ -68,4 +68,4 @@ function App() {
 
 export default App;
 
-// TODO handle deleted song in setlist
+// TODO error handling when adding songs

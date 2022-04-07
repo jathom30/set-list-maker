@@ -6,6 +6,7 @@ import { SetlistContext, SongsContext } from 'context';
 import { useOnClickOutside } from 'hooks';
 import React, { ReactNode, useContext, useRef, useState } from 'react';
 import { Draggable, Droppable } from 'react-beautiful-dnd';
+import { SongWithId } from 'types';
 import './Setlist.scss'
 
 export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
@@ -20,10 +21,19 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
   const buttonRef = useRef<HTMLDivElement>(null)
 
   const [showSongSelect, setShowSongSelect] = useState(false)
-  const {setlists} = useContext(SetlistContext)
+  const {setlists, removeSongId} = useContext(SetlistContext)
   const {songs, isSuccess} = useContext(SongsContext)
 
-  const setlist = setlists[id]?.map(songId => songs?.find(song => song.id === songId))
+  const SONG_NOT_FOUND = 'SONG_NOT_FOUND'
+  const placeHolderSong = (songId: string) => ({
+    name: SONG_NOT_FOUND,
+    tempo: 'medium',
+    placement: 'other',
+    length: 0,
+    id: songId,
+  } as SongWithId)
+
+  const setlist = setlists[id]?.map(songId => songs?.find(song => song.id === songId) || placeHolderSong(songId))
   const setlistLength = setlist?.reduce((total, song) => total += (song?.length || 0), 0)
 
   const handleSongSelect = (newSongId: string) => {
@@ -34,6 +44,10 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
   const handleShowAddSong = () => {
     setShowSongSelect(true)
     setShowPopover(false)
+  }
+
+  const handleRemoveSong = (songId: string) => {
+    removeSongId(songId, id)
   }
 
   const handleRemoveSetlist = () => {
@@ -94,12 +108,22 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
                       className="Setlist__draggable"
                       ref={provided.innerRef} {...provided.draggableProps}
                     >
-                      {song && (
+                      {song.name !== SONG_NOT_FOUND ? (
                         <SongDisplay song={song} index={i} setlistId={id}>
                           <div className='Setlist__song-handle' {...provided.dragHandleProps}>
                             <FontAwesomeIcon icon={faGrip} />
                           </div>
                         </SongDisplay>
+                      ) : (
+                        <FlexBox justifyContent="space-between" alignItems="center" gap=".5rem">
+                          <FlexBox gap="0.5rem">
+                            <strong>ERROR</strong>
+                            <span>Could not find song</span>
+                          </FlexBox>
+                          <FlexBox gap=".5rem">
+                            <Button onClick={() => handleRemoveSong(song.id)} isRounded kind="danger" icon={faTrash} />
+                          </FlexBox>
+                        </FlexBox>
                       )}
                     </div>
                   )}
