@@ -1,4 +1,4 @@
-import { Breadcrumbs, Button, FlexBox, GridBox, Loader, MaxHeightContainer, Modal, SetlistForm, SongDisplay } from "components";
+import { Breadcrumbs, Button, FlexBox, GridBox, Loader, MaxHeightContainer, Modal, SetlistForm, SongDisplay, Tooltip, TooltipContent } from "components";
 import { useNavigate } from 'react-router-dom'
 import React, { useContext, useState } from "react";
 import './DashboardRoute.scss'
@@ -59,6 +59,7 @@ export const DashboardRoute = () => {
 
 const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
   const {setlistIds, setlists, name} = list
+  const [showDeleteWarning, setShowDeleteWarning] = useState(false)
   const navigate = useNavigate()
   const {songs, isLoading, isSuccess} = useContext(SongsContext)
   const getSong = (id: string) => songs?.find(song => song.id === id)
@@ -77,7 +78,10 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
     })
   }
 
-  const handleDelete = () => list?.id && deleteSetlists(list.id)
+  const handleDelete = () => {
+    setShowDeleteWarning(false)
+    list?.id && deleteSetlists(list.id)
+  }
 
   const readableDate = new Date(list?.dateModified || '').toLocaleDateString()
   const readableTime = new Date(list?.dateModified || '').toLocaleTimeString()
@@ -95,7 +99,11 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
             <Button onClick={handleSelect} kind="secondary">
               <h3>{name}</h3>
             </Button>
-            <Button isRounded kind="danger" icon={faTrash} onClick={handleDelete} />
+            <Tooltip content={
+              <TooltipContent>Delete setlist</TooltipContent>
+            }>
+              <Button isRounded kind="danger" icon={faTrash} onClick={() => setShowDeleteWarning(true)} />
+            </Tooltip>
           </FlexBox>
           <div className="SetlistsPreview__preview">
             <FlexBox gap=".5rem" flexDirection="column">
@@ -130,6 +138,22 @@ const SetlistsPreview = ({list}: {list: ParentSetlistType}) => {
           <div className="SetlistsPreview__loading">
             <Loader />
           </div>
+        )}
+        {showDeleteWarning && (
+          <Modal offClick={() => setShowDeleteWarning(false)}>
+            <div className="SetlistsPreview__delete-modal">
+              <FlexBox gap="1rem" flexDirection="column">
+                <FlexBox gap=".5rem" flexDirection="column" alignItems="center">
+                  <p><strong>Are you sure?</strong></p>
+                  <p>This will delete <strong>{list.name}</strong> from your library.</p>
+                </FlexBox>
+                <FlexBox>
+                  <Button width="100%" onClick={() => setShowDeleteWarning(false)} kind="text">Cancel</Button>
+                  <Button width="100%" onClick={handleDelete} kind="danger" icon={faTrash}>DELETE</Button>
+                </FlexBox>
+              </FlexBox>
+            </div>
+          </Modal>
         )}
       </div>
     )

@@ -1,11 +1,12 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
-import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
+import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect, Tooltip, TooltipContent } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 import { BasicSong, SongWithId } from "types";
 import './SongDisplay.scss'
+import { capitalizeFirstLetter } from "helpers";
 
 export const SongDisplay = ({song, setlistId, index, isPreview = false, children}: {song: SongWithId; setlistId: string; index: number; isPreview?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
@@ -38,7 +39,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
     removeSongId(song.id, setlistId)
   }
 
-  useOnClickOutside(popperRef, () => setShowPopover(false))
+  useOnClickOutside([popperRef, buttonRef], () => setShowPopover(false))
 
   return (
     <div className={`SongDisplay ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
@@ -58,7 +59,15 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
                 {song.placement === 'opener' && <FontAwesomeIcon icon={faStepBackward} />}
               </div>
             )} */}
-            <Dial tempo={song.tempo} />
+            <Tooltip
+              content={
+                <TooltipContent>
+                  <span>Tempo: <strong>{capitalizeFirstLetter(song.tempo)}</strong></span>
+                </TooltipContent>
+              }
+            >
+              <Dial tempo={song.tempo} />
+            </Tooltip>
             <Popover
               position={['left', 'bottom']}
               align="start"
@@ -80,7 +89,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
               isOpen={showPopover}
             >
               <div ref={buttonRef}>
-                <Button kind="secondary" isRounded onClick={() => setShowPopover(true)}>
+                <Button kind="secondary" isRounded onClick={() => setShowPopover(!showPopover)}>
                   <FontAwesomeIcon icon={faEllipsisVertical} />
                 </Button>
               </div>

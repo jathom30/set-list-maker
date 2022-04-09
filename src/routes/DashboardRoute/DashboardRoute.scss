@@ -38,4 +38,11 @@
     display: grid;
     place-items: center;
   }
+  &__delete-modal {
+    background: var(--color-background);
+    color: var(--color-text);
+    border-radius: .5rem;
+    margin: 1rem;
+    padding: 1rem;
+  }
 }

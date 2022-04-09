@@ -114,7 +114,7 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
               <span className="Breadcrumbs__back--desktop">Save</span>
             </Button>
             {showSaveSetlist && (
-              <Modal>
+              <Modal offClick={() => setShowSaveSetlist(false)}>
                 <div className="SetlistRoute__save-list-modal">
                   <Input label="Setlist Name" value={name} onChange={val => setName(val)} name="setlist-name" />
                   <FlexBox justifyContent="flex-end" gap="1rem">
