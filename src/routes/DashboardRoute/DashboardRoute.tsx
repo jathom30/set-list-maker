@@ -47,6 +47,7 @@ export const DashboardRoute = () => {
             ? parentLists.map(list => <SetlistsPreview key={list.id} list={list} />)
             : null}
         </GridBox>
+        {/* <SetlistLoader /> */}
       </MaxHeightContainer>
       {showSetlistForm && (
         <Modal offClick={() => setShowSetlistForm(false)}>

@@ -9,8 +9,8 @@
 .Modal {
   @include modal-position();
   &__shade {
-    background-color: var(--color-text);
-    opacity: .25;
+    background-color: black;
+    opacity: .5;
     @include modal-position();
   }
   &__content {

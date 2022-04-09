@@ -1,17 +1,28 @@
 import { faGripVertical, faRotate, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Breadcrumbs, Button, FlexBox, Input, LabelInput, MaxHeightContainer, Modal, Setlist } from "components";
+import { Breadcrumbs, Button, FlexBox, Input, SetlistLoader, LabelInput, MaxHeightContainer, Modal, Setlist } from "components";
 import { SetlistContext } from "context";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import { reorder } from "helpers";
 import './NewSetlistRoute.scss'
 
 export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
+  const [showLoader, setShowLoader] = useState(true)
   const [showSaveSetlist, setShowSaveSetlist] = useState(false)
   const {name, setName, setlistIds, setSetlistIds, setSetlists, saveSetlists, removeSetlist, createSetlist} = useContext(SetlistContext)
   const params = useParams()
+
+  // on load/refresh, show setlistLoader animation, then dismiss
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (showLoader) {
+        setShowLoader(false)
+      }
+    }, 2000)
+    return () => clearTimeout(timer)
+  }, [showLoader])
 
   const handleSave = () => {
     saveSetlists(name)
@@ -19,6 +30,7 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
   }
 
   const handleRefresh = () => {
+    setShowLoader(true)
     const {length, count, covers} = params
     const includeCovers = covers === 'true'
     setName('New setlist')
@@ -87,6 +99,10 @@ export const NewSetlistRoute = ({isMobile}: {isMobile: boolean}) => {
         }
       })
     }
+  }
+
+  if (showLoader) {
+    return <SetlistLoader />
   }
 
   return (

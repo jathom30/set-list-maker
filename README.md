@@ -11,6 +11,7 @@ April 9, 2022
 - Searchable song table
 - Confirm setlist delete
 - Add tooltips to setlist delete and song tempo icons
+- Add setlist loader when generating setlist (unneeded, but fun)
 
 April 5, 2022
 
