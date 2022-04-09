@@ -1,15 +1,16 @@
 import { SongsContext } from "context";
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import {columns} from './columns'
 import { useSortBy, useTable } from 'react-table'
 import './SongsTable.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
-import { FlexBox } from "components/Box";
+import { faCaretDown, faCaretUp, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { Button, FlexBox, Input } from "components";
 
 export const SongsTable = () => {
   const {songs} = useContext(SongsContext)
-  const memoizedData = useMemo(() => songs || [], [songs])
+  const [filter, setFilter] = useState('')
+  const memoizedData = useMemo(() => songs?.filter(song => song.name.toLowerCase().includes(filter.toLowerCase())) || [], [songs, filter])
 
   const {
     getTableProps,
@@ -32,6 +33,10 @@ export const SongsTable = () => {
 
   return (
     <div className="SongsTable">
+      <div className="SongsTable__search">
+        <Input name="filter" value={filter} onChange={val => setFilter(val)} label="Search by name" />
+        <Button kind="default" icon={faTimesCircle} isRounded onClick={() => setFilter('')}/>
+      </div>
       <table {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
