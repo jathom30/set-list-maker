@@ -9,6 +9,8 @@ Changelog:
 April 9, 2022
 
 - Searchable song table
+- Confirm setlist delete
+- Add tooltips to setlist delete and song tempo icons
 
 April 5, 2022
 
