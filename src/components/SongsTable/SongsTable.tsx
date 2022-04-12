@@ -5,7 +5,7 @@ import { useSortBy, useTable } from 'react-table'
 import './SongsTable.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { Button, FlexBox, Input } from "components";
+import { Button, FlexBox, Input, MaxHeightContainer } from "components";
 
 export const SongsTable = () => {
   const {songs} = useContext(SongsContext)
@@ -33,11 +33,16 @@ export const SongsTable = () => {
 
   return (
     <div className="SongsTable">
-      <div className="SongsTable__search">
-        <Input name="filter" value={filter} onChange={val => setFilter(val)} label="Search by name" />
-        <Button kind="default" icon={faTimesCircle} isRounded onClick={() => setFilter('')}/>
-      </div>
-      <table {...getTableProps()}>
+      <MaxHeightContainer
+        fullHeight
+        header={
+          <div className="SongsTable__search">
+            <Input name="filter" value={filter} onChange={val => setFilter(val)} label="Search by name" />
+            <Button kind="default" icon={faTimesCircle} isRounded onClick={() => setFilter('')}/>
+          </div>
+        }
+      >
+        <table {...getTableProps()}>
           <thead>
             {headerGroups.map(headerGroup => (
               <tr className="SongsTable__tr" {...headerGroup.getHeaderGroupProps()}>
@@ -67,6 +72,7 @@ export const SongsTable = () => {
             })}
           </tbody>
         </table>
+      </MaxHeightContainer>
     </div>
   )
 }

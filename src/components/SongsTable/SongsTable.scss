@@ -2,14 +2,12 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  overflow: auto;
   &__search {
-    padding: 1rem;
+    padding-bottom: 1rem;
     max-width: 600px;
     display: flex;
     gap: 1rem;
     align-items: flex-end;
-    
   }
   thead {
     .SongsTable__tr {
