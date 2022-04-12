@@ -6,6 +6,10 @@ Build Status: [![Netlify Status](https://api.netlify.com/api/v1/badges/7022c8de-
 
 Changelog:
 
+April 11, 2022
+
+- Song search does not scroll off page
+
 April 9, 2022
 
 - Searchable song table
