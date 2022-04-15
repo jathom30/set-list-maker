@@ -5,6 +5,7 @@ import * as React from 'react';
 import './Button.scss'
 
 export const Button: React.FC<{
+  buttonRef?: React.RefObject<HTMLButtonElement>
   onClick?: () => void,
   isRounded?: boolean,
   isDisabled?: boolean
@@ -12,10 +13,11 @@ export const Button: React.FC<{
   kind?: 'default' | 'primary' | 'danger' | 'text' | 'secondary'
   width?: string
   icon?: IconDefinition
-}> = ({children, onClick, isRounded = false, kind = 'default', type = 'button', isDisabled = false, width, icon}) => {
+}> = ({buttonRef, children, onClick, isRounded = false, kind = 'default', type = 'button', isDisabled = false, width, icon}) => {
   const buttonKindClass = `Button__${kind}`
   return (
     <button
+      ref={buttonRef}
       onClick={onClick}
       disabled={isDisabled}
       style={{width}}

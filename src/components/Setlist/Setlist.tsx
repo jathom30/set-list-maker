@@ -18,7 +18,7 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
 }) => {
   const [showPopover, setShowPopover] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const [showSongSelect, setShowSongSelect] = useState(false)
   const {setlists, removeSongId} = useContext(SetlistContext)
@@ -57,7 +57,7 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
 
   const setlistCount = Object.keys(setlists).length
 
-  useOnClickOutside(popperRef, () => setShowPopover(false))
+  useOnClickOutside([popperRef, buttonRef], () => setShowPopover(false))
 
   return (
     <div className="Setlist">
@@ -87,8 +87,8 @@ export const Setlist = ({id, label, dragHandle, onRemoveSetlist, onAddSong}: {
             }
             isOpen={showPopover}
           >
-            <div ref={buttonRef}>
-              <Button isRounded onClick={() => setShowPopover(true)}>
+            <div>
+              <Button buttonRef={buttonRef} isRounded onClick={() => setShowPopover(!showPopover)}>
                 <FontAwesomeIcon icon={faEllipsisVertical} />
               </Button>
             </div>

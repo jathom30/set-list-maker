@@ -3,9 +3,14 @@
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
   font-weight: bold;
+  width: min-content;
   &--latin {
     background: lightblue;
     color: darkblue;
+  }
+  &--country {
+    background: lightpink;
+    color: darkred;
   }
   &--swing {
     background: lightgreen;

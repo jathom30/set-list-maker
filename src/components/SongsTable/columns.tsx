@@ -5,7 +5,6 @@ import { Dial, Button, FlexBox, Modal, SongForm, FeelTag } from "components"
 import { faBackwardStep, faCheck, faEdit, faForwardStep } from "@fortawesome/free-solid-svg-icons"
 import { SongsContext } from "context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Popover } from "components/Popover"
 import { Tooltip, TooltipContent } from "components/Tooltip"
 
 export const columns: Column<SongWithId>[] = [

@@ -9,17 +9,19 @@ import './SongDisplay.scss'
 import { Label } from "components/Label";
 import { GridBox } from "components/Box";
 import { capitalizeFirstLetter } from "helpers";
+import { FeelTag } from "components/FeelTag";
 
 export const SongDisplay = ({song, setlistId, index, isPreview = false, children}: {song: SongWithId; setlistId: string; index: number; isPreview?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
   const [showAddSong, setShowAddSong] = useState(false)
   const {editSong} = useContext(SongsContext)
   const {replaceSongId, removeSongId} = useContext(SetlistContext)
   const detailsRef = useRef<HTMLDivElement>(null)
+  const detailsButtonRef = useRef<HTMLButtonElement>(null)
 
   const handeEdit = (song: SongWithId | BasicSong) => {
     // double check that id is present when editing
@@ -44,7 +46,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
   }
 
   useOnClickOutside([popperRef, buttonRef], () => setShowPopover(false))
-  useOnClickOutside(detailsRef, () => setShowDetails(false))
+  useOnClickOutside([detailsRef, detailsButtonRef], () => setShowDetails(false))
 
   return (
     <div className={`SongDisplay ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
@@ -53,17 +55,11 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
           {children}
           <p className="SongDisplay__index">{index + 1}.</p>
           <p className="SongDisplay__name">{song.name}</p>
-          {!isPreview && <Button kind="secondary" onClick={() => setShowDetails(!showDetails)} isRounded icon={showDetails ? faCaretDown : faCaretRight} />}
+          {!isPreview && <Button buttonRef={detailsButtonRef} kind="secondary" onClick={() => setShowDetails(!showDetails)} isRounded icon={showDetails ? faCaretDown : faCaretRight} />}
         </div>
         {!isPreview && (
           <FlexBox alignItems="center" gap=".5rem" paddingRight=".5rem">
             {song.isCover && <p className="SongDisplay__cover">Cover</p>}
-            {/* {song.placement !== 'other' && (
-              <div className="SongDisplay__position">
-                {song.placement === 'closer' && <FontAwesomeIcon icon={faStepForward} />}
-                {song.placement === 'opener' && <FontAwesomeIcon icon={faStepBackward} />}
-              </div>
-            )} */}
             <Dial tempo={song.tempo} />
             <Popover
               position={['left', 'bottom']}
@@ -85,8 +81,8 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
               }
               isOpen={showPopover}
             >
-              <div ref={buttonRef}>
-                <Button kind="secondary" isRounded onClick={() => setShowPopover(!showPopover)}>
+              <div>
+                <Button buttonRef={buttonRef} kind="secondary" isRounded onClick={() => setShowPopover(!showPopover)}>
                   <FontAwesomeIcon icon={faEllipsisVertical} />
                 </Button>
               </div>
@@ -96,25 +92,39 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
       </FlexBox>
       {showDetails && (
         <div ref={detailsRef} className="SongDisplay__details">
+          <FlexBox flexDirection="column">
+            <Label>Name</Label>
+            <p>{song.name}</p>
+          </FlexBox>
           <GridBox gridTemplateColumns="1fr 1fr 1fr" gap="1rem">
+            <FlexBox flexDirection="column">
+              <Label>Tempo</Label>
+              <p>{capitalizeFirstLetter(song.tempo)}</p>
+            </FlexBox>
             <FlexBox flexDirection="column">
               <Label>Placement</Label>
               <span>{capitalizeFirstLetter(song.placement)}</span>
             </FlexBox>
             <FlexBox flexDirection="column">
               <Label>Length</Label>
-              <span>{song.length} minutes</span>
+              <span>{song.length} min(s)</span>
             </FlexBox>
             {song.key && <FlexBox flexDirection="column">
               <Label>Key</Label>
               <span>{song.key}</span>
             </FlexBox>}
+            <FlexBox flexDirection="column">
+              <Label>Origin</Label>
+              <span>{song.isCover ? 'Cover' : 'Original'}</span>
+            </FlexBox>
           </GridBox>
-          <FlexBox flexDirection="column">
+          <FlexBox flexDirection="column" gap=".25rem">
             <Label>Feel</Label>
-            {song.feel.map(f => (
-              <span key={f} >{f}</span>
-            ))}
+            <FlexBox gap=".5rem" flexWrap="wrap">
+              {song.feel.map(f => (
+                <FeelTag key={f} feel={f} />
+              ))}
+            </FlexBox>
           </FlexBox>
           {song.notes && <FlexBox flexDirection="column">
             <Label>Notes</Label>
