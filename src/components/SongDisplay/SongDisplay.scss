@@ -1,6 +1,6 @@
 .SongDisplay {
   background: var(--color-component-background);
-  border-radius: 2rem;
+  border-radius: 1rem;
   box-shadow: var(--box-shadow);
   margin: 0.25rem 0;
   color: var(--color-text);
@@ -9,8 +9,8 @@
   }
   &__left {
     display: flex;
-    align-items: center;
-    gap: .25rem;
+    align-items: baseline;
+    gap: .125rem;
     overflow: hidden;
     &--no-child {
       padding: 0 1rem;
@@ -42,5 +42,12 @@
     text-transform: uppercase;
     color: var(--color-text-subdued);
     font-size: 0.6rem;
+  }
+  &__details {
+    padding: 1rem;
+    padding-top: 0;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
   }
 }

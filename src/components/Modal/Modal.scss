@@ -16,8 +16,10 @@
   &__content {
     position: relative;
     z-index: 10;
-    margin: 1rem auto;
     max-width: 600px;
     height: min-content;
+    max-height: 100vh;
+    display: flex;
+    margin: 0 auto;
   }
 }

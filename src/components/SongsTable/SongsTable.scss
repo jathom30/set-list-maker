@@ -9,12 +9,14 @@
     gap: 1rem;
     align-items: flex-end;
   }
+  table {
+    width: 100%;
+    position: relative;
+  }
   thead {
-    .SongsTable__tr {
-      position: sticky;
-      top: 0;
-      background: var(--color-component-background-darken);
-    }
+    position: sticky;
+    top: 0;
+    background: var(--color-component-background-darken);
   }
   &__th {
     text-align: left;
@@ -30,5 +32,11 @@
         background: var(--color-component-background-alt);
       }
     }
+  }
+  &__notes {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
   }
 }

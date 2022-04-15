@@ -5,6 +5,8 @@ import { Dial, Button, FlexBox, Modal, SongForm, FeelTag } from "components"
 import { faBackwardStep, faCheck, faEdit, faForwardStep } from "@fortawesome/free-solid-svg-icons"
 import { SongsContext } from "context"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Popover } from "components/Popover"
+import { Tooltip, TooltipContent } from "components/Tooltip"
 
 export const columns: Column<SongWithId>[] = [
   {
@@ -67,9 +69,7 @@ export const columns: Column<SongWithId>[] = [
     Header: 'Tempo',
     accessor: 'tempo',
     Cell: ({value}: {value: Tempo}) => (
-      <FlexBox justifyContent="center">
-        <Dial tempo={value} />
-      </FlexBox>
+      <Dial tempo={value} />
     )
   },
   {
@@ -88,14 +88,14 @@ export const columns: Column<SongWithId>[] = [
       switch (value) {
         case 'opener':
           return (
-            <FlexBox justifyContent="center" alignItems="center" gap="0.5rem">
+            <FlexBox alignItems="center" gap="0.5rem">
               <FontAwesomeIcon icon={faBackwardStep} />
               <span>Opener</span>
             </FlexBox>
           )
         case 'closer':
           return (
-            <FlexBox justifyContent="center" alignItems="center" gap="0.5rem">
+            <FlexBox alignItems="center" gap="0.5rem">
               <span>Closer</span>
               <FontAwesomeIcon icon={faForwardStep} />
             </FlexBox>
@@ -110,4 +110,24 @@ export const columns: Column<SongWithId>[] = [
     accessor: 'isCover',
     Cell: ({value}: {value: boolean}) => value ? 'Yes' : ''
   },
+  {
+    Header: 'Notes',
+    accessor: 'notes',
+    Cell: ({value}: {value: string | undefined}) => {
+      return (
+        <Tooltip
+          content={
+            <TooltipContent>
+              <span>{value}</span>
+            </TooltipContent>
+          }
+        >
+          <div className="SongsTable__notes">
+            <span>{value}</span>
+          </div>
+        </Tooltip>
+      )
+    },
+    maxWidth: 100
+  }
 ]

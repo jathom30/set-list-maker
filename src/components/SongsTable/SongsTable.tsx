@@ -1,7 +1,7 @@
 import { SongsContext } from "context";
 import React, { useContext, useMemo, useState } from "react";
 import {columns} from './columns'
-import { useSortBy, useTable } from 'react-table'
+import { useFlexLayout, useSortBy, useTable } from 'react-table'
 import './SongsTable.scss'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faCaretUp, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
@@ -28,6 +28,7 @@ export const SongsTable = () => {
         }]
       }
     },
+    useFlexLayout,
     useSortBy,
   )
 

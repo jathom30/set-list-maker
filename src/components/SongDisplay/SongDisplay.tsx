@@ -1,21 +1,25 @@
 import React, { ReactNode, useContext, useRef, useState } from "react";
-import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect, Tooltip, TooltipContent } from "components";
+import { Dial, FlexBox, Modal, SongForm, Button, Popover, SongSelect } from "components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRightArrowLeft, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRightArrowLeft, faCaretDown, faCaretRight, faEdit, faEllipsisVertical, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { SongsContext, SetlistContext } from "context";
 import { useOnClickOutside } from "hooks";
 import { BasicSong, SongWithId } from "types";
 import './SongDisplay.scss'
+import { Label } from "components/Label";
+import { GridBox } from "components/Box";
 import { capitalizeFirstLetter } from "helpers";
 
 export const SongDisplay = ({song, setlistId, index, isPreview = false, children}: {song: SongWithId; setlistId: string; index: number; isPreview?: boolean; children?: ReactNode}) => {
   const [showPopover, setShowPopover] = useState(false)
   const [showSongList, setShowSongList] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
   const popperRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
   const [showAddSong, setShowAddSong] = useState(false)
   const {editSong} = useContext(SongsContext)
   const {replaceSongId, removeSongId} = useContext(SetlistContext)
+  const detailsRef = useRef<HTMLDivElement>(null)
 
   const handeEdit = (song: SongWithId | BasicSong) => {
     // double check that id is present when editing
@@ -40,6 +44,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
   }
 
   useOnClickOutside([popperRef, buttonRef], () => setShowPopover(false))
+  useOnClickOutside(detailsRef, () => setShowDetails(false))
 
   return (
     <div className={`SongDisplay ${(showPopover || showSongList || showAddSong) ? 'SongDisplay--is-editing' : ''}`}>
@@ -48,7 +53,8 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
           {children}
           <p className="SongDisplay__index">{index + 1}.</p>
           <p className="SongDisplay__name">{song.name}</p>
-          <p className="SongDisplay__key">{song.key}</p>
+          {/* <p className="SongDisplay__key">{song.key}</p> */}
+          <Button kind="secondary" onClick={() => setShowDetails(!showDetails)} isRounded icon={showDetails ? faCaretDown : faCaretRight} />
         </div>
         {!isPreview && (
           <FlexBox alignItems="center" gap=".5rem" paddingRight=".5rem">
@@ -59,15 +65,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
                 {song.placement === 'opener' && <FontAwesomeIcon icon={faStepBackward} />}
               </div>
             )} */}
-            <Tooltip
-              content={
-                <TooltipContent>
-                  <span>Tempo: <strong>{capitalizeFirstLetter(song.tempo)}</strong></span>
-                </TooltipContent>
-              }
-            >
-              <Dial tempo={song.tempo} />
-            </Tooltip>
+            <Dial tempo={song.tempo} />
             <Popover
               position={['left', 'bottom']}
               align="start"
@@ -75,7 +73,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
                 <div className="SongDisplay__popover" ref={popperRef}>
                   <FlexBox flexDirection="column" gap=".5rem" padding="1rem" alignItems="flex-start">
                     <Button width="100%" kind="secondary" icon={faEdit} onClick={handleShowAddSong}>
-                      Details
+                      Edit details
                     </Button>
                     <Button width="100%" kind="secondary" icon={faArrowRightArrowLeft} onClick={() => {setShowSongList(true); setShowPopover(false)}}>
                       Replace
@@ -97,6 +95,34 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
           </FlexBox>
         )}
       </FlexBox>
+      {showDetails && (
+        <div ref={detailsRef} className="SongDisplay__details">
+          <GridBox gridTemplateColumns="1fr 1fr 1fr" gap="1rem">
+            <FlexBox flexDirection="column">
+              <Label>Placement</Label>
+              <span>{capitalizeFirstLetter(song.placement)}</span>
+            </FlexBox>
+            <FlexBox flexDirection="column">
+              <Label>Length</Label>
+              <span>{song.length} minutes</span>
+            </FlexBox>
+            {song.key && <FlexBox flexDirection="column">
+              <Label>Key</Label>
+              <span>{song.key}</span>
+            </FlexBox>}
+          </GridBox>
+          <FlexBox flexDirection="column">
+            <Label>Feel</Label>
+            {song.feel.map(f => (
+              <span key={f} >{f}</span>
+            ))}
+          </FlexBox>
+          {song.notes && <FlexBox flexDirection="column">
+            <Label>Notes</Label>
+            <span>{song.notes}</span>
+          </FlexBox>}
+        </div>
+      )}
       {showAddSong && (
         <Modal offClick={() => setShowAddSong(false)}>
           <SongForm label="Edit Song" defaultSong={song} onSave={handeEdit} onCancel={() => setShowAddSong(false)} />
@@ -110,3 +136,6 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
     </div>
   )
 }
+
+
+// TODO feel pills

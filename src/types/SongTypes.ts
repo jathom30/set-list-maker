@@ -11,6 +11,7 @@ export type BasicSong = {
   isCover?: boolean
   exclude?: boolean
   key?: string
+  notes?: string
 }
 
 export type SongWithId = BasicSong & {id: string}
