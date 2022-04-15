@@ -53,8 +53,7 @@ export const SongDisplay = ({song, setlistId, index, isPreview = false, children
           {children}
           <p className="SongDisplay__index">{index + 1}.</p>
           <p className="SongDisplay__name">{song.name}</p>
-          {/* <p className="SongDisplay__key">{song.key}</p> */}
-          <Button kind="secondary" onClick={() => setShowDetails(!showDetails)} isRounded icon={showDetails ? faCaretDown : faCaretRight} />
+          {!isPreview && <Button kind="secondary" onClick={() => setShowDetails(!showDetails)} isRounded icon={showDetails ? faCaretDown : faCaretRight} />}
         </div>
         {!isPreview && (
           <FlexBox alignItems="center" gap=".5rem" paddingRight=".5rem">
